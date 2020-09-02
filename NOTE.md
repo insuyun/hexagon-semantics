@@ -31,3 +31,20 @@ Reference
 
 # ETC
 - https://ghidra.re/courses/languages/html/sleigh.html
+
+
+Questions
+----------
+- How to represent semantics for Hexdagon?
+    - symbolic expression
+    - K framework
+
+- How to construct semantics?
+    - automated: strata? compiler? maybe qemu?
+    - manual
+
+- How to test semantics (dynamic)?
+    - qemu?
+    - hardware? is it availalble?
+
+- Can we systematically convert formal semantics into sleigh?
