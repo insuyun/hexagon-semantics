@@ -19,7 +19,7 @@ Reference
 - https://github.com/gsmk/hexagon
 - Hexagon manual + SDK: https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools
 
-# Analyzing Qualcomm baseband
+# Analyzing Qualcomm DSP
 - Pwn2Own Qualcomm Compute DSP for Fun and Profit (DEFCON '20)
 - Attacking Hexagon: Security Analysis of Qualcomm's aDSP (Recon '19)
 - Exploiting Qualcomm WLAN And Modem Over-The-Air (BLACKHAT USA '19)
