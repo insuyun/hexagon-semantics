@@ -1,18 +1,33 @@
-refs
-----
-- A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture 
+Reference
+---------
+# Instruction semantics
+- A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture
     - http://fsl.cs.illinois.edu/index.php/A_Complete_Formal_Semantics_of_x86-64_User-Level_Instruction_Set_Architecture
     - Semantics Github: https://github.com/kframework/X86-64-semantics
     - Related/Used Projects
         - K Framework `[55, 59]` http://www.kframework.org/index.php/Main_Page 
         - Strata Project `[37]` https://stefanheule.com/s/projects/strata/
         - Stoke `[58]` - Described below
-- http://stoke.stanford.edu/
-    - Stratified Synthesis: Automatically Learning the x86-64 Instruction Set
-    - Stochastic Superoptimization
+
+- Stratified Synthesis: Automatically Learning the x86-64 Instruction Set
+    - http://stoke.stanford.edu/
     - GitHub link: https://github.com/StanfordPL/stoke 
 - Lifting Assembly to Intermediate Representation: A Novel Approach Leveraging Compilers
+- Stochastic Superoptimization
+
+# Hexagon
 - https://github.com/gsmk/hexagon
 - Hexagon manual + SDK: https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools
+
+# Analyzing Qualcomm baseband
+- Pwn2Own Qualcomm Compute DSP for Fun and Profit (DEFCON '20)
+- Attacking Hexagon: Security Analysis of Qualcomm's aDSP (Recon '19)
+- Exploiting Qualcomm WLAN And Modem Over-The-Air (BLACKHAT USA '19)
+- A Journey Into Hexagon Dissecting a Qualcomm Baseband (DEFCON '18)
+- Exploring Qualcomm Baseband via ModKit (CanSecWest '18)
+- Baseband exploitation in 2013: Hexagon challenges (ParSec '13)
+- Baseband Attacks: Remote Exploitation of Memory Corruptions in Cellular Protocol Stacks (WOOT '12)
+- Reverse engineering a Qualcomm baseband (CCC '11)
+
+# ETC
 - https://ghidra.re/courses/languages/html/sleigh.html
-- Attacking Hexagon: Security Analysis of Qualcomm's aDSP
