@@ -40,9 +40,11 @@ Reference
 
 Questions
 ----------
-- How to represent semantics for Hexdagon?
+- How to represent semantics for Hexagon?
     - symbolic expression
     - K framework
+        - "A Complete Formal Semantics of x86-64 User-Level Instruction Set Architecture" uses K Framework, while Strata Project
+        and Stoke use SMT formulas. They translated Strata's semantics into K framework. why?
 
 - How to construct semantics?
     - automated: strata? compiler? maybe qemu?
