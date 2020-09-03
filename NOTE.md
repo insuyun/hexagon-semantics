@@ -29,8 +29,13 @@ Reference
 - Baseband Attacks: Remote Exploitation of Memory Corruptions in Cellular Protocol Stacks (WOOT '12)
 - Reverse engineering a Qualcomm baseband (CCC '11)
 
-# ETC
+# Ghidra
 - https://ghidra.re/courses/languages/html/sleigh.html
+- Implementing a New CPU Architecture for Ghidra
+- https://www.reddit.com/r/ghidra/comments/bhhrt0/quick_guide_to_creating_a_processor_in_ghidra/
+- Specifying Representations of Machine Instructions
+- https://www.reddit.com/r/ghidra/comments/f5lk42/my_experience_writing_processor_modules/
+- https://spinsel.dev/
 
 
 Questions
