@@ -1,0 +1,22 @@
+diff --git tests/docker/Makefile.include tests/docker/Makefile.include
+index 43a8678688..469ae96dd8 100644
+--- tests/docker/Makefile.include
++++ tests/docker/Makefile.include
+@@ -126,6 +126,7 @@ docker-image-debian-riscv64-cross: docker-image-debian10
+ docker-image-debian-s390x-cross: docker-image-debian10
+ docker-image-debian-sh4-cross: docker-image-debian10
+ docker-image-debian-sparc64-cross: docker-image-debian10
++docker-image-debian-hexagon-cross: docker-image-debian10
+ 
+ docker-image-travis: NOUSER=1
+ 
+diff --git tests/docker/dockerfiles/debian-hexagon-cross.docker tests/docker/dockerfiles/debian-hexagon-cross.docker
+index 355adbfbc5..5fa91e0500 100644
+--- tests/docker/dockerfiles/debian-hexagon-cross.docker
++++ tests/docker/dockerfiles/debian-hexagon-cross.docker
+@@ -1,4 +1,4 @@
+-FROM debian:10
++FROM qemu:debian10
+ 
+ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive \
