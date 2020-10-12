@@ -2,7 +2,7 @@
 
 ## Architecture
 
-![Architecture](images\architecture.png)
+![Architecture](images/architecture.png)
 
 - 32-bit address space
 - 32개의 32-bit general register. 64-bit 연산을 하려면 register pair로 사용해야함.
@@ -53,11 +53,11 @@ R9 = SA1          // Get loop1 start address
 
 ### Instruction classes
 
-![Instruction classes and combinations](images\instruction_classes.png)
+![Instruction classes and combinations](images/instruction_classes.png)
 
-![Instruction classes](images\instruction_classes2.png)
+![Instruction classes](images/instruction_classes2.png)
 
-![Instruction Class Encoding](images\instruction_class_encoding.png)
+![Instruction Class Encoding](images/instruction_class_encoding.png)
 
 ### Dot-new instructions
 
