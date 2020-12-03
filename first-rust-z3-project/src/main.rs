@@ -5,7 +5,7 @@ mod register;
 
 use z3::{Config, Context};
 
-use crate::instruction::AddInstruction;
+use crate::instruction::Instruction;
 use crate::register::{Register, RegisterSet};
 
 fn main() {
@@ -14,7 +14,7 @@ fn main() {
 
     let set = RegisterSet::new(&ctx);
 
-    let inst = AddInstruction {
+    let inst = Instruction::AddInstruction {
         rs: Register::R(0),
         rt: Register::R(1),
         rd: Register::R(2),
