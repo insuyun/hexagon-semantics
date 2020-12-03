@@ -14,7 +14,7 @@ fn main() {
 
     let set = RegisterSet::new(&ctx);
 
-    let inst = Instruction::AddInstruction {
+    let inst = Instruction::Add {
         rs: Register::R(0),
         rt: Register::R(1),
         rd: Register::R(2),
@@ -27,7 +27,7 @@ fn main() {
         slot4: Instruction::Nop,
     };
 
-    let set = packet.apply(&set);
+    let set = packet.apply(&ctx, &set);
 
-    println!("{:?}", set.get_register(&Register::R(2)));
+    println!("{:?}", set.get_register(Register::R(2)));
 }

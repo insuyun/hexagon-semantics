@@ -1,8 +1,13 @@
 use z3::{ast::BV, Context};
 
+#[derive(Clone, Copy)]
 pub enum Register {
     R(usize),
     C(usize),
+    SP, // R29
+    FP, // R30
+    LR, // R31
+    PC, // C09
 }
 
 #[derive(Clone)]
@@ -85,17 +90,25 @@ impl<'ctx> RegisterSet<'ctx> {
         }
     }
 
-    pub fn get_register(&self, r: &Register) -> &BV<'ctx> {
+    pub fn get_register(&self, r: Register) -> &BV<'ctx> {
         match r {
-            Register::R(v) => &self.general[*v],
-            Register::C(v) => &self.control[*v],
+            Register::R(v) => &self.general[v],
+            Register::C(v) => &self.control[v],
+            Register::SP => &self.general[29],
+            Register::FP => &self.general[30],
+            Register::LR => &self.general[31],
+            Register::PC => &self.control[9],
         }
     }
 
-    pub fn set_register(&mut self, r: &Register, val: BV<'ctx>) {
+    pub fn set_register(&mut self, r: Register, val: BV<'ctx>) {
         match r {
-            Register::R(v) => self.general[*v] = val,
-            Register::C(v) => self.control[*v] = val,
+            Register::R(v) => self.general[v] = val,
+            Register::C(v) => self.control[v] = val,
+            Register::SP => self.general[29] = val,
+            Register::FP => self.general[30] = val,
+            Register::LR => self.general[31] = val,
+            Register::PC => self.control[9] = val,
         };
     }
 }
