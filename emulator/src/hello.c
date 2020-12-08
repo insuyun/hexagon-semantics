@@ -3,10 +3,13 @@
 int
 main()
 {
-    int i;
-    for (i = 0; i <= 5; i++)
-    {
-        printf ("Hello %d\n", i);
-    }
-    return 0;
+  printf("Hi\n");
+  __asm(
+    "__begin:"
+      "{ r2 = add(r1, r0);\n"
+      "r3 = add(r1, r0);\n"
+      "r4 = add(r1, r0);\n"
+      "r5 = add(r1, r0);}\n"
+    "__end:");
+  printf("Bye\n");
 }
