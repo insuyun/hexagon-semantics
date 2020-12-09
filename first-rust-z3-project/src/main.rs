@@ -3,16 +3,15 @@ extern crate z3;
 mod instruction;
 mod register;
 
-use z3::{Config, Context};
-
 use crate::instruction::{Instruction, InstructionPacket};
-use crate::register::{Register, RegisterSet};
+use crate::register::{CpuState, Register};
+use z3::{Config, Context};
 
 fn main() {
     let cfg = Config::default();
     let ctx = Context::new(&cfg);
 
-    let set = RegisterSet::new(&ctx);
+    let mut cpu_state = CpuState::new(&ctx);
 
     let inst = Instruction::Add {
         rs: Register::R(0),
@@ -27,7 +26,7 @@ fn main() {
         slot4: Instruction::Nop,
     };
 
-    let set = packet.apply(&ctx, &set);
+    cpu_state.apply_instruction_packet(packet);
 
-    println!("{:?}", set.get_register(Register::R(2)));
+    println!("{:?}", cpu_state.get_register(Register::R(2)));
 }
