@@ -1,6 +1,7 @@
 use z3::{ast::BV, Context};
 
 use crate::instruction::{Instruction, InstructionPacket, INSTRUCTION_SIZE};
+use crate::memory::{Memory, MemoryType};
 
 #[derive(Clone, Copy)]
 pub enum Register {
@@ -20,7 +21,8 @@ pub struct RegisterSet<'ctx> {
 
 pub struct CpuState<'ctx> {
     context: &'ctx Context,
-    register_set: RegisterSet<'ctx>
+    register_set: RegisterSet<'ctx>,
+    memory: Memory<'ctx>,
 }
 
 impl<'ctx> RegisterSet<'ctx> {
@@ -123,9 +125,11 @@ impl<'ctx> RegisterSet<'ctx> {
 impl<'ctx> CpuState<'ctx> {
     pub fn new(ctx: &'ctx Context) -> Self {
         let register_set = RegisterSet::new(&ctx);
+        let memory = Memory::new(ctx, MemoryType::ArrayMemory);
         Self {
             context: ctx,
-            register_set
+            register_set,
+            memory,
         }
     }
 
@@ -137,11 +141,7 @@ impl<'ctx> CpuState<'ctx> {
         self.register_set.set_register(r, val);
     }
 
-    fn apply_instruction(
-        &mut self,
-        inst: &Instruction,
-        old_set: &RegisterSet<'ctx>,
-    ) {
+    fn apply_instruction(&mut self, inst: &Instruction, old_set: &RegisterSet<'ctx>) {
         match inst {
             Instruction::Nop => {}
             Instruction::Add { rs, rt, rd } => {
@@ -149,15 +149,31 @@ impl<'ctx> CpuState<'ctx> {
                 let rt = old_set.get_register(*rt);
                 self.set_register(*rd, rs + rt);
             }
+            Instruction::AddToPC { rd, imm } => {
+                let pc = old_set.get_register(Register::PC);
+                self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));
+            }
             Instruction::Callr { rs } => {
                 let rs = old_set.get_register(*rs);
                 let pc = old_set.get_register(Register::PC);
-                self.set_register(Register::LR, pc + BV::from_i64(&self.context, INSTRUCTION_SIZE, 32));
+                self.set_register(
+                    Register::LR,
+                    pc + BV::from_i64(&self.context, INSTRUCTION_SIZE, 32),
+                );
                 self.set_register(Register::PC, rs.clone());
             }
             Instruction::Jump { r } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(Register::PC, pc + BV::from_i64(&self.context, *r, 32));
+            }
+            Instruction::LoadByteIo { rs, rd, imm } => {
+                let addr = old_set.get_register(*rs) + BV::from_i64(&self.context, *imm as i64, 32);
+                let value = self.memory.load_byte(&addr);
+                self.set_register(*rd, value);
+            }
+            Instruction::StoreByteIo { rs, rt, imm } => {
+                let addr = old_set.get_register(*rs) + BV::from_i64(&self.context, *imm as i64, 32);
+                self.memory.store_byte(&addr, old_set.get_register(*rt));
             }
         }
     }

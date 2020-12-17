@@ -1,6 +1,7 @@
 extern crate z3;
 
 mod instruction;
+mod memory;
 mod register;
 
 use crate::instruction::{Instruction, InstructionPacket};

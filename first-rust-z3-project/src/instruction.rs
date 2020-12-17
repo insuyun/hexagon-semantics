@@ -9,6 +9,10 @@ pub enum Instruction {
         rd: Register,
     },
     /* CR class */
+    AddToPC {
+        rd: Register,
+        imm: u32,
+    },
     /* JR class */
     Callr {
         rs: Register,
@@ -16,11 +20,21 @@ pub enum Instruction {
     /* J class */
     Jump {
         r: i64,
-    }, /* LD class */
-       /* MEMOP class */
-       /* NV class */
-       /* ST class */
-       /* SYSTEM class */
+    },
+    /* LD class */
+    LoadByteIo {
+        rs: Register,
+        rd: Register,
+        imm: i32,
+    },
+    /* MEMOP class */
+    /* NV class */
+    /* ST class */
+    StoreByteIo {
+        rs: Register,
+        rt: Register,
+        imm: i32,
+    }, /* SYSTEM class */
        /* XTYPE class */
 }
 
