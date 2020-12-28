@@ -18,6 +18,45 @@ pub enum Instruction {
         rt: Register,
         rd: Register,
     },
+    And {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    Andi {
+        rs: Register,
+        rd: Register,
+        imm: i32, // 10-bit
+    },
+    Andn {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    Not {
+        rs: Register,
+        rd: Register,
+    },
+    Or {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    Ori {
+        rs: Register,
+        rd: Register,
+        imm: i32, // 10-bit
+    },
+    Orn {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    Xor {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,

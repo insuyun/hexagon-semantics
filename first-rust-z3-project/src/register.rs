@@ -186,6 +186,43 @@ impl<'ctx> CpuState<'ctx> {
                 self.set_register(*rd, result);
                 self.set_register(Register::USR, new_usr);
             }
+            Instruction::And { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rs & rt);
+            }
+            Instruction::Andi { rs, rd, imm } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs & BV::from_i64(&self.context, *imm as i64, 32));
+            }
+            Instruction::Andn { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rs & rt.bvnot());
+            }
+            Instruction::Not { rs, rd } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs.bvnot());
+            }
+            Instruction::Or { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rs | rt);
+            }
+            Instruction::Ori { rs, rd, imm } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs | BV::from_i64(&self.context, *imm as i64, 32));
+            }
+            Instruction::Orn { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rs | rt.bvnot());
+            }
+            Instruction::Xor { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rs ^ rt);
+            }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));
