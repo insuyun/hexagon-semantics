@@ -8,6 +8,16 @@ pub enum Instruction {
         rt: Register,
         rd: Register,
     },
+    Addi {
+        rs: Register,
+        rd: Register,
+        imm: i32, // 16-bit
+    },
+    AddSat {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,

@@ -1,4 +1,7 @@
-use z3::{ast::BV, Context};
+use z3::{
+    ast::{Bool, BV},
+    Context,
+};
 
 use crate::instruction::{Instruction, InstructionPacket, INSTRUCTION_SIZE};
 use crate::memory::{Memory, MemoryType};
@@ -7,10 +10,11 @@ use crate::memory::{Memory, MemoryType};
 pub enum Register {
     R(usize),
     C(usize),
-    SP, // R29
-    FP, // R30
-    LR, // R31
-    PC, // C09
+    SP,  // R29
+    FP,  // R30
+    LR,  // R31
+    PC,  // C09
+    USR, // C08
 }
 
 #[derive(Clone)]
@@ -107,6 +111,7 @@ impl<'ctx> RegisterSet<'ctx> {
             Register::FP => &self.general[30],
             Register::LR => &self.general[31],
             Register::PC => &self.control[9],
+            Register::USR => &self.control[8],
         }
     }
 
@@ -118,6 +123,7 @@ impl<'ctx> RegisterSet<'ctx> {
             Register::FP => self.general[30] = val,
             Register::LR => self.general[31] = val,
             Register::PC => self.control[9] = val,
+            Register::USR => self.control[8] = val,
         };
     }
 }
@@ -148,6 +154,37 @@ impl<'ctx> CpuState<'ctx> {
                 let rs = old_set.get_register(*rs);
                 let rt = old_set.get_register(*rt);
                 self.set_register(*rd, rs + rt);
+            }
+            Instruction::Addi { rs, rd, imm } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs + BV::from_i64(&self.context, *imm as i64, 32));
+            }
+            Instruction::AddSat { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                let usr = old_set.get_register(Register::USR);
+                let overflow_unsigned = rs.bvadd_no_overflow(rt, false);
+                let overflow_signed = rs.bvadd_no_overflow(rt, true);
+
+                // TODO: Make general saturation function?
+                // underflow
+                let result = (overflow_signed.clone() & overflow_unsigned).ite(
+                    &BV::from_i64(&self.context, i32::MIN as i64, 32),
+                    // overflow
+                    &(overflow_signed.clone()).ite(
+                        &BV::from_i64(&self.context, i32::MAX as i64, 32),
+                        &(rs + rt),
+                    ),
+                );
+
+                let ovf = overflow_signed.ite(
+                    &BV::from_u64(&self.context, 1, 1),
+                    &BV::from_u64(&self.context, 0, 1),
+                );
+                let new_usr = (usr & BV::from_u64(&self.context, 0xFFFFFFFE, 32)) | ovf;
+
+                self.set_register(*rd, result);
+                self.set_register(Register::USR, new_usr);
             }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);

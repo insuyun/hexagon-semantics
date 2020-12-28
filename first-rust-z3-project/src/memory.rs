@@ -4,7 +4,9 @@ use z3::{
 };
 
 pub enum Memory<'ctx> {
-    ArrayMemory { array: Array<'ctx> },
+    ArrayMemory {
+        array: Array<'ctx>,
+    },
     FunctionMemory {
         context: &'ctx Context,
         func: FuncDecl<'ctx>,
@@ -47,9 +49,11 @@ impl<'ctx> Memory<'ctx> {
     pub fn load_byte(&self, idx: &BV<'ctx>) -> BV<'ctx> {
         match self {
             Memory::ArrayMemory { array } => array.select(idx).as_bv().unwrap(),
-            Memory::FunctionMemory { context, func, constraints } => {
-                func.apply(&[&Dynamic::from_ast(idx)]).as_bv().unwrap()
-            }
+            Memory::FunctionMemory {
+                context,
+                func,
+                constraints,
+            } => func.apply(&[&Dynamic::from_ast(idx)]).as_bv().unwrap(),
         }
     }
 
@@ -58,7 +62,11 @@ impl<'ctx> Memory<'ctx> {
             Memory::ArrayMemory { ref mut array } => {
                 *array = array.store(idx, val);
             }
-            Memory::FunctionMemory { context, func, constraints } => {
+            Memory::FunctionMemory {
+                context,
+                func,
+                constraints,
+            } => {
                 let new_func = FuncDecl::new(
                     context,
                     "FunctionMemory",
@@ -69,14 +77,16 @@ impl<'ctx> Memory<'ctx> {
                 // new_func(x) == If(x == idx, val, func(x)))
                 let x = BV::fresh_const(&context, "FunctionMemory_tmp", 32);
                 let y = func.apply(&[&Dynamic::from_ast(&x)]).as_bv().unwrap();
-                let new_constraint = new_func.apply(&[&Dynamic::from_ast(&x)]).as_bv().unwrap()._eq(
-                    &x._eq(idx).ite(val, &y)
-                );
+                let new_constraint = new_func
+                    .apply(&[&Dynamic::from_ast(&x)])
+                    .as_bv()
+                    .unwrap()
+                    ._eq(&x._eq(idx).ite(val, &y));
 
                 constraints.push(new_constraint);
                 *func = new_func;
                 // tmp3._eq();
-            },
+            }
         }
     }
 }
