@@ -1,5 +1,6 @@
 use crate::register::Register;
 
+#[allow(dead_code)]
 pub enum Instruction {
     Nop,
     /* ALU32 class */

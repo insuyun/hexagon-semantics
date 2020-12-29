@@ -1,11 +1,13 @@
 extern crate z3;
 
+mod cpu_state;
 mod instruction;
 mod memory;
 mod register;
 
+use crate::cpu_state::CpuState;
 use crate::instruction::{Instruction, InstructionPacket};
-use crate::register::{CpuState, Register};
+use crate::register::Register;
 use z3::{Config, Context};
 
 fn main() {
