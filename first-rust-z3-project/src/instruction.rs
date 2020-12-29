@@ -58,6 +58,14 @@ pub enum Instruction {
         rt: Register,
         rd: Register,
     },
+    Sxtb {
+        rs: Register,
+        rd: Register,
+    },
+    Sxth {
+        rs: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,

@@ -105,6 +105,14 @@ impl<'ctx> CpuState<'ctx> {
                 let rt = old_set.get_register(*rt);
                 self.set_register(*rd, rs ^ rt);
             }
+            Instruction::Sxtb { rs, rd } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs.extract(7, 0).sign_ext(24));
+            }
+            Instruction::Sxth { rs, rd } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs.extract(15, 0).sign_ext(16));
+            }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));
