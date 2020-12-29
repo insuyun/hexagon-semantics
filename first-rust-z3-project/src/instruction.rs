@@ -58,6 +58,21 @@ pub enum Instruction {
         rt: Register,
         rd: Register,
     },
+    Sub {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    Subi {
+        rs: Register,
+        rd: Register,
+        imm: i32, // 16-bit
+    },
+    SubSat {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
     Sxtb {
         rs: Register,
         rd: Register,

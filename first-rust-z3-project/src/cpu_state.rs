@@ -105,6 +105,43 @@ impl<'ctx> CpuState<'ctx> {
                 let rt = old_set.get_register(*rt);
                 self.set_register(*rd, rs ^ rt);
             }
+            Instruction::Sub { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rt - rs);
+            }
+            Instruction::Subi { rs, rd, imm } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, BV::from_i64(&self.context, *imm as i64, 32) - rs);
+            }
+            Instruction::SubSat { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                let usr = old_set.get_register(Register::USR);
+                // TODO: Check this saturation logic
+                let overflow_unsigned = rt.bvadd_no_overflow(&rs.bvneg(), false);
+                let overflow_signed = rt.bvadd_no_overflow(&rs.bvneg(), true);
+
+                // TODO: Make general saturation function?
+                // underflow
+                let result = (overflow_signed.clone() & overflow_unsigned).ite(
+                    &BV::from_i64(&self.context, i32::MIN as i64, 32),
+                    // overflow
+                    &(overflow_signed.clone()).ite(
+                        &BV::from_i64(&self.context, i32::MAX as i64, 32),
+                        &(rt - rs),
+                    ),
+                );
+
+                let ovf = overflow_signed.ite(
+                    &BV::from_u64(&self.context, 1, 1),
+                    &BV::from_u64(&self.context, 0, 1),
+                );
+                let new_usr = (usr & BV::from_u64(&self.context, 0xFFFFFFFE, 32)) | ovf;
+
+                self.set_register(*rd, result);
+                self.set_register(Register::USR, new_usr);
+            }
             Instruction::Sxtb { rs, rd } => {
                 let rs = old_set.get_register(*rs);
                 self.set_register(*rd, rs.extract(7, 0).sign_ext(24));
