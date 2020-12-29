@@ -81,6 +81,22 @@ pub enum Instruction {
         rs: Register,
         rd: Register,
     },
+    TransferSi {
+        rd: Register,
+        imm: i32, // 16-bit
+    },
+    TransferUiHi {
+        rd: Register,
+        imm: u32, // 16-bit
+    },
+    TransferUiLo {
+        rd: Register,
+        imm: u32, // 16-bit
+    },
+    Transfer {
+        rs: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,

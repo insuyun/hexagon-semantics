@@ -150,6 +150,36 @@ impl<'ctx> CpuState<'ctx> {
                 let rs = old_set.get_register(*rs);
                 self.set_register(*rd, rs.extract(15, 0).sign_ext(16));
             }
+            Instruction::TransferSi { rd, imm } => {
+                self.set_register(
+                    *rd,
+                    BV::from_i64(&self.context, *imm as i64, 16).sign_ext(16),
+                );
+            }
+            Instruction::TransferUiHi { rd, imm } => {
+                let rd_val = old_set.get_register(*rd);
+                self.set_register(
+                    *rd,
+                    (rd_val & BV::from_u64(&self.context, 0x0000FFFF, 32))
+                        | BV::from_u64(&self.context, *imm as u64, 32).bvshl(&BV::from_u64(
+                            &self.context,
+                            16,
+                            32,
+                        )),
+                );
+            }
+            Instruction::TransferUiLo { rd, imm } => {
+                let rd_val = old_set.get_register(*rd);
+                self.set_register(
+                    *rd,
+                    (rd_val & BV::from_u64(&self.context, 0xFFFF0000, 32))
+                        | BV::from_u64(&self.context, *imm as u64, 32),
+                );
+            }
+            Instruction::Transfer { rs, rd } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs.clone());
+            }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));
