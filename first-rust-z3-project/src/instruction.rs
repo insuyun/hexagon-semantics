@@ -112,6 +112,21 @@ pub enum Instruction {
         rt: Register,
         rd: Register,
     },
+    Vsubh {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    VsubhSat {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    VsubuhSat {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,

@@ -310,6 +310,136 @@ impl<'ctx> CpuState<'ctx> {
                 );
                 self.set_register(Register::USR, usr);
             }
+            Instruction::Vsubh { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+
+                let rdh = rs.extract(31, 16) - rt.extract(31, 16);
+                let rdl = rs.extract(15, 0) - rt.extract(15, 0);
+
+                self.set_register(
+                    *rd,
+                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
+                );
+            }
+            Instruction::VsubhSat { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                let usr = old_set.get_register(Register::USR);
+
+                let (rdh, usr) = {
+                    let rs = rs.extract(31, 16);
+                    let rt = rt.extract(31, 16);
+
+                    let overflow_unsigned = rs.bvadd_no_overflow(&rt.bvneg(), false);
+                    let overflow_signed = rs.bvadd_no_overflow(&rt.bvneg(), true);
+
+                    // TODO: Make general saturation function?
+                    // underflow
+                    let result = (overflow_signed.clone() & overflow_unsigned).ite(
+                        &BV::from_i64(&self.context, i16::MIN as i64, 16),
+                        // overflow
+                        &(overflow_signed.clone()).ite(
+                            &BV::from_i64(&self.context, i16::MAX as i64, 16),
+                            &(rs - rt),
+                        ),
+                    );
+
+                    let ovf = overflow_signed.ite(
+                        &BV::from_u64(&self.context, 1, 1),
+                        &BV::from_u64(&self.context, 0, 1),
+                    );
+                    let new_usr = (usr & BV::from_u64(&self.context, 0xFFFFFFFE, 32)) | ovf;
+
+                    (result, new_usr)
+                };
+
+                let (rdl, usr) = {
+                    let rs = rs.extract(15, 0);
+                    let rt = rt.extract(15, 0);
+
+                    let overflow_unsigned = rs.bvadd_no_overflow(&rt.bvneg(), false);
+                    let overflow_signed = rs.bvadd_no_overflow(&rt.bvneg(), true);
+
+                    // TODO: Make general saturation function?
+                    // underflow
+                    let result = (overflow_signed.clone() & overflow_unsigned).ite(
+                        &BV::from_i64(&self.context, i16::MIN as i64, 16),
+                        // overflow
+                        &(overflow_signed.clone()).ite(
+                            &BV::from_i64(&self.context, i16::MAX as i64, 16),
+                            &(rs - rt),
+                        ),
+                    );
+
+                    let ovf = overflow_signed.ite(
+                        &BV::from_u64(&self.context, 1, 1),
+                        &BV::from_u64(&self.context, 0, 1),
+                    );
+                    let new_usr = (usr & BV::from_u64(&self.context, 0xFFFFFFFE, 32)) | ovf;
+
+                    (result, new_usr)
+                };
+
+                self.set_register(
+                    *rd,
+                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
+                );
+                self.set_register(Register::USR, usr);
+            }
+            Instruction::VsubuhSat { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                let usr = old_set.get_register(Register::USR);
+
+                let (rdh, usr) = {
+                    let rs = rs.extract(31, 16);
+                    let rt = rt.extract(31, 16);
+
+                    let overflow_unsigned = rs.bvsub_no_overflow(&rt);
+
+                    // overflow
+                    let result = overflow_unsigned.ite(
+                        &BV::from_u64(&self.context, u16::MAX as u64, 16),
+                        &(rs - rt),
+                    );
+
+                    let ovf = overflow_unsigned.ite(
+                        &BV::from_u64(&self.context, 1, 1),
+                        &BV::from_u64(&self.context, 0, 1),
+                    );
+                    let new_usr = (usr & BV::from_u64(&self.context, 0xFFFFFFFE, 32)) | ovf;
+
+                    (result, new_usr)
+                };
+
+                let (rdl, usr) = {
+                    let rs = rs.extract(15, 0);
+                    let rt = rt.extract(15, 0);
+
+                    let overflow_unsigned = rs.bvsub_no_overflow(&rt);
+
+                    // overflow
+                    let result = overflow_unsigned.ite(
+                        &BV::from_u64(&self.context, u16::MAX as u64, 16),
+                        &(rs - rt),
+                    );
+
+                    let ovf = overflow_unsigned.ite(
+                        &BV::from_u64(&self.context, 1, 1),
+                        &BV::from_u64(&self.context, 0, 1),
+                    );
+                    let new_usr = (usr & BV::from_u64(&self.context, 0xFFFFFFFE, 32)) | ovf;
+
+                    (result, new_usr)
+                };
+
+                self.set_register(
+                    *rd,
+                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
+                );
+                self.set_register(Register::USR, usr);
+            }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));
