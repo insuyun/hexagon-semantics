@@ -142,6 +142,10 @@ pub enum Instruction {
         rt: Register,
         rd: Register,
     },
+    Zxth {
+        rs: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,

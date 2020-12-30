@@ -497,6 +497,10 @@ impl<'ctx> CpuState<'ctx> {
                     rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
                 );
             }
+            Instruction::Zxth { rs, rd } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs.extract(15, 0).zero_ext(16));
+            }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));
