@@ -314,8 +314,8 @@ impl<'ctx> CpuState<'ctx> {
                 let rs = old_set.get_register(*rs);
                 let rt = old_set.get_register(*rt);
 
-                let rdh = rs.extract(31, 16) - rt.extract(31, 16);
-                let rdl = rs.extract(15, 0) - rt.extract(15, 0);
+                let rdh = rt.extract(31, 16) - rs.extract(31, 16);
+                let rdl = rt.extract(15, 0) - rs.extract(15, 0);
 
                 self.set_register(
                     *rd,
@@ -331,8 +331,8 @@ impl<'ctx> CpuState<'ctx> {
                     let rs = rs.extract(31, 16);
                     let rt = rt.extract(31, 16);
 
-                    let overflow_unsigned = rs.bvadd_no_overflow(&rt.bvneg(), false);
-                    let overflow_signed = rs.bvadd_no_overflow(&rt.bvneg(), true);
+                    let overflow_unsigned = rt.bvadd_no_overflow(&rs.bvneg(), false);
+                    let overflow_signed = rt.bvadd_no_overflow(&rs.bvneg(), true);
 
                     // TODO: Make general saturation function?
                     // underflow
@@ -341,7 +341,7 @@ impl<'ctx> CpuState<'ctx> {
                         // overflow
                         &(overflow_signed.clone()).ite(
                             &BV::from_i64(&self.context, i16::MAX as i64, 16),
-                            &(rs - rt),
+                            &(rt - rs),
                         ),
                     );
 
@@ -358,8 +358,8 @@ impl<'ctx> CpuState<'ctx> {
                     let rs = rs.extract(15, 0);
                     let rt = rt.extract(15, 0);
 
-                    let overflow_unsigned = rs.bvadd_no_overflow(&rt.bvneg(), false);
-                    let overflow_signed = rs.bvadd_no_overflow(&rt.bvneg(), true);
+                    let overflow_unsigned = rt.bvadd_no_overflow(&rs.bvneg(), false);
+                    let overflow_signed = rt.bvadd_no_overflow(&rs.bvneg(), true);
 
                     // TODO: Make general saturation function?
                     // underflow
@@ -368,7 +368,7 @@ impl<'ctx> CpuState<'ctx> {
                         // overflow
                         &(overflow_signed.clone()).ite(
                             &BV::from_i64(&self.context, i16::MAX as i64, 16),
-                            &(rs - rt),
+                            &(rt - rs),
                         ),
                     );
 
@@ -396,12 +396,12 @@ impl<'ctx> CpuState<'ctx> {
                     let rs = rs.extract(31, 16);
                     let rt = rt.extract(31, 16);
 
-                    let overflow_unsigned = rs.bvsub_no_overflow(&rt);
+                    let overflow_unsigned = rt.bvsub_no_overflow(&rs);
 
                     // overflow
                     let result = overflow_unsigned.ite(
                         &BV::from_u64(&self.context, u16::MAX as u64, 16),
-                        &(rs - rt),
+                        &(rt - rs),
                     );
 
                     let ovf = overflow_unsigned.ite(
@@ -417,12 +417,12 @@ impl<'ctx> CpuState<'ctx> {
                     let rs = rs.extract(15, 0);
                     let rt = rt.extract(15, 0);
 
-                    let overflow_unsigned = rs.bvsub_no_overflow(&rt);
+                    let overflow_unsigned = rt.bvsub_no_overflow(&rs);
 
                     // overflow
                     let result = overflow_unsigned.ite(
                         &BV::from_u64(&self.context, u16::MAX as u64, 16),
-                        &(rs - rt),
+                        &(rt - rs),
                     );
 
                     let ovf = overflow_unsigned.ite(
@@ -439,6 +439,63 @@ impl<'ctx> CpuState<'ctx> {
                     rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
                 );
                 self.set_register(Register::USR, usr);
+            }
+            Instruction::Vavgh { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+
+                let rdh = (rs.extract(31, 16) + rt.extract(31, 16)).bvashr(&BV::from_u64(
+                    &self.context,
+                    1,
+                    16,
+                ));
+                let rdl = (rs.extract(15, 0) + rt.extract(15, 0)).bvashr(&BV::from_u64(
+                    &self.context,
+                    1,
+                    16,
+                ));
+
+                self.set_register(
+                    *rd,
+                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
+                );
+            }
+            Instruction::VavghRnd { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+
+                let rdh =
+                    (rs.extract(31, 16) + rt.extract(31, 16) + &BV::from_u64(&self.context, 1, 16))
+                        .bvashr(&BV::from_u64(&self.context, 1, 16));
+                let rdl =
+                    (rs.extract(15, 0) + rt.extract(15, 0) + &BV::from_u64(&self.context, 1, 16))
+                        .bvashr(&BV::from_u64(&self.context, 1, 16));
+
+                self.set_register(
+                    *rd,
+                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
+                );
+            }
+
+            Instruction::Vnavgh { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+
+                let rdh = (rt.extract(31, 16) - rs.extract(31, 16)).bvashr(&BV::from_u64(
+                    &self.context,
+                    1,
+                    16,
+                ));
+                let rdl = (rt.extract(15, 0) - rs.extract(15, 0)).bvashr(&BV::from_u64(
+                    &self.context,
+                    1,
+                    16,
+                ));
+
+                self.set_register(
+                    *rd,
+                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
+                );
             }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);

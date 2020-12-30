@@ -112,6 +112,21 @@ pub enum Instruction {
         rt: Register,
         rd: Register,
     },
+    Vavgh {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    VavghRnd {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    Vnavgh {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
     Vsubh {
         rs: Register,
         rt: Register,
