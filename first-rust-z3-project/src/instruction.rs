@@ -97,6 +97,21 @@ pub enum Instruction {
         rs: Register,
         rd: Register,
     },
+    Vaddh {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    VaddhSat {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    VadduhSat {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,
