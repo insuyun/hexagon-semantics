@@ -193,6 +193,30 @@ pub enum Instruction {
         rt: Register,
         rdd: Register64,
     },
+    MuxII {
+        imm1: i64, // 8-bit
+        imm2: i64, // 8-bit
+        pu: Register,
+        rd: Register,
+    },
+    MuxIR {
+        imm: i64, // 8-bit
+        rs: Register,
+        pu: Register,
+        rd: Register,
+    },
+    MuxRI {
+        imm: i64, // 8-bit
+        rs: Register,
+        pu: Register,
+        rd: Register,
+    },
+    MuxRR {
+        rs: Register,
+        rt: Register,
+        pu: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,

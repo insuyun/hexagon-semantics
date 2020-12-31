@@ -1,4 +1,7 @@
-use z3::{ast::BV, Context};
+use z3::{
+    ast::{Ast, BV},
+    Context,
+};
 
 use crate::instruction::{Instruction, InstructionPacket, INSTRUCTION_SIZE};
 use crate::memory::{Memory, MemoryType};
@@ -21,7 +24,7 @@ impl<'ctx> CpuState<'ctx> {
         }
     }
 
-    pub fn get_register(&self, r: Register) -> &BV<'ctx> {
+    pub fn get_register(&self, r: Register) -> BV<'ctx> {
         self.register_set.get_register(r)
     }
 
@@ -527,6 +530,54 @@ impl<'ctx> CpuState<'ctx> {
                 let rt = old_set.get_register(*rt);
                 self.set_register_64(*rdd, rs.concat(&rt));
             }
+            Instruction::MuxII { imm1, imm2, pu, rd } => {
+                let imm1 = BV::from_i64(&self.context, *imm1, 8).sign_ext(24);
+                let imm2 = BV::from_i64(&self.context, *imm2, 8).zero_ext(24);
+                let pu = old_set.get_register(*pu);
+
+                self.set_register(
+                    *rd,
+                    pu.extract(0, 0)
+                        ._eq(&BV::from_u64(&self.context, 1, 1))
+                        .ite(&imm1, &imm2),
+                );
+            }
+            Instruction::MuxIR { imm, rs, pu, rd } => {
+                let imm = BV::from_i64(&self.context, *imm, 8).sign_ext(24);
+                let rs = old_set.get_register(*rs);
+                let pu = old_set.get_register(*pu);
+
+                self.set_register(
+                    *rd,
+                    pu.extract(0, 0)
+                        ._eq(&BV::from_u64(&self.context, 1, 1))
+                        .ite(&imm, &rs),
+                );
+            }
+            Instruction::MuxRI { imm, rs, pu, rd } => {
+                let imm = BV::from_i64(&self.context, *imm, 8).sign_ext(24);
+                let rs = old_set.get_register(*rs);
+                let pu = old_set.get_register(*pu);
+
+                self.set_register(
+                    *rd,
+                    pu.extract(0, 0)
+                        ._eq(&BV::from_u64(&self.context, 1, 1))
+                        .ite(&rs, &imm),
+                );
+            }
+            Instruction::MuxRR { rs, rt, pu, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                let pu = old_set.get_register(*pu);
+
+                self.set_register(
+                    *rd,
+                    pu.extract(0, 0)
+                        ._eq(&BV::from_u64(&self.context, 1, 1))
+                        .ite(&rs, &rt),
+                );
+            }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));
@@ -551,7 +602,7 @@ impl<'ctx> CpuState<'ctx> {
             }
             Instruction::StoreByteIo { rs, rt, imm } => {
                 let addr = old_set.get_register(*rs) + BV::from_i64(&self.context, *imm as i64, 32);
-                self.memory.store_byte(&addr, old_set.get_register(*rt));
+                self.memory.store_byte(&addr, &old_set.get_register(*rt));
             }
         }
     }

@@ -4,6 +4,7 @@ use z3::{ast::BV, Context};
 pub enum Register {
     R(usize),
     C(usize),
+    P(u32),
     SP,  // R29
     FP,  // R30
     LR,  // R31
@@ -97,15 +98,16 @@ impl<'ctx> RegisterSet<'ctx> {
         }
     }
 
-    pub fn get_register(&self, r: Register) -> &BV<'ctx> {
+    pub fn get_register(&self, r: Register) -> BV<'ctx> {
         match r {
-            Register::R(v) => &self.general[v],
-            Register::C(v) => &self.control[v],
-            Register::SP => &self.general[29],
-            Register::FP => &self.general[30],
-            Register::LR => &self.general[31],
-            Register::PC => &self.control[9],
-            Register::USR => &self.control[8],
+            Register::R(v) => self.general[v],
+            Register::C(v) => self.control[v],
+            Register::P(v) => self.control[4].extract(8 * (v + 1) - 1, 8 * v),
+            Register::SP => self.general[29],
+            Register::FP => self.general[30],
+            Register::LR => self.general[31],
+            Register::PC => self.control[9],
+            Register::USR => self.control[8],
         }
     }
 
