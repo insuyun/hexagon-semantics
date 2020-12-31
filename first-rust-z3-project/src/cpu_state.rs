@@ -586,6 +586,18 @@ impl<'ctx> CpuState<'ctx> {
                 let rs = old_set.get_register(*rs);
                 self.set_register(*rd, rs.bvashr(&BV::from_u64(&self.context, 16, 32)));
             }
+            Instruction::Packhl { rs, rt, rdd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+
+                self.set_register_64(
+                    *rdd,
+                    rs.extract(31, 16)
+                        .concat(&rt.extract(31, 16))
+                        .concat(&rs.extract(15, 0))
+                        .concat(&rt.extract(15, 0)),
+                );
+            }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));

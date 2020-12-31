@@ -225,6 +225,11 @@ pub enum Instruction {
         rs: Register,
         rd: Register,
     },
+    Packhl {
+        rs: Register,
+        rt: Register,
+        rdd: Register64,
+    },
     /* CR class */
     AddToPC {
         rd: Register,
