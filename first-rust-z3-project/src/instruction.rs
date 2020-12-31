@@ -217,6 +217,14 @@ pub enum Instruction {
         pu: Register,
         rd: Register,
     },
+    Aslh {
+        rs: Register,
+        rd: Register,
+    },
+    Asrh {
+        rs: Register,
+        rd: Register,
+    },
     /* CR class */
     AddToPC {
         rd: Register,

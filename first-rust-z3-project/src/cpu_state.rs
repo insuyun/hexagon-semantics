@@ -578,6 +578,14 @@ impl<'ctx> CpuState<'ctx> {
                         .ite(&rs, &rt),
                 );
             }
+            Instruction::Aslh { rs, rd } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs.bvshl(&BV::from_u64(&self.context, 16, 32)));
+            }
+            Instruction::Asrh { rs, rd } => {
+                let rs = old_set.get_register(*rs);
+                self.set_register(*rd, rs.bvashr(&BV::from_u64(&self.context, 16, 32)));
+            }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
                 self.set_register(*rd, pc + BV::from_u64(&self.context, *imm as u64, 32));
