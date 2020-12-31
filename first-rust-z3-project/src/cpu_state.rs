@@ -195,10 +195,7 @@ impl<'ctx> CpuState<'ctx> {
                 let rdh = rs.extract(31, 16) + rt.extract(31, 16);
                 let rdl = rs.extract(15, 0) + rt.extract(15, 0);
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
             }
             Instruction::VaddhSat { rs, rt, rd } => {
                 let rs = old_set.get_register(*rs);
@@ -259,10 +256,7 @@ impl<'ctx> CpuState<'ctx> {
                     (result, new_usr)
                 };
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
                 self.set_register(Register::USR, usr);
             }
             Instruction::VadduhSat { rs, rt, rd } => {
@@ -312,10 +306,7 @@ impl<'ctx> CpuState<'ctx> {
                     (result, new_usr)
                 };
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
                 self.set_register(Register::USR, usr);
             }
             Instruction::Vsubh { rs, rt, rd } => {
@@ -325,10 +316,7 @@ impl<'ctx> CpuState<'ctx> {
                 let rdh = rt.extract(31, 16) - rs.extract(31, 16);
                 let rdl = rt.extract(15, 0) - rs.extract(15, 0);
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
             }
             Instruction::VsubhSat { rs, rt, rd } => {
                 let rs = old_set.get_register(*rs);
@@ -389,10 +377,7 @@ impl<'ctx> CpuState<'ctx> {
                     (result, new_usr)
                 };
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
                 self.set_register(Register::USR, usr);
             }
             Instruction::VsubuhSat { rs, rt, rd } => {
@@ -442,10 +427,7 @@ impl<'ctx> CpuState<'ctx> {
                     (result, new_usr)
                 };
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
                 self.set_register(Register::USR, usr);
             }
             Instruction::Vavgh { rs, rt, rd } => {
@@ -463,10 +445,7 @@ impl<'ctx> CpuState<'ctx> {
                     16,
                 ));
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
             }
             Instruction::VavghRnd { rs, rt, rd } => {
                 let rs = old_set.get_register(*rs);
@@ -479,10 +458,7 @@ impl<'ctx> CpuState<'ctx> {
                     (rs.extract(15, 0) + rt.extract(15, 0) + &BV::from_u64(&self.context, 1, 16))
                         .bvashr(&BV::from_u64(&self.context, 1, 16));
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
             }
 
             Instruction::Vnavgh { rs, rt, rd } => {
@@ -500,10 +476,7 @@ impl<'ctx> CpuState<'ctx> {
                     16,
                 ));
 
-                self.set_register(
-                    *rd,
-                    rdh.zero_ext(16).bvshl(&BV::from_u64(&self.context, 16, 32)) | rdl.zero_ext(16),
-                );
+                self.set_register(*rd, rdh.concat(&rdl));
             }
             Instruction::Zxth { rs, rd } => {
                 let rs = old_set.get_register(*rs);
