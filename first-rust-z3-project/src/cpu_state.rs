@@ -56,8 +56,8 @@ impl<'ctx> CpuState<'ctx> {
                 let rs = old_set.get_register(*rs);
                 let rt = old_set.get_register(*rt);
                 let usr = old_set.get_register(Register::USR);
-                let overflow_unsigned = rs.bvadd_no_overflow(rt, false);
-                let overflow_signed = rs.bvadd_no_overflow(rt, true);
+                let overflow_unsigned = rs.bvadd_no_overflow(&rt, false);
+                let overflow_signed = rs.bvadd_no_overflow(&rt, true);
 
                 // TODO: Make general saturation function?
                 // underflow

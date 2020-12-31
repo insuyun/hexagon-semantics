@@ -100,14 +100,14 @@ impl<'ctx> RegisterSet<'ctx> {
 
     pub fn get_register(&self, r: Register) -> BV<'ctx> {
         match r {
-            Register::R(v) => self.general[v],
-            Register::C(v) => self.control[v],
+            Register::R(v) => self.general[v].clone(),
+            Register::C(v) => self.control[v].clone(),
             Register::P(v) => self.control[4].extract(8 * (v + 1) - 1, 8 * v),
-            Register::SP => self.general[29],
-            Register::FP => self.general[30],
-            Register::LR => self.general[31],
-            Register::PC => self.control[9],
-            Register::USR => self.control[8],
+            Register::SP => self.general[29].clone(),
+            Register::FP => self.general[30].clone(),
+            Register::LR => self.general[31].clone(),
+            Register::PC => self.control[9].clone(),
+            Register::USR => self.control[8].clone(),
         }
     }
 
@@ -127,6 +127,7 @@ impl<'ctx> RegisterSet<'ctx> {
             Register::LR => self.general[31] = val,
             Register::PC => self.control[9] = val,
             Register::USR => self.control[8] = val,
+            _ => unimplemented!(),
         };
     }
 
