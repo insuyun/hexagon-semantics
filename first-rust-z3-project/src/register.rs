@@ -11,6 +11,12 @@ pub enum Register {
     USR, // C08
 }
 
+#[derive(Clone, Copy)]
+pub enum Register64 {
+    R(usize), // usize must be odd number
+    C(usize), // usize must be odd number
+}
+
 #[derive(Clone)]
 pub struct RegisterSet<'ctx> {
     general: [BV<'ctx>; 32],
@@ -103,6 +109,13 @@ impl<'ctx> RegisterSet<'ctx> {
         }
     }
 
+    pub fn get_register_64(&self, rr: Register64) -> BV<'ctx> {
+        match rr {
+            Register64::R(v) => self.general[v].concat(&self.general[v - 1]),
+            Register64::C(v) => self.control[v].concat(&self.control[v - 1]),
+        }
+    }
+
     pub fn set_register(&mut self, r: Register, val: BV<'ctx>) {
         match r {
             Register::R(v) => self.general[v] = val,
@@ -113,5 +126,18 @@ impl<'ctx> RegisterSet<'ctx> {
             Register::PC => self.control[9] = val,
             Register::USR => self.control[8] = val,
         };
+    }
+
+    pub fn set_register_64(&mut self, rr: Register64, val: BV<'ctx>) {
+        match rr {
+            Register64::R(v) => {
+                self.general[v] = val.extract(63, 32);
+                self.general[v - 1] = val.extract(31, 0);
+            }
+            Register64::C(v) => {
+                self.control[v] = val.extract(63, 32);
+                self.control[v - 1] = val.extract(31, 0);
+            }
+        }
     }
 }

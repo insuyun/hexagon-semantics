@@ -1,9 +1,10 @@
-use crate::register::Register;
+use crate::register::{Register, Register64};
 
 #[allow(dead_code)]
 pub enum Instruction {
     Nop,
     /* ALU32 class */
+    /* ALU32/ALU class */
     Add {
         rs: Register,
         rt: Register,
@@ -145,6 +146,52 @@ pub enum Instruction {
     Zxth {
         rs: Register,
         rd: Register,
+    },
+    /* ALU32/PERM class */
+    CombineRhRh {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    CombineRhRl {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    CombineRlRh {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    CombineRlRl {
+        rs: Register,
+        rt: Register,
+        rd: Register,
+    },
+    CombineIi1 {
+        imm1: i64, // 8-bit
+        imm2: i64, // 8-bit
+        rdd: Register64,
+    },
+    CombineIi2 {
+        imm1: i64, // 8-bit
+        imm2: u64, // 6-bit
+        rdd: Register64,
+    },
+    CombineIr {
+        imm: i64, // 8-bit
+        rs: Register,
+        rdd: Register64,
+    },
+    CombineRi {
+        imm: i64, // 8-bit
+        rs: Register,
+        rdd: Register64,
+    },
+    CombineRr {
+        rs: Register,
+        rt: Register,
+        rdd: Register64,
     },
     /* CR class */
     AddToPC {

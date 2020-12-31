@@ -2,7 +2,7 @@ use z3::{ast::BV, Context};
 
 use crate::instruction::{Instruction, InstructionPacket, INSTRUCTION_SIZE};
 use crate::memory::{Memory, MemoryType};
-use crate::register::{Register, RegisterSet};
+use crate::register::{Register, Register64, RegisterSet};
 
 pub struct CpuState<'ctx> {
     context: &'ctx Context,
@@ -25,8 +25,16 @@ impl<'ctx> CpuState<'ctx> {
         self.register_set.get_register(r)
     }
 
+    pub fn get_register_64(&self, rr: Register64) -> BV<'ctx> {
+        self.register_set.get_register_64(rr)
+    }
+
     pub fn set_register(&mut self, r: Register, val: BV<'ctx>) {
         self.register_set.set_register(r, val);
+    }
+
+    pub fn set_register_64(&mut self, rr: Register64, val: BV<'ctx>) {
+        self.register_set.set_register_64(rr, val);
     }
 
     fn apply_instruction(&mut self, inst: &Instruction, old_set: &RegisterSet<'ctx>) {
@@ -500,6 +508,51 @@ impl<'ctx> CpuState<'ctx> {
             Instruction::Zxth { rs, rd } => {
                 let rs = old_set.get_register(*rs);
                 self.set_register(*rd, rs.extract(15, 0).zero_ext(16));
+            }
+            Instruction::CombineRhRh { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rt.extract(31, 16).concat(&rs.extract(31, 16)));
+            }
+            Instruction::CombineRhRl { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rt.extract(31, 16).concat(&rs.extract(15, 0)));
+            }
+            Instruction::CombineRlRh { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rt.extract(15, 0).concat(&rs.extract(31, 16)));
+            }
+            Instruction::CombineRlRl { rs, rt, rd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register(*rd, rt.extract(15, 0).concat(&rs.extract(15, 0)));
+            }
+            Instruction::CombineIi1 { imm1, imm2, rdd } => {
+                let hi = BV::from_i64(&self.context, *imm1, 8).sign_ext(24);
+                let lo = BV::from_i64(&self.context, *imm2, 8).zero_ext(24);
+                self.set_register_64(*rdd, hi.concat(&lo));
+            }
+            Instruction::CombineIi2 { imm1, imm2, rdd } => {
+                let hi = BV::from_i64(&self.context, *imm1, 8).zero_ext(24);
+                let lo = BV::from_u64(&self.context, *imm2, 6).sign_ext(26);
+                self.set_register_64(*rdd, hi.concat(&lo));
+            }
+            Instruction::CombineIr { imm, rs, rdd } => {
+                let hi = BV::from_i64(&self.context, *imm, 8).sign_ext(24);
+                let rs = old_set.get_register(*rs);
+                self.set_register_64(*rdd, hi.concat(&rs));
+            }
+            Instruction::CombineRi { imm, rs, rdd } => {
+                let lo = BV::from_i64(&self.context, *imm, 8).sign_ext(24);
+                let rs = old_set.get_register(*rs);
+                self.set_register_64(*rdd, rs.concat(&lo));
+            }
+            Instruction::CombineRr { rs, rt, rdd } => {
+                let rs = old_set.get_register(*rs);
+                let rt = old_set.get_register(*rt);
+                self.set_register_64(*rdd, rs.concat(&rt));
             }
             Instruction::AddToPC { rd, imm } => {
                 let pc = old_set.get_register(Register::PC);
