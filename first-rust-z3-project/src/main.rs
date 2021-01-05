@@ -6,7 +6,7 @@ mod memory;
 mod register;
 
 use crate::cpu_state::CpuState;
-use crate::instruction::{Instruction, InstructionPacket};
+use crate::instruction::{Alu32Instruction, Instruction, InstructionPacket};
 use crate::register::Register;
 use z3::{Config, Context};
 
@@ -16,11 +16,11 @@ fn main() {
 
     let mut cpu_state = CpuState::new(&ctx);
 
-    let inst = Instruction::Add {
+    let inst = Instruction::Alu32(Alu32Instruction::Add {
         rs: Register::R(0),
         rt: Register::R(1),
         rd: Register::R(2),
-    };
+    });
 
     let packet = InstructionPacket {
         slot1: inst,
