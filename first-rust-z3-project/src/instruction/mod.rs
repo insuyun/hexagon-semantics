@@ -12,6 +12,8 @@ pub use jr::JrInstruction;
 pub use ld::LdInstruction;
 pub use st::StInstruction;
 
+use std::fmt;
+
 #[allow(dead_code)]
 pub enum Instruction {
     Nop,
@@ -33,6 +35,20 @@ pub enum Instruction {
     /* XTYPE class */
 }
 
+impl fmt::Display for Instruction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Nop => write!(f, "nop"),
+            Self::Alu32(inst) => write!(f, "{}", inst),
+            Self::Cr(inst) => write!(f, "{}", inst),
+            Self::Jr(inst) => write!(f, "{}", inst),
+            Self::J(inst) => write!(f, "{}", inst),
+            Self::Ld(inst) => write!(f, "{}", inst),
+            Self::St(inst) => write!(f, "{}", inst),
+        }
+    }
+}
+
 // TODO: we don't know the instruction size
 pub const INSTRUCTION_SIZE: i64 = 16;
 
@@ -41,4 +57,14 @@ pub struct InstructionPacket {
     pub slot2: Instruction,
     pub slot3: Instruction,
     pub slot4: Instruction,
+}
+
+impl fmt::Display for InstructionPacket {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{}; {}; {}; {};",
+            self.slot1, self.slot2, self.slot3, self.slot4
+        )
+    }
 }

@@ -74,7 +74,7 @@ impl<'ctx> CpuState<'ctx> {
         }
     }
 
-    pub fn apply_instruction_packet(&mut self, packet: InstructionPacket) {
+    pub fn apply_instruction_packet(&mut self, packet: &InstructionPacket) {
         let old_set = self.register_set.clone();
 
         self.apply_instruction(&packet.slot1, &old_set);

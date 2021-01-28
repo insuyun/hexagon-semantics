@@ -3,6 +3,8 @@ use z3::{
     Context,
 };
 
+use std::fmt;
+
 use crate::register::{Register, Register64, RegisterSet};
 
 #[allow(dead_code)]
@@ -735,6 +737,153 @@ impl<'ctx> Alu32Instruction {
                         .concat(&rs.extract(15, 0))
                         .concat(&rt.extract(15, 0)),
                 );
+            }
+        }
+    }
+}
+
+impl fmt::Display for Alu32Instruction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Add { rs, rt, rd } => {
+                write!(f, "{} = add({}, {})", rd, rs, rt)
+            }
+            Self::Addi { rs, rd, imm } => {
+                write!(f, "{} = add({}, {})", rd, rs, imm)
+            }
+            Self::AddSat { rs, rt, rd } => {
+                write!(f, "{} = add({}, {}):sat", rd, rs, rt)
+            }
+            Self::And { rs, rt, rd } => {
+                write!(f, "{} = and({}, {})", rd, rs, rt)
+            }
+            Self::Andi { rs, rd, imm } => {
+                write!(f, "{} = and({}, {})", rd, rs, imm)
+            }
+            Self::Andn { rs, rt, rd } => {
+                write!(f, "{} = and({}, ~{})", rd, rt, rs)
+            }
+            Self::Not { rs, rd } => {
+                write!(f, "{} = not({})", rd, rs)
+            }
+            Self::Or { rs, rt, rd } => {
+                write!(f, "{} = or({}, {})", rd, rs, rt)
+            }
+            Self::Ori { rs, rd, imm } => {
+                write!(f, "{} = or({}, {})", rd, rs, imm)
+            }
+            Self::Orn { rs, rt, rd } => {
+                write!(f, "{} = and({}, ~{})", rd, rt, rs)
+            }
+            Self::Xor { rs, rt, rd } => {
+                write!(f, "{} = xor({}, {})", rd, rs, rt)
+            }
+            Self::Sub { rs, rt, rd } => {
+                write!(f, "{} = sub({}, {})", rd, rt, rs)
+            }
+            Self::Subi { rs, rd, imm } => {
+                write!(f, "{} = sub({}, {})", rd, imm, rs)
+            }
+            Self::SubSat { rs, rt, rd } => {
+                write!(f, "{} = sub({}, {}):sat", rd, rt, rs)
+            }
+            Self::Sxtb { rs, rd } => {
+                write!(f, "{} = sxtb({})", rd, rs)
+            }
+            Self::Sxth { rs, rd } => {
+                write!(f, "{} = sxth({})", rd, rs)
+            }
+            Self::TransferSi { rd, imm } => {
+                write!(f, "{} = {}", rd, imm)
+            }
+            Self::TransferUiHi { rd, imm } => {
+                write!(f, "{}.H = {}", rd, imm)
+            }
+            Self::TransferUiLo { rd, imm } => {
+                write!(f, "{}.L = {}", rd, imm)
+            }
+            Self::Transfer { rs, rd } => {
+                write!(f, "{} = {}", rd, rs)
+            }
+            Self::Vaddh { rs, rt, rd } => {
+                write!(f, "{} = vaddh({}, {})", rd, rs, rt)
+            }
+            Self::VaddhSat { rs, rt, rd } => {
+                write!(f, "{} = vaddh({}, {}):sat", rd, rs, rt)
+            }
+            Self::VadduhSat { rs, rt, rd } => {
+                write!(f, "{} = vadduh({}, {}):sat", rd, rs, rt)
+            }
+            Self::Vsubh { rs, rt, rd } => {
+                write!(f, "{} = vsubh({}, {})", rd, rs, rt)
+            }
+            Self::VsubhSat { rs, rt, rd } => {
+                write!(f, "{} = vsubh({}, {}):sat", rd, rs, rt)
+            }
+            Self::VsubuhSat { rs, rt, rd } => {
+                write!(f, "{} = vsubuh({}, {}):sat", rd, rs, rt)
+            }
+            Self::Vavgh { rs, rt, rd } => {
+                write!(f, "{} = vavgh({}, {})", rd, rs, rt)
+            }
+            Self::VavghRnd { rs, rt, rd } => {
+                write!(f, "{} = vavgh({}, {}):rnd", rd, rs, rt)
+            }
+
+            Self::Vnavgh { rs, rt, rd } => {
+                write!(f, "{} = vnavgh({}, {})", rd, rs, rt)
+            }
+            Self::Zxth { rs, rd } => {
+                write!(f, "{} = zxth({})", rd, rs)
+            }
+            Self::CombineRhRh { rs, rt, rd } => {
+                write!(f, "{} = combine({}.H, {}.H)", rd, rt, rs)
+            }
+            Self::CombineRhRl { rs, rt, rd } => {
+                write!(f, "{} = combine({}.H, {}.L)", rd, rt, rs)
+            }
+            Self::CombineRlRh { rs, rt, rd } => {
+                write!(f, "{} = combine({}.L, {}.H)", rd, rt, rs)
+            }
+            Self::CombineRlRl { rs, rt, rd } => {
+                write!(f, "{} = combine({}.L, {}.L)", rd, rt, rs)
+            }
+            Self::CombineIi1 { imm1, imm2, rdd } => {
+                write!(f, "{} = combine({}, {})", rdd, imm1, imm2)
+            }
+            Self::CombineIi2 { imm1, imm2, rdd } => {
+                // TODO: Check how this instruction syntax is differentiated from CombineIi1
+                write!(f, "{} = combine({}, {})", rdd, imm1, imm2)
+            }
+            Self::CombineIr { imm, rs, rdd } => {
+                write!(f, "{} = combine({}, {})", rdd, imm, rs)
+            }
+            Self::CombineRi { imm, rs, rdd } => {
+                write!(f, "{} = combine({}, {})", rdd, rs, imm)
+            }
+            Self::CombineRr { rs, rt, rdd } => {
+                write!(f, "{} = combine({}, {})", rdd, rs, rt)
+            }
+            Self::MuxII { imm1, imm2, pu, rd } => {
+                write!(f, "{} = mux({}, {}, {})", rd, pu, imm1, imm2)
+            }
+            Self::MuxIR { imm, rs, pu, rd } => {
+                write!(f, "{} = mux({}, {}, {})", rd, pu, imm, rs)
+            }
+            Self::MuxRI { imm, rs, pu, rd } => {
+                write!(f, "{} = mux({}, {}, {})", rd, pu, rs, imm)
+            }
+            Self::MuxRR { rs, rt, pu, rd } => {
+                write!(f, "{} = mux({}, {}, {})", rd, pu, rs, rt)
+            }
+            Self::Aslh { rs, rd } => {
+                write!(f, "{} = aslh({})", rd, rs)
+            }
+            Self::Asrh { rs, rd } => {
+                write!(f, "{} = asrh({})", rd, rs)
+            }
+            Self::Packhl { rs, rt, rdd } => {
+                write!(f, "{} = packhl({}, {})", rdd, rs, rt)
             }
         }
     }

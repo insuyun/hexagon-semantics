@@ -4,13 +4,15 @@ mod cpu_state;
 mod instruction;
 mod memory;
 mod register;
+mod simulator;
 
 use crate::cpu_state::CpuState;
 use crate::instruction::{Alu32Instruction, Instruction, InstructionPacket};
 use crate::register::Register;
+use crate::simulator::run_simulator;
 use z3::{Config, Context};
 
-fn main() {
+fn main() -> std::io::Result<()> {
     let cfg = Config::default();
     let ctx = Context::new(&cfg);
 
@@ -29,7 +31,9 @@ fn main() {
         slot4: Instruction::Nop,
     };
 
-    cpu_state.apply_instruction_packet(packet);
+    cpu_state.apply_instruction_packet(&packet);
 
     println!("{:?}", cpu_state.get_register(Register::R(2)));
+
+    run_simulator(&packet)
 }

@@ -1,3 +1,4 @@
+use std::fmt;
 use z3::{ast::BV, Context};
 
 use crate::register::{Register, RegisterSet};
@@ -19,6 +20,14 @@ impl<'ctx> JInstruction {
                 let pc = old_set.get_register(Register::PC);
                 new_set.set_register(Register::PC, pc + BV::from_i64(&ctx, *r, 32));
             }
+        }
+    }
+}
+
+impl fmt::Display for JInstruction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Jump { r } => write!(f, "jump({})", r),
         }
     }
 }

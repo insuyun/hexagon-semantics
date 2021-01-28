@@ -1,3 +1,4 @@
+use std::fmt;
 use z3::{ast::BV, Context};
 
 #[derive(Clone, Copy)]
@@ -12,10 +13,34 @@ pub enum Register {
     USR, // C08
 }
 
+impl fmt::Display for Register {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::R(v) => write!(f, "R{}", v),
+            Self::C(v) => write!(f, "C{}", v),
+            Self::P(v) => write!(f, "P{}", v),
+            Self::SP => write!(f, "SP"),
+            Self::FP => write!(f, "FP"),
+            Self::LR => write!(f, "LR"),
+            Self::PC => write!(f, "PC"),
+            Self::USR => write!(f, "USR"),
+        }
+    }
+}
+
 #[derive(Clone, Copy)]
 pub enum Register64 {
     R(usize), // usize must be odd number
     C(usize), // usize must be odd number
+}
+
+impl fmt::Display for Register64 {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::R(v) => write!(f, "R{}:{}", v, v - 1),
+            Self::C(v) => write!(f, "C{}:{}", v, v - 1),
+        }
+    }
 }
 
 #[derive(Clone)]

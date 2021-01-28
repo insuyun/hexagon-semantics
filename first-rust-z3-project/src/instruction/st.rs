@@ -1,3 +1,4 @@
+use std::fmt;
 use z3::{ast::BV, Context};
 
 use crate::memory::Memory;
@@ -25,6 +26,14 @@ impl<'ctx> StInstruction {
                 let addr = old_set.get_register(*rs) + BV::from_i64(&ctx, *imm as i64, 32);
                 memory.store_byte(&addr, &old_set.get_register(*rt));
             }
+        }
+    }
+}
+
+impl fmt::Display for StInstruction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::StoreByteIo { rs, rt, imm } => write!(f, "memb({} + {}) = {}", rs, imm, rt),
         }
     }
 }

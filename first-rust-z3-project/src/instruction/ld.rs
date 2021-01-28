@@ -1,3 +1,4 @@
+use std::fmt;
 use z3::{ast::BV, Context};
 
 use crate::memory::Memory;
@@ -26,6 +27,14 @@ impl<'ctx> LdInstruction {
                 let value = memory.load_byte(&addr);
                 new_set.set_register(*rd, value);
             }
+        }
+    }
+}
+
+impl fmt::Display for LdInstruction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::LoadByteIo { rs, rd, imm } => write!(f, "{} = memb({} + {})", rd, rs, imm),
         }
     }
 }
