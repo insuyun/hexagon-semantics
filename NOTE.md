@@ -55,3 +55,8 @@ Questions
     - hardware? is it availalble?
 
 - Can we systematically convert formal semantics into sleigh?
+
+
+Resources
+---------
+- Qualcomm firmware: https://drive.google.com/file/d/13v_uTmlkkRXvcYhjyRLVcjbXY-XDL1T0/view
