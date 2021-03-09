@@ -3,6 +3,9 @@
 #include <iostream>
 #include <assert.h>
 #include <cstring>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -48,20 +51,47 @@ using namespace std;
 
 
 
-void PcCallback(void *issPtr) {
+void BeginPcCallback(void *issPtr) {
   HexagonWrapper *iss = (HexagonWrapper *) issPtr;
-  HEX_4u_t r0, r1, r2, r3, r4, r5;
+  HEX_4u_t r[32];
   HEX_4u_t threadId;
 
   assert(iss->GetCurrentHWThreadNum(&threadId) == HEX_STAT_SUCCESS);
-  assert(iss->ReadThreadRegister(threadId, TH_REG_R0, &r0)==HEX_STAT_SUCCESS);
-  assert(iss->ReadThreadRegister(threadId, TH_REG_R1, &r1)==HEX_STAT_SUCCESS);
-  assert(iss->ReadThreadRegister(threadId, TH_REG_R2, &r2)==HEX_STAT_SUCCESS);
-  assert(iss->ReadThreadRegister(threadId, TH_REG_R3, &r3)==HEX_STAT_SUCCESS);
-  assert(iss->ReadThreadRegister(threadId, TH_REG_R4, &r4)==HEX_STAT_SUCCESS);
-  assert(iss->ReadThreadRegister(threadId, TH_REG_R5, &r5)==HEX_STAT_SUCCESS);
 
-  printf(">>>>Entering:\n\tr0=%d, r1=%d, r2=%d, r3=%d, r4=%d, r5=%d\n", r0, r1, r2, r3, r4, r5);
+  int urandom = open("/dev/urandom", O_RDONLY);
+  for (int i = 0; i < 29; i++) {
+    HEX_4u_t val;
+    read(urandom, &val, 4);
+    assert(iss->WriteThreadRegister(threadId, static_cast<thread_register_t>(TH_REG_R0 + i), val)==HEX_STAT_SUCCESS);
+  }
+
+  for (int i = 0; i < 32; i++) {
+    assert(iss->ReadThreadRegister(threadId, static_cast<thread_register_t>(TH_REG_R0 + i), &r[i])==HEX_STAT_SUCCESS);
+  }
+
+  printf(">>>>Entering (Begin):\n\t");
+  for (unsigned int i = 0; i < 32; i++) {
+    printf("r%u=%u ", i, r[i]);
+  }
+  printf("\n");
+}
+
+void EndPcCallback(void *issPtr) {
+  HexagonWrapper *iss = (HexagonWrapper *) issPtr;
+  HEX_4u_t r[32];
+  HEX_4u_t threadId;
+
+  assert(iss->GetCurrentHWThreadNum(&threadId) == HEX_STAT_SUCCESS);
+
+  for (int i = 0; i < 32; i++) {
+    assert(iss->ReadThreadRegister(threadId, static_cast<thread_register_t>(TH_REG_R0 + i), &r[i])==HEX_STAT_SUCCESS);
+  }
+
+  printf(">>>>Entering (End):\n\t");
+  for (unsigned int i = 0; i < 32; i++) {
+    printf("r%u=%u ", i, r[i]);
+  }
+  printf("\n");
 }
 
 int main(int argc, char **argv) {
@@ -119,11 +149,11 @@ int main(int argc, char **argv) {
 
   HEX_4u_t start_addr= 0;
   CHECK_FATAL_RC(iss->ReadSymbolValue("__begin", &start_addr), -1);
-  iss->AddPCCallback(iss, start_addr, PcCallback);
+  iss->AddPCCallback(iss, start_addr, BeginPcCallback);
 
   HEX_4u_t end_addr;
   CHECK_FATAL_RC(iss->ReadSymbolValue("__end", &end_addr), -1);
-  iss->AddPCCallback(iss, end_addr, PcCallback);
+  iss->AddPCCallback(iss, end_addr, EndPcCallback);
 
   state = iss->Run(&runResult);
 
