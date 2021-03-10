@@ -1,0 +1,3 @@
+[submodule "qemu-hexagon"]
+	path = qemu-hexagon
+	url = https://github.com/revng/qemu-hexagon
