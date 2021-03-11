@@ -1,7 +1,7 @@
-diff --git tests/docker/Makefile.include tests/docker/Makefile.include
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
 index 43a8678688..469ae96dd8 100644
---- tests/docker/Makefile.include
-+++ tests/docker/Makefile.include
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
 @@ -126,6 +126,7 @@ docker-image-debian-riscv64-cross: docker-image-debian10
  docker-image-debian-s390x-cross: docker-image-debian10
  docker-image-debian-sh4-cross: docker-image-debian10
@@ -10,13 +10,20 @@ index 43a8678688..469ae96dd8 100644
  
  docker-image-travis: NOUSER=1
  
-diff --git tests/docker/dockerfiles/debian-hexagon-cross.docker tests/docker/dockerfiles/debian-hexagon-cross.docker
-index 355adbfbc5..5fa91e0500 100644
---- tests/docker/dockerfiles/debian-hexagon-cross.docker
-+++ tests/docker/dockerfiles/debian-hexagon-cross.docker
-@@ -1,4 +1,4 @@
+diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+index 355adbfbc5..8fede1e575 100644
+--- a/tests/docker/dockerfiles/debian-hexagon-cross.docker
++++ b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+@@ -1,7 +1,10 @@
 -FROM debian:10
 +FROM qemu:debian10
  
  RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive \
+-    DEBIAN_FRONTEND=noninteractive \
++    DEBIAN_FRONTEND=noninteractive eatmydata \
++    apt build-dep -yy qemu
++
++RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
+         ca-certificates build-essential cmake clang lld ninja-build \
+ 	flex bison pkg-config wget python3 rsync
