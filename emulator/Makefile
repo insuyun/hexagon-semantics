@@ -14,7 +14,7 @@ CXX_HEXAGON := ${HEXAGON_TOOLS_ROOT}/Tools/bin/hexagon-clang++
 
 SRC_TOP := $(shell pwd)
 SYSTEM_NAME = hexagon-system
-TARGET := hello
+TARGET := main
 TEST_DIR := $(SRC_TOP)/src
 BIN_DIR := $(SRC_TOP)/bin
 
