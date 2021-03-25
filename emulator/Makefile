@@ -15,8 +15,8 @@ CXX_HEXAGON := ${HEXAGON_TOOLS_ROOT}/Tools/bin/hexagon-clang++
 SRC_TOP := $(shell pwd)
 SYSTEM_NAME = hexagon-system
 TARGET := main
-TEST_DIR := $(SRC_TOP)/src
-BIN_DIR := $(SRC_TOP)/bin
+TEST_DIR := "$(SRC_TOP)/src"
+BIN_DIR := "$(SRC_TOP)/bin"
 
 RELEASE_DIR := ${HEXAGON_TOOLS_ROOT}/Tools
 INCLUDE_DIR := ${RELEASE_DIR}/include/iss
