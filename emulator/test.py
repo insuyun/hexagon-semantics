@@ -25,16 +25,21 @@ def fill_insn(insn, c, val):
 def generate_random_inst(idx):
     global used_regs
 
-    if idx == 0:
-        picked_insns = insns['alu32']
-    elif idx == 1:
-        picked_insns = insns['alu32']
-    elif idx == 2:
+    if idx == 0: # Slot 3
         picked_insns = insns['alu32'] + insns['xtype']
-    elif idx == 3:
+    elif idx == 1: # Slot 2
         picked_insns = insns['alu32'] + insns['xtype']
+    elif idx == 2: # Slot 1
+        picked_insns = insns['alu32']
+    elif idx == 3: # Slot 0
+        picked_insns = insns['alu32']
     
-    insn = random.choice(picked_insns)[:]
+    # TODO: Support .new instruction
+    while True:
+        insn = random.choice(picked_insns)[:]
+        if '.new' in insn[-1]:
+            continue
+        break
 
     # TODO: Support loop end instruction?
     if idx <= 2:
@@ -60,10 +65,10 @@ def generate_random_inst(idx):
         # Avoid double-writing
         while True:
             if 'R' + c + c in insn[-1] and insn.count(c) == 5:
-                val = random.randint(0, 2 ** count - 2)
+                val = random.randint(0, min(2 ** count - 2, 27))
                 used = set([val, val + 1])
             else:
-                val = random.randint(0, 2 ** count - 1)
+                val = random.randint(0, min(2 ** count - 1, 28))
                 used = set([val])
             
             if used_regs & used:
@@ -76,7 +81,7 @@ def generate_random_inst(idx):
     
     print(insn)
     s = ''.join(insn[:32])
-    return int(s, 2).to_bytes((len(s) + 7) // 8, byteorder='big')
+    return int(s, 2).to_bytes((len(s) + 7) // 8, byteorder='little')
 
 def generate_random_packet():
     global used_regs
@@ -110,28 +115,28 @@ def read_instructions_csv():
 def main():
     read_instructions_csv()
 
-    packet = generate_random_packet()
+    while True:
+        packet = generate_random_packet()
 
-    with open('src/main.elf', 'rb') as f:
-        data = bytearray(f.read())
-    
-    # better solution?
-    data[0x70e4:0x70e4 + 16] = packet
+        with open('src/main.elf', 'rb') as f:
+            data = bytearray(f.read())
+        
+        # better solution?
+        data[0x70e4:0x70e4 + 16] = packet
 
-    with open('bin/main.elf', 'wb') as f:
-        f.write(data)
+        with open('bin/main.elf', 'wb') as f:
+            f.write(data)
 
-    print(packet)
-    exit(0)
+        proc = subprocess.Popen(['make', 'sim'], stdout=subprocess.PIPE)
+        l = proc.stdout.read()
+        print(l)
+        if b'CRASH' in l:
+            break
+        proc.communicate()[0]
+        if proc.returncode != 0:
+            print(proc.returncode)
+            exit(0)
 
-    set_program(packet)
-    proc = subprocess.Popen(['make'], stdout=subprocess.PIPE)
-    for line in proc.stdout:
-        print(line.rstrip())
-    proc.communicate()[0]
-    if proc.returncode != 0:
-        print(proc.returncode)
-        exit(0)
 
 if __name__ == "__main__":
     main()
