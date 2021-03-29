@@ -34,7 +34,7 @@ SIMFLAGS =  -m$(Q6VERSION) -G 0 $(BIN_DIR)/$(TARGET).elf
 CFLAGS = -m$(Q6VERSION) -g
 
 
-all: clean build sim
+all: clean build
 
 clean:
 	rm -rf $(BIN_DIR) pmu_statsfile.txt stats.txt
@@ -48,6 +48,6 @@ build:
 
 sim:
 	LD_LIBRARY_PATH=$(LIB_DIR):$(LIB_DIR)/iss \
-	$(BIN_DIR)/$(SYSTEM_NAME) $(SIMFLAGS)
+	$(BIN_DIR)/$(SYSTEM_NAME) $(SIMFLAGS) $(reg_input)
 
 

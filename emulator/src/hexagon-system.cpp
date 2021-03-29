@@ -51,10 +51,10 @@ class HexagonSimulator {
     HexagonWrapper *iss;
     HEX_4u_t reg[29];
 
-    HexagonSimulator(HexagonWrapper *iss) {
+    HexagonSimulator(HexagonWrapper *iss, char *input_filename) {
         this->iss = iss;
 
-        int urandom = open("/dev/urandom", O_RDONLY);
+        int urandom = open(input_filename, O_RDONLY);
         for (int i = 0; i < 29; i++) {
             read(urandom, &this->reg[i], sizeof(HEX_4u_t));
         }
@@ -79,7 +79,7 @@ void begin_pc_callback(void *issPtr) {
 
     printf(">>>>Entering (Begin):\n\t");
     for (unsigned int i = 0; i < 32; i++) {
-        printf("r%u=%u ", i, r[i]);
+        printf("r%u=%x ", i, r[i]);
     }
     printf("\n");
 }
@@ -98,7 +98,7 @@ void end_pc_callback(void *issPtr) {
 
     printf(">>>>Entering (End):\n\t");
     for (unsigned int i = 0; i < 32; i++) {
-        printf("r%u=%u ", i, r[i]);
+        printf("r%u=%x ", i, r[i]);
     }
     printf("\n");
 }
@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
 
     if (argc < 5)
     {
-        print_msg ("Syntax:\n" << argv[0] << " -mv<version> -G <port> [<elf>]");
+        print_msg ("Syntax:\n" << argv[0] << " -mv<version> -G <port> [<elf>] (<register data file>)");
         return -1;
     }
 
@@ -128,8 +128,13 @@ int main(int argc, char **argv) {
     dbgPort = atoi(argv[3]);
     elf = argv[4];
 
+    char *filename = "/dev/urandom";
+    if (argc == 6) {
+        filename = argv[5];
+    }
+
     iss = new HexagonWrapper(cpuStr);
-    sim = new HexagonSimulator(iss);
+    sim = new HexagonSimulator(iss, filename);
 
     print_msg ("New Hexagon instance: " << cpuStr << " iss=" << hex << iss << dec);
 

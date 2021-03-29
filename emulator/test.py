@@ -127,7 +127,15 @@ def main():
         with open('bin/main.elf', 'wb') as f:
             f.write(data)
 
-        proc = subprocess.Popen(['make', 'sim'], stdout=subprocess.PIPE)
+        with open('/dev/urandom', 'rb') as f:
+            reg_data = f.read(4 * 29)
+
+        print(reg_data.hex())
+        
+        with open('./reg_input', 'wb') as f:
+            f.write(reg_data)
+
+        proc = subprocess.Popen(['make', 'sim', 'reg_input=reg_input'], stdout=subprocess.PIPE)
         l = proc.stdout.read()
         print(l)
         if b'CRASH' in l:
