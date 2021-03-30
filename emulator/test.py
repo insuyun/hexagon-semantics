@@ -22,17 +22,17 @@ def fill_insn(insn, c, val):
             insn[idx] = str((val >> (count - 1)) & 1)
             count -= 1
 
-def generate_random_inst(idx):
+def generate_random_inst(slot):
     global used_regs
 
-    if idx == 0: # Slot 3
-        picked_insns = insns['alu32'] + insns['xtype']
-    elif idx == 1: # Slot 2
-        picked_insns = insns['alu32'] + insns['xtype']
-    elif idx == 2: # Slot 1
+    if slot == 0:
         picked_insns = insns['alu32']
-    elif idx == 3: # Slot 0
+    elif slot == 1:
         picked_insns = insns['alu32']
+    elif slot == 2:
+        picked_insns = insns['alu32'] + insns['xtype'] + insns['cr23']
+    elif slot == 3:
+        picked_insns = insns['alu32'] + insns['xtype'] + insns['cr23']
     
     # TODO: Support .new instruction
     while True:
@@ -42,7 +42,7 @@ def generate_random_inst(idx):
         break
 
     # TODO: Support loop end instruction?
-    if idx <= 2:
+    if slot:
         fill_insn(insn, 'P', 1)
     else:
         fill_insn(insn, 'P', 3)
@@ -88,10 +88,10 @@ def generate_random_packet():
     used_regs = set()
 
     return b''.join([
-        generate_random_inst(0),
-        generate_random_inst(1),
+        generate_random_inst(3),
         generate_random_inst(2),
-        generate_random_inst(3)
+        generate_random_inst(1),
+        generate_random_inst(0)
     ])
 
 def read_instructions_csv():
@@ -101,15 +101,39 @@ def read_instructions_csv():
         reader = csv.reader(f)
         rows = list(reader)
 
+    # ALU32 instructions
     insns['alu32'] = rows[:118]
-    insns['cr'] = rows[118:151]
-    insns['jr'] = rows[151:164]
-    insns['j'] = rows[164:258]
-    insns['ld'] = rows[258:470]
-    insns['memop'] = rows[470:494]
-    insns['nv'] = rows[494:616]
-    insns['st'] = rows[616:762]
-    insns['system'] = rows[762:843]
+
+    # CR instructions
+    # Slot 2, 3 
+    insns['cr23'] = rows[118:122] + rows[133:147]
+    # Add user control register transfer instructions
+    # insns['cr23'] += rows[147:151]
+    # Slot 3 only
+    # insns['cr3'] = rows[122:133]
+
+    # JR instructions
+    # insns['jr'] = rows[151:164]
+
+    # J instructions
+    # insns['j'] = rows[164:258]
+
+    # LD instructions
+    # insns['ld'] = rows[258:470]
+
+    # MEMOP instructions
+    # insns['memop'] = rows[470:494]
+
+    # NV instructions
+    # insns['nv'] = rows[494:616]
+
+    # ST instructions
+    # insns['st'] = rows[616:762]
+
+    # SYSTEM instructions
+    # insns['system'] = rows[762:843]
+
+    # XTYPE instructions
     insns['xtype'] = rows[843:]
 
 def main():
