@@ -64,12 +64,13 @@ def generate_random_inst(slot):
 
         # Avoid double-writing
         while True:
-            if 'R' + c + c in insn[-1] and insn.count(c) == 5:
+            if 'R' + c + c in insn[-1] and count == 5:
                 val = random.randint(0, min(2 ** count - 2, 27))
-                used = set([val, val + 1])
+                used = set(['R{}'.format(val), 'R{}'.format(val + 1)])
             else:
+                rtype = insn[-1][insn[-1].find(c) - 1]
                 val = random.randint(0, min(2 ** count - 1, 28))
-                used = set([val])
+                used = set(['{}{}'.format(rtype, val)])
             
             if used_regs & used:
                 continue
