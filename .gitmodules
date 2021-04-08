@@ -1,3 +1,3 @@
 [submodule "qemu"]
-	path = qemu
+	path = emulator/qemu
 	url = https://github.com/quic/qemu.git

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-import subprocess
-import random
 import csv
+import random
+import re
+import subprocess
 
 def set_program(packet):
     with open('src/template.c', 'r') as f:
@@ -12,7 +13,6 @@ def set_program(packet):
         f.write(data)
 
 insns = dict()
-used_regs = set()
 
 def fill_insn(insn, c, val):
     count = insn.count(c)
@@ -46,54 +46,51 @@ def generate_random_inst(slot):
         fill_insn(insn, 'P', 1)
     else:
         fill_insn(insn, 'P', 3)
+    fill_insn(insn, '-', 0)
 
-    for c in ['-', 'j', 'I', 'N', 's', 't', 'u', 'v']:
+    for c in ['j', 'I', 'N', 's', 't', 'u', 'v']:
         count = insn.count(c)
         if count == 0:
             continue
         if 'R' + c + c in insn[-1] and insn.count(c) == 5:
-            val = random.randint(0, 2 ** count - 2)
+            val = random.randint(0, min(2 ** count - 2, 8))
         else:
-            val = random.randint(0, 2 ** count - 1)
+            val = random.randint(0, min(2 ** count - 1, 9))
         fill_insn(insn, c, val)
-    
+
+    written = set()
+
     for c in ['d', 'x', 'y', 'e']:
         count = insn.count(c)
         if count == 0:
             continue
 
-        # Avoid double-writing
-        while True:
-            if 'R' + c + c in insn[-1] and count == 5:
-                val = random.randint(0, min(2 ** count - 2, 27))
-                used = set(['R{}'.format(val), 'R{}'.format(val + 1)])
-            else:
-                rtype = insn[-1][insn[-1].find(c) - 1]
-                val = random.randint(0, min(2 ** count - 1, 28))
-                used = set(['{}{}'.format(rtype, val)])
-            
-            if used_regs & used:
-                continue
-
-            used_regs |= used
-            break
-
+        if 'R' + c + c in insn[-1]:
+            val = random.randint(0, min(2 ** count - 1, 8))
+            written |= set(['R{}'.format(val), 'R{}'.format(val + 1)])
+        else:
+            rtype = insn[-1][insn[-1].find(c) - 1]
+            val = random.randint(0, min(2 ** count - 1, 9))
+            written |= set(['{}{}'.format(rtype, val)])
         fill_insn(insn, c, val)
     
-    print(insn)
     s = ''.join(insn[:32])
-    return int(s, 2).to_bytes((len(s) + 7) // 8, byteorder='little')
+    return int(s, 2).to_bytes((len(s) + 7) // 8, byteorder='little'), insn, written
 
 def generate_random_packet():
-    global used_regs
-    used_regs = set()
+    # Avoid double-writing
+    while True:
 
-    return b''.join([
-        generate_random_inst(3),
-        generate_random_inst(2),
-        generate_random_inst(1),
-        generate_random_inst(0)
-    ])
+        res = [generate_random_inst(i) for i in range(4)]
+
+        if (len(res[0][2] | res[1][2] | res[2][2] | res[3][2]) !=
+            len(res[0][2]) + len(res[1][2]) + len(res[2][2]) + len(res[3][2])):
+            continue
+        
+        for i in range(4):
+            print(res[i][1])
+
+        return b''.join(res[i][0] for i in reversed(range(4)))
 
 def read_instructions_csv():
     global insns
@@ -137,35 +134,62 @@ def read_instructions_csv():
     # XTYPE instructions
     insns['xtype'] = rows[843:]
 
+
+def read_output(output):
+    prog = re.compile(rb'([RC][0-9]{1,2}): ([0-9]{1,10})')
+
+    inputs, outputs = {}, {}
+    for line in output.split(b'\n'):
+        res = prog.match(line)
+        if not res: continue
+        name, value = res.group(1).decode(), int(res.group(2))
+
+        if name not in inputs:
+            inputs[name] = value
+        else:
+            outputs[name] = value
+    
+    return inputs, outputs
+
 def main():
     read_instructions_csv()
 
     while True:
         packet = generate_random_packet()
 
-        with open('src/main.elf', 'rb') as f:
+        with open('bin/template.elf', 'rb') as f:
             data = bytearray(f.read())
         
-        # better solution?
-        data[0x70e4:0x70e4 + 16] = packet
+        # Find 4 nops to replace
+        nops = data.find(
+            b'\x04\xc0\x2b\x62' +
+            b'\x00\x40\x00\x7f' * 3 +
+            b'\x00\xc0\x00\x7f' +
+            b'\x0b\xc0\x04\x6a'
+        ) + 4
+        data[nops:nops + 16] = packet
 
         with open('bin/main.elf', 'wb') as f:
             f.write(data)
 
         with open('/dev/urandom', 'rb') as f:
-            reg_data = f.read(4 * 29)
+            reg_data = f.read(4 * 11)
 
         print(reg_data.hex())
-        
-        with open('./reg_input', 'wb') as f:
-            f.write(reg_data)
 
-        proc = subprocess.Popen(['make', 'sim', 'reg_input=reg_input'], stdout=subprocess.PIPE)
-        l = proc.stdout.read()
-        print(l)
-        if b'CRASH' in l:
+        proc = subprocess.run(['make', 'sim', '-s'],
+            input=reg_data,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+
+        if b'CRASH' in proc.stdout:
             break
-        proc.communicate()[0]
+        inputs, outputs = read_output(proc.stdout)
+
+        print(inputs)
+        print(outputs)
+
         if proc.returncode != 0:
             print(proc.returncode)
             exit(0)
