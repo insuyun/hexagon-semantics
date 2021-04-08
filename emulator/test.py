@@ -61,6 +61,9 @@ def generate_random_inst(slot):
 
     written = set()
 
+    if 'decbin' in insn[-1]:
+        written.add('P0')
+
     for c in ['d', 'x', 'y', 'e']:
         count = insn.count(c)
         if count == 0:
