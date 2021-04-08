@@ -16,3 +16,6 @@
 # 2020-10-12
 - understand decoding part
 - check stoke or complete-semantics code
+
+# 2021-04-08
+- emulator multiprocessing

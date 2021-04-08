@@ -3,6 +3,7 @@
 import csv
 import random
 import re
+import socket
 import subprocess
 
 def set_program(packet):
@@ -151,49 +152,66 @@ def read_output(output):
     
     return inputs, outputs
 
+def run_sim(packet, reg_data):
+    with open('bin/template.elf', 'rb') as f:
+        data = bytearray(f.read())
+    
+    # Find 4 nops to replace
+    nops = data.find(
+        b'\x04\xc0\x2b\x62' +
+        b'\x00\x40\x00\x7f' * 3 +
+        b'\x00\xc0\x00\x7f' +
+        b'\x0b\xc0\x04\x6a'
+    ) + 4
+    data[nops:nops + 16] = packet
+
+    with open('bin/main.elf', 'wb') as f:
+        f.write(data)
+
+    proc = subprocess.run(['make', 'sim', '-s'],
+        input=reg_data,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+
+    if b'CRASH' in proc.stdout:
+        return None, None
+    inputs, outputs = read_output(proc.stdout)
+    return inputs, outputs
+
+
+def run_qemu(packet, reg_data):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect(('localhost', 9000))
+        s.send(packet + reg_data)
+        data = s.recv(1024)
+    
+    if b'CRASH' in data:
+        return None, None
+    inputs, outputs = read_output(data)
+    return inputs, outputs
+
+
 def main():
     read_instructions_csv()
 
     while True:
         packet = generate_random_packet()
-
-        with open('bin/template.elf', 'rb') as f:
-            data = bytearray(f.read())
-        
-        # Find 4 nops to replace
-        nops = data.find(
-            b'\x04\xc0\x2b\x62' +
-            b'\x00\x40\x00\x7f' * 3 +
-            b'\x00\xc0\x00\x7f' +
-            b'\x0b\xc0\x04\x6a'
-        ) + 4
-        data[nops:nops + 16] = packet
-
-        with open('bin/main.elf', 'wb') as f:
-            f.write(data)
-
         with open('/dev/urandom', 'rb') as f:
             reg_data = f.read(4 * 11)
 
-        print(reg_data.hex())
+        sim_inputs, sim_outputs = run_sim(packet, reg_data)
+        qemu_inputs, qemu_outputs = run_qemu(packet, reg_data)
 
-        proc = subprocess.run(['make', 'sim', '-s'],
-            input=reg_data,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
+        print("inputs: ")
+        print(sim_inputs)
+        print(qemu_inputs)
+        print("outputs: ")
+        print(sim_outputs)
+        print(qemu_outputs)
 
-        if b'CRASH' in proc.stdout:
+        if sim_inputs != qemu_inputs or sim_outputs != qemu_outputs:
             break
-        inputs, outputs = read_output(proc.stdout)
-
-        print(inputs)
-        print(outputs)
-
-        if proc.returncode != 0:
-            print(proc.returncode)
-            exit(0)
-
 
 if __name__ == "__main__":
     main()
