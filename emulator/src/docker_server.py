@@ -21,7 +21,7 @@ class ThreadedServer(object):
             # Find 4 nops to replace
             nops = (
                 binary_data.find(
-                    b"\x04\xc0\x2b\x62"
+                    b"\x08\xc0\x2c\x62"
                     + b"\x00\x40\x00\x7f" * 3
                     + b"\x00\xc0\x00\x7f"
                     + b"\x0b\xc0\x04\x6a"

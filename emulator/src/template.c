@@ -34,11 +34,13 @@ int main()
         "R12 = memw(R10 + #44);"
         "} {"
         "C4 = R11;"
+        "} {"
         "C8 = R12;"
         "} {"
         " nop; nop; nop; nop; "
         "} {"
         "R11 = C4;"
+        "} {"
         "R12 = C8;"
         "} {"
         "memw(R10 + #40) = R11;"
@@ -64,4 +66,5 @@ int main()
         printf("R%d: %u\n", i, registers[i]);
     }
     printf("C4: %u\n", registers[10]);
+    printf("C8: %u\n", registers[11]);
 }

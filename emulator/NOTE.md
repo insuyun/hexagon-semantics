@@ -46,6 +46,4 @@ outputs:
 {'R0': 2599383856, 'R1': 3095240336, 'R2': 1073741824, 'R3': 3944111573, 'R4': 1234868473, 'R5': 2, 'R6': 3474748503, 'R7': 3652665847, 'R8': 1234868473, 'R9': 3652665847, 'C4': 0}
 ```
 
-- Refactoring 필요
-- Instruction 친절하게 출력하는 것도 필요
-- INVALID Flag 등 control register를 바꾸는 경우가 있음. 이 값도 입/출력해서 비교할 필요 있음.
+- User status register의 field 중 read할 때 0만 반환해야하는 reserved field에 대해서 검증 필요

@@ -218,7 +218,8 @@ def generate_input():
         user_status[0] &= 0b00111110
         user_status[1] &= 0b11111100
         user_status[2] &= 0b11000001
-        user_status[3] &= 0b10000000
+        # What the hell is wrong with IEEE trap enable fields?
+        user_status[3] &= 0b00000000
 
         # [16:15] HFI cannot be 11
         if user_status[1] & 0b10000000 and user_status[2] & 0b00000001:
@@ -253,7 +254,7 @@ def run_sim(packet, inputs):
     # Find 4 nops to replace
     nops = (
         data.find(
-            b"\x04\xc0\x2b\x62"
+            b"\x08\xc0\x2c\x62"
             + b"\x00\x40\x00\x7f" * 3
             + b"\x00\xc0\x00\x7f"
             + b"\x0b\xc0\x04\x6a"
