@@ -6,123 +6,8 @@ import re
 import socket
 import subprocess
 
-def set_program(packet):
-    with open('src/template.c', 'r') as f:
-        data = f.read()
-    data = data.format(packet)
-    with open('src/main.c', 'w') as f:
-        f.write(data)
 
-insns = dict()
-
-def fill_insn(insn, c, val):
-    count = insn.count(c)
-    
-    for idx in range(32):
-        if insn[idx] == c:
-            insn[idx] = str((val >> (count - 1)) & 1)
-            count -= 1
-
-def generate_random_inst(slot):
-    global used_regs
-
-    if slot == 0:
-        picked_insns = insns['alu32']
-    elif slot == 1:
-        picked_insns = insns['alu32']
-    elif slot == 2:
-        picked_insns = insns['alu32'] + insns['xtype'] + insns['cr23']
-    elif slot == 3:
-        picked_insns = insns['alu32'] + insns['xtype'] + insns['cr23']
-    
-    # TODO: Support .new instruction
-    while True:
-        insn = random.choice(picked_insns)[:]
-        if '.new' in insn[-1] or 'deprecated' in insn[-1]:
-            continue
-        break
-
-    # TODO: Support loop end instruction?
-    if slot:
-        fill_insn(insn, 'P', 1)
-    else:
-        fill_insn(insn, 'P', 3)
-    fill_insn(insn, '-', 0)
-
-    for c in ['j', 'I', 'N', 's', 't', 'u', 'v']:
-        count = insn.count(c)
-        if count == 0:
-            continue
-        print(insn[-1], c, r'([RPC]' + c + r'{1,2})')
-
-        if c == 'j':
-            istr = re.search(r'(#[su][0-9]{1,2})', insn[-1]).group(1)
-        elif c == 'I':
-            istr = re.search(r'(#[SU][0-9]{1,2})', insn[-1]).group(1)
-        elif c == 'N':
-            istr = '[:<<N]'
-        else:
-            istr = re.search(r'([RPC]' + c + r'{1,2})', insn[-1]).group(1)
-
-        if 'R' + c + c == istr:
-            val = random.randint(0, min(2 ** count - 1, 8))
-        else:
-            val = random.randint(0, min(2 ** count - 1, 9))
-        
-        if c in ['j', 'I']:
-            insn[-1] = insn[-1].replace(istr, '#{}{}'.format(val, istr[1:]))
-        elif c == 'N' and val:
-            assert val == 1
-            insn[-1] = insn[-1].replace(istr, '<<1')
-        elif c == 'N' and not val:
-            insn[-1] = insn[-1].replace(istr, '')
-        elif 'R' + c + c == istr:
-            insn[-1] = insn[-1].replace(istr, '{}{}:{}'.format(istr[0], val+1, val))
-        else:
-            insn[-1] = insn[-1].replace(istr, '{}{}'.format(istr[0], val))
-        fill_insn(insn, c, val)
-
-    written = set()
-
-    if 'decbin' in insn[-1]:
-        written.add('P0')
-
-    for c in ['d', 'x', 'y', 'e']:
-        count = insn.count(c)
-        if count == 0:
-            continue
-        istr = re.search(r'([RPC]' + c + r'{1,2})', insn[-1]).group(1)
-
-        if 'R' + c + c == istr:
-            val = random.randint(0, min(2 ** count - 1, 8))
-            written |= set(['R{}'.format(val), 'R{}'.format(val + 1)])
-        else:
-            val = random.randint(0, min(2 ** count - 1, 9))
-            written |= set(['{}{}'.format(istr[0], val)])
-        
-        if 'R' + c + c == istr:
-            insn[-1] = insn[-1].replace(istr, '{}{}:{}'.format(istr[0], val+1, val))
-        else:
-            insn[-1] = insn[-1].replace(istr, '{}{}'.format(istr[0], val))
-        fill_insn(insn, c, val)
-    
-    s = ''.join(insn[:32])
-    return int(s, 2).to_bytes((len(s) + 7) // 8, byteorder='little'), insn, written
-
-def generate_random_packet():
-    # Avoid double-writing
-    while True:
-
-        res = [generate_random_inst(i) for i in range(4)]
-
-        if (len(res[0][2] | res[1][2] | res[2][2] | res[3][2]) !=
-            len(res[0][2]) + len(res[1][2]) + len(res[2][2]) + len(res[3][2])):
-            continue
-        
-        for i in range(4):
-            print(res[i][1])
-
-        return b''.join(res[i][0] for i in reversed(range(4))), [res[i][1] for i in range(4)]
+insns = {}
 
 def read_instructions_csv():
     global insns
@@ -166,6 +51,148 @@ def read_instructions_csv():
     # XTYPE instructions
     insns['xtype'] = rows[843:]
 
+read_instructions_csv()
+
+
+class Instruction:
+
+    def __init__(self, insn_bits, orig_insn_bits, insn_str, written):
+        self.insn_bits = insn_bits
+        self.orig_insn_bits = orig_insn_bits
+        self.insn_str = insn_str
+        self.written = written
+
+        s = ''.join(insn_bits[:32])
+        self.insn_byte = int(s, 2).to_bytes((len(s) + 7) // 8, byteorder='little')
+
+    def print_insn(self, indent=0):
+        print(' ' * (indent + 49) + ''.join(self.orig_insn_bits))
+        print(' ' * indent + f'{self.insn_str:48s} ' + ''.join(self.insn_bits))
+
+    @staticmethod
+    def fill_insn_bits(insn_bits, c, val):
+        count = insn_bits.count(c)
+        
+        for idx in range(32):
+            if insn_bits[idx] == c:
+                insn_bits[idx] = str((val >> (count - 1)) & 1)
+                count -= 1
+
+    @classmethod
+    def generate_random_inst(cls, slot):
+        global insns
+
+        if slot == 0:
+            picked_insns = insns['alu32']
+        elif slot == 1:
+            picked_insns = insns['alu32']
+        elif slot == 2:
+            picked_insns = insns['alu32'] + insns['xtype'] + insns['cr23']
+        elif slot == 3:
+            picked_insns = insns['alu32'] + insns['xtype'] + insns['cr23']
+        
+        # TODO: Support .new instruction
+        while True:
+            picked = random.choice(picked_insns)[:]
+
+            insn_bits, insn_str = picked[:-1], picked[-1]
+            orig_insn_bits = insn_bits[:]
+            if '.new' in insn_str or 'deprecated' in insn_str:
+                continue
+            break
+
+        # TODO: Support loop end instruction?
+        if slot:
+            cls.fill_insn_bits(insn_bits, 'P', 1)
+        else:
+            cls.fill_insn_bits(insn_bits, 'P', 3)
+        cls.fill_insn_bits(insn_bits, '-', 0)
+
+        for c in ['j', 'I', 'N', 's', 't', 'u', 'v']:
+            count = insn_bits.count(c)
+            if count == 0:
+                continue
+
+            if c == 'j':
+                opstr = re.search(r'(#[su][0-9]{1,2})', insn_str).group(1)
+            elif c == 'I':
+                opstr = re.search(r'(#[SU][0-9]{1,2})', insn_str).group(1)
+            elif c == 'N':
+                opstr = '[:<<N]'
+            else:
+                opstr = re.search(r'([RPC]' + c + r'{1,2})', insn_str).group(1)
+
+            if 'R' + c + c == opstr:
+                val = random.randint(0, min(2 ** count - 1, 8))
+            else:
+                val = random.randint(0, min(2 ** count - 1, 9))
+            
+            if c in ['j', 'I']:
+                insn_str = insn_str.replace(opstr, '#{}{}'.format(val, opstr[1:]))
+            elif c == 'N' and val:
+                assert val == 1
+                insn_str = insn_str.replace(opstr, ':<<1')
+            elif c == 'N' and not val:
+                insn_str = insn_str.replace(opstr, '')
+            elif 'R' + c + c == opstr:
+                insn_str = insn_str.replace(opstr, '{}{}:{}'.format(opstr[0], val+1, val))
+            else:
+                insn_str = insn_str.replace(opstr, '{}{}'.format(opstr[0], val))
+            cls.fill_insn_bits(insn_bits, c, val)
+
+        written = set()
+
+        if 'decbin' in insn_str:
+            written.add('P0')
+
+        for c in ['d', 'x', 'y', 'e']:
+            count = insn_bits.count(c)
+            if count == 0:
+                continue
+            opstr = re.search(r'([RPC]' + c + r'{1,2})', insn_str).group(1)
+
+            if 'R' + c + c == opstr:
+                val = random.randint(0, min(2 ** count - 1, 8))
+                written |= set(['R{}'.format(val), 'R{}'.format(val + 1)])
+            else:
+                val = random.randint(0, min(2 ** count - 1, 9))
+                written |= set(['{}{}'.format(opstr[0], val)])
+            
+            if 'R' + c + c == opstr:
+                insn_str = insn_str.replace(opstr, '{}{}:{}'.format(opstr[0], val+1, val))
+            else:
+                insn_str = insn_str.replace(opstr, '{}{}'.format(opstr[0], val))
+            cls.fill_insn_bits(insn_bits, c, val)
+        
+
+        return cls(insn_bits, orig_insn_bits, insn_str, written)
+
+class InstructionPacket:
+
+    def __init__(self, insns):
+        self.insns = insns
+
+    def get_bytes(self):
+        return b''.join(insn.insn_byte for insn in reversed(self.insns))
+
+    def is_valid(self):
+        all_written = set().union(*[insn.written for insn in self.insns])
+        return len(all_written) == sum(len(insn.written) for insn in self.insns)
+    
+    def print_packet(self):
+        print("{")
+        for insn in self.insns:
+            insn.print_insn(indent=4)
+        print("}")
+
+def generate_random_packet():
+    # Avoid double-writing
+    while True:
+        insns = [Instruction.generate_random_inst(i) for i in range(4)]
+        packet = InstructionPacket(insns)
+        if not packet.is_valid():
+            continue
+        return packet
 
 def read_output(output):
     prog = re.compile(rb'([RC][0-9]{1,2}): ([0-9]{1,10})')
@@ -195,7 +222,7 @@ def run_sim(packet, reg_data):
         b'\x00\xc0\x00\x7f' +
         b'\x0b\xc0\x04\x6a'
     ) + 4
-    data[nops:nops + 16] = packet
+    data[nops:nops + 16] = packet.get_bytes()
 
     with open('bin/main.elf', 'wb') as f:
         f.write(data)
@@ -217,7 +244,7 @@ def run_sim(packet, reg_data):
 def run_qemu(packet, reg_data):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(('localhost', 9000))
-        s.send(packet + reg_data)
+        s.send(packet.get_bytes() + reg_data)
         data = s.recv(1024)
     
     if b'CRASH' in data:
@@ -229,10 +256,8 @@ def run_qemu(packet, reg_data):
 
 
 def main():
-    read_instructions_csv()
-
     while True:
-        packet, insns = generate_random_packet()
+        packet = generate_random_packet()
         with open('/dev/urandom', 'rb') as f:
             reg_data = f.read(4 * 11)
 
@@ -241,8 +266,7 @@ def main():
 
         if sim_inputs != qemu_inputs or sim_outputs != qemu_outputs:
             print("insns: ")
-            for i in range(4):
-                print(insns[i])
+            packet.print_packet()
             print("inputs: ")
             print(sim_inputs)
             print(qemu_inputs)
