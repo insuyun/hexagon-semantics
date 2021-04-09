@@ -53,10 +53,33 @@ def generate_random_inst(slot):
         count = insn.count(c)
         if count == 0:
             continue
-        if 'R' + c + c in insn[-1] and insn.count(c) == 5:
-            val = random.randint(0, min(2 ** count - 2, 8))
+        print(insn[-1], c, r'([RPC]' + c + r'{1,2})')
+
+        if c == 'j':
+            istr = re.search(r'(#[su][0-9]{1,2})', insn[-1]).group(1)
+        elif c == 'I':
+            istr = re.search(r'(#[SU][0-9]{1,2})', insn[-1]).group(1)
+        elif c == 'N':
+            istr = '[:<<N]'
+        else:
+            istr = re.search(r'([RPC]' + c + r'{1,2})', insn[-1]).group(1)
+
+        if 'R' + c + c == istr:
+            val = random.randint(0, min(2 ** count - 1, 8))
         else:
             val = random.randint(0, min(2 ** count - 1, 9))
+        
+        if c in ['j', 'I']:
+            insn[-1] = insn[-1].replace(istr, '#{}{}'.format(val, istr[1:]))
+        elif c == 'N' and val:
+            assert val == 1
+            insn[-1] = insn[-1].replace(istr, '<<1')
+        elif c == 'N' and not val:
+            insn[-1] = insn[-1].replace(istr, '')
+        elif 'R' + c + c == istr:
+            insn[-1] = insn[-1].replace(istr, '{}{}:{}'.format(istr[0], val+1, val))
+        else:
+            insn[-1] = insn[-1].replace(istr, '{}{}'.format(istr[0], val))
         fill_insn(insn, c, val)
 
     written = set()
@@ -68,14 +91,19 @@ def generate_random_inst(slot):
         count = insn.count(c)
         if count == 0:
             continue
+        istr = re.search(r'([RPC]' + c + r'{1,2})', insn[-1]).group(1)
 
-        if 'R' + c + c in insn[-1]:
+        if 'R' + c + c == istr:
             val = random.randint(0, min(2 ** count - 1, 8))
             written |= set(['R{}'.format(val), 'R{}'.format(val + 1)])
         else:
-            rtype = insn[-1][insn[-1].find(c) - 1]
             val = random.randint(0, min(2 ** count - 1, 9))
-            written |= set(['{}{}'.format(rtype, val)])
+            written |= set(['{}{}'.format(istr[0], val)])
+        
+        if 'R' + c + c == istr:
+            insn[-1] = insn[-1].replace(istr, '{}{}:{}'.format(istr[0], val+1, val))
+        else:
+            insn[-1] = insn[-1].replace(istr, '{}{}'.format(istr[0], val))
         fill_insn(insn, c, val)
     
     s = ''.join(insn[:32])
@@ -90,6 +118,9 @@ def generate_random_packet():
         if (len(res[0][2] | res[1][2] | res[2][2] | res[3][2]) !=
             len(res[0][2]) + len(res[1][2]) + len(res[2][2]) + len(res[3][2])):
             continue
+        
+        for i in range(4):
+            print(res[i][1])
 
         return b''.join(res[i][0] for i in reversed(range(4))), [res[i][1] for i in range(4)]
 
