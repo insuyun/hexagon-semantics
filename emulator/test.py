@@ -200,6 +200,34 @@ class InstructionPacket:
             return packet
 
 
+def generate_input():
+    with open("/dev/urandom", "rb") as f:
+        general = f.read(4 * 10)
+
+        predicate = b""
+        for _ in range(4):
+            t = random.randint(0, 2)
+            if t == 0:
+                predicate += b"\x00"
+            elif t == 1:
+                predicate += b"\xff"
+            else:
+                predicate += f.read(1)
+
+        user_status = bytearray(f.read(4))
+        user_status[0] &= 0b00111110
+        user_status[1] &= 0b11111100
+        user_status[2] &= 0b11000001
+        user_status[3] &= 0b10000000
+
+        # [16:15] HFI cannot be 11
+        if user_status[1] & 0b10000000 and user_status[2] & 0b00000001:
+            user_status[1] &= 0b01111111
+            user_status[2] &= 0b11111110
+
+    return general + predicate + user_status
+
+
 def read_output(output):
     prog = re.compile(rb"([RC][0-9]{1,2}): ([0-9]{1,10})")
 
@@ -218,7 +246,7 @@ def read_output(output):
     return inputs, outputs
 
 
-def run_sim(packet, reg_data):
+def run_sim(packet, inputs):
     with open("bin/template.elf", "rb") as f:
         data = bytearray(f.read())
 
@@ -239,7 +267,7 @@ def run_sim(packet, reg_data):
 
     proc = subprocess.run(
         ["make", "sim", "-s"],
-        input=reg_data,
+        input=inputs,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
@@ -252,10 +280,10 @@ def run_sim(packet, reg_data):
     return inputs, outputs
 
 
-def run_qemu(packet, reg_data):
+def run_qemu(packet, inputs):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(("localhost", 9000))
-        s.send(packet.get_bytes() + reg_data)
+        s.send(packet.get_bytes() + inputs)
         data = s.recv(1024)
 
     if b"CRASH" in data:
@@ -269,11 +297,10 @@ def run_qemu(packet, reg_data):
 def main():
     while True:
         packet = InstructionPacket.generate()
-        with open("/dev/urandom", "rb") as f:
-            reg_data = f.read(4 * 11)
+        inputs = generate_input()
 
-        sim_inputs, sim_outputs = run_sim(packet, reg_data)
-        qemu_inputs, qemu_outputs = run_qemu(packet, reg_data)
+        sim_inputs, sim_outputs = run_sim(packet, inputs)
+        qemu_inputs, qemu_outputs = run_qemu(packet, inputs)
 
         if sim_inputs != qemu_inputs or sim_outputs != qemu_outputs:
             print("insns: ")
