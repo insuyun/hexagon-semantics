@@ -38,7 +38,7 @@ def generate_random_inst(slot):
     # TODO: Support .new instruction
     while True:
         insn = random.choice(picked_insns)[:]
-        if '.new' in insn[-1]:
+        if '.new' in insn[-1] or 'deprecated' in insn[-1]:
             continue
         break
 
@@ -90,11 +90,8 @@ def generate_random_packet():
         if (len(res[0][2] | res[1][2] | res[2][2] | res[3][2]) !=
             len(res[0][2]) + len(res[1][2]) + len(res[2][2]) + len(res[3][2])):
             continue
-        
-        for i in range(4):
-            print(res[i][1])
 
-        return b''.join(res[i][0] for i in reversed(range(4)))
+        return b''.join(res[i][0] for i in reversed(range(4))), [res[i][1] for i in range(4)]
 
 def read_instructions_csv():
     global insns
@@ -155,6 +152,7 @@ def read_output(output):
     
     return inputs, outputs
 
+
 def run_sim(packet, reg_data):
     with open('bin/template.elf', 'rb') as f:
         data = bytearray(f.read())
@@ -179,6 +177,8 @@ def run_sim(packet, reg_data):
 
     if b'CRASH' in proc.stdout:
         return None, None
+
+    # print(proc.stdout)
     inputs, outputs = read_output(proc.stdout)
     return inputs, outputs
 
@@ -191,6 +191,8 @@ def run_qemu(packet, reg_data):
     
     if b'CRASH' in data:
         return None, None
+    
+    # print(data)
     inputs, outputs = read_output(data)
     return inputs, outputs
 
@@ -199,22 +201,23 @@ def main():
     read_instructions_csv()
 
     while True:
-        packet = generate_random_packet()
+        packet, insns = generate_random_packet()
         with open('/dev/urandom', 'rb') as f:
             reg_data = f.read(4 * 11)
 
         sim_inputs, sim_outputs = run_sim(packet, reg_data)
         qemu_inputs, qemu_outputs = run_qemu(packet, reg_data)
 
-        print("inputs: ")
-        print(sim_inputs)
-        print(qemu_inputs)
-        print("outputs: ")
-        print(sim_outputs)
-        print(qemu_outputs)
-
         if sim_inputs != qemu_inputs or sim_outputs != qemu_outputs:
-            break
+            print("insns: ")
+            for i in range(4):
+                print(insns[i])
+            print("inputs: ")
+            print(sim_inputs)
+            print(qemu_inputs)
+            print("outputs: ")
+            print(sim_outputs)
+            print(qemu_outputs)
 
 if __name__ == "__main__":
     main()
