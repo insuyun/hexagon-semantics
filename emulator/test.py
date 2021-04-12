@@ -183,6 +183,9 @@ class InstructionPacket:
         all_written = set().union(*[insn.written for insn in self.insns])
         return len(all_written) == sum(len(insn.written) for insn in self.insns)
 
+    def get_written_reg(self):
+        return set().union(*[insn.written for insn in self.insns])
+
     def print_packet(self):
         print("{")
         for insn in self.insns:
@@ -312,6 +315,27 @@ def main():
             print("outputs: ")
             print(sim_outputs)
             print(qemu_outputs)
+        else:
+            written = packet.get_written_reg() | set(['C4', 'C8'])
+            flag = False
+            for key in sim_outputs:
+                if key in written:
+                    continue
+                
+                if sim_inputs[key] != sim_outputs[key] or qemu_inputs[key] != qemu_outputs[key]:
+                    flag = True
+                    break
+            
+            if flag:
+                print("insns: ")
+                packet.print_packet()
+                print("inputs: ")
+                print(sim_inputs)
+                print(qemu_inputs)
+                print("outputs: ")
+                print(sim_outputs)
+                print(qemu_outputs)
+                exit(0)
 
 
 if __name__ == "__main__":
