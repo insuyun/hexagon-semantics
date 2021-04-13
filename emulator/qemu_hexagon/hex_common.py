@@ -33,17 +33,17 @@ tags = []  # list of all tags
 # We should do this as a hash for performance,
 # but to keep order let's keep it as a list.
 def uniquify(seq):
-  seen = set()
-  seen_add = seen.add
-  return [x for x in seq if x not in seen and not seen_add(x)]
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if x not in seen and not seen_add(x)]
 
 
-regre = re.compile(
-    r"((?<!DUP)[MNORCPQXSGVZA])([stuvwxyzdefg]+)([.]?[LlHh]?)(\d+S?)")
+regre = re.compile(r"((?<!DUP)[MNORCPQXSGVZA])([stuvwxyzdefg]+)([.]?[LlHh]?)(\d+S?)")
 immre = re.compile(r"[#]([rRsSuUm])(\d+)(?:[:](\d+))?")
-reg_or_immre = \
-    re.compile(r"(((?<!DUP)[MNRCOPQXSGVZA])([stuvwxyzdefg]+)" + \
-                "([.]?[LlHh]?)(\d+S?))|([#]([rRsSuUm])(\d+)[:]?(\d+)?)")
+reg_or_immre = re.compile(
+    r"(((?<!DUP)[MNRCOPQXSGVZA])([stuvwxyzdefg]+)"
+    + "([.]?[LlHh]?)(\d+S?))|([#]([rRsSuUm])(\d+)[:]?(\d+)?)"
+)
 relimmre = re.compile(r"[#]([rR])(\d+)(?:[:](\d+))?")
 absimmre = re.compile(r"[#]([sSuUm])(\d+)(?:[:](\d+))?")
 
@@ -51,82 +51,81 @@ finished_macros = set()
 
 
 def expand_macro_attribs(macro, allmac_re):
-  if macro.key not in finished_macros:
-    # Get a list of all things that might be macros
-    l = allmac_re.findall(macro.beh)
-    for submacro in l:
-      if not submacro:
-        continue
-      if not macros[submacro]:
-        raise Exception("Couldn't find macro: <%s>" % l)
-      macro.attribs |= expand_macro_attribs(macros[submacro], allmac_re)
-      finished_macros.add(macro.key)
-  return macro.attribs
+    if macro.key not in finished_macros:
+        # Get a list of all things that might be macros
+        l = allmac_re.findall(macro.beh)
+        for submacro in l:
+            if not submacro:
+                continue
+            if not macros[submacro]:
+                raise Exception("Couldn't find macro: <%s>" % l)
+            macro.attribs |= expand_macro_attribs(macros[submacro], allmac_re)
+            finished_macros.add(macro.key)
+    return macro.attribs
 
 
-immextre = re.compile(r'f(MUST_)?IMMEXT[(]([UuSsRr])')
+immextre = re.compile(r"f(MUST_)?IMMEXT[(]([UuSsRr])")
 
 
 def calculate_attribs():
-  # Recurse down macros, find attributes from sub-macros
-  macroValues = list(macros.values())
-  allmacros_restr = "|".join(set([m.re.pattern for m in macroValues]))
-  allmacros_re = re.compile(allmacros_restr)
-  for macro in macroValues:
-    expand_macro_attribs(macro, allmacros_re)
-  # Append attributes to all instructions
-  for tag in tags:
-    for macname in allmacros_re.findall(semdict[tag]):
-      if not macname:
-        continue
-      macro = macros[macname]
-      attribdict[tag] |= set(macro.attribs)
+    # Recurse down macros, find attributes from sub-macros
+    macroValues = list(macros.values())
+    allmacros_restr = "|".join(set([m.re.pattern for m in macroValues]))
+    allmacros_re = re.compile(allmacros_restr)
+    for macro in macroValues:
+        expand_macro_attribs(macro, allmacros_re)
+    # Append attributes to all instructions
+    for tag in tags:
+        for macname in allmacros_re.findall(semdict[tag]):
+            if not macname:
+                continue
+            macro = macros[macname]
+            attribdict[tag] |= set(macro.attribs)
 
 
 def SEMANTICS(tag, beh, sem):
-  #print tag,beh,sem
-  behdict[tag] = beh
-  semdict[tag] = sem
-  attribdict[tag] = set()
-  tags.append(tag)  # dicts have no order, this is for order
+    # print tag,beh,sem
+    behdict[tag] = beh
+    semdict[tag] = sem
+    attribdict[tag] = set()
+    tags.append(tag)  # dicts have no order, this is for order
 
 
 def ATTRIBUTES(tag, attribstring):
-  attribstring = \
-      attribstring.replace("ATTRIBS","").replace("(","").replace(")","")
-  if not attribstring:
-    return
-  attribs = attribstring.split(",")
-  for attrib in attribs:
-    attribdict[tag].add(attrib.strip())
+    attribstring = attribstring.replace("ATTRIBS", "").replace("(", "").replace(")", "")
+    if not attribstring:
+        return
+    attribs = attribstring.split(",")
+    for attrib in attribs:
+        attribdict[tag].add(attrib.strip())
 
 
 class Macro(object):
-  __slots__ = ['key', 'name', 'beh', 'attribs', 're']
+    __slots__ = ["key", "name", "beh", "attribs", "re"]
 
-  def __init__(self, name, beh, attribs):
-    self.key = name
-    self.name = name
-    self.beh = beh
-    self.attribs = set(attribs)
-    self.re = re.compile("\\b" + name + "\\b")
+    def __init__(self, name, beh, attribs):
+        self.key = name
+        self.name = name
+        self.beh = beh
+        self.attribs = set(attribs)
+        self.re = re.compile("\\b" + name + "\\b")
 
 
 def MACROATTRIB(macname, beh, attribstring):
-  attribstring = attribstring.replace("(", "").replace(")", "")
-  if attribstring:
-    attribs = attribstring.split(",")
-  else:
-    attribs = []
-  macros[macname] = Macro(macname, beh, attribs)
+    attribstring = attribstring.replace("(", "").replace(")", "")
+    if attribstring:
+        attribs = attribstring.split(",")
+    else:
+        attribs = []
+    macros[macname] = Macro(macname, beh, attribs)
 
 
 def compute_tag_regs(tag):
-  return uniquify(regre.findall(behdict[tag]))
+    return uniquify(regre.findall(behdict[tag]))
 
 
 def compute_tag_immediates(tag):
-  return uniquify(immre.findall(behdict[tag]))
+    return uniquify(immre.findall(behdict[tag]))
 
 
 ##
@@ -151,101 +150,106 @@ def compute_tag_immediates(tag):
 ##          xx, yy           read-write register pair
 ##
 def get_tagregs():
-  return dict(zip(tags, list(map(compute_tag_regs, tags))))
+    return dict(zip(tags, list(map(compute_tag_regs, tags))))
 
 
 def get_tagimms():
-  return dict(zip(tags, list(map(compute_tag_immediates, tags))))
+    return dict(zip(tags, list(map(compute_tag_immediates, tags))))
 
 
 def is_pair(regid):
-  return len(regid) == 2
+    return len(regid) == 2
 
 
 def is_single(regid):
-  return len(regid) == 1
+    return len(regid) == 1
 
 
 def is_written(regid):
-  return regid[0] in "dexy"
+    return regid[0] in "dexy"
 
 
 def is_writeonly(regid):
-  return regid[0] in "de"
+    return regid[0] in "de"
 
 
 def is_read(regid):
-  return regid[0] in "stuvwxy"
+    return regid[0] in "stuvwxy"
 
 
 def is_readwrite(regid):
-  return regid[0] in "xy"
+    return regid[0] in "xy"
 
 
 def is_scalar_reg(regtype):
-  return regtype in "RPC"
+    return regtype in "RPC"
 
 
 def is_hvx_reg(regtype):
-  return regtype in "VQ"
+    return regtype in "VQ"
 
 
 def is_old_val(regtype, regid, tag):
-  return regtype + regid + 'V' in semdict[tag]
+    return regtype + regid + "V" in semdict[tag]
 
 
 def is_new_val(regtype, regid, tag):
-  return regtype + regid + 'N' in semdict[tag]
+    return regtype + regid + "N" in semdict[tag]
 
 
 def need_slot(tag):
-  if ('A_CONDEXEC' in attribdict[tag] or 'A_STORE' in attribdict[tag] or
-      'A_CVI' in attribdict[tag]):
-    return 1
-  else:
-    return 0
+    if (
+        "A_CONDEXEC" in attribdict[tag]
+        or "A_STORE" in attribdict[tag]
+        or "A_CVI" in attribdict[tag]
+    ):
+        return 1
+    else:
+        return 0
 
 
 def need_part1(tag):
-  return re.compile(r"fPART1").search(semdict[tag])
+    return re.compile(r"fPART1").search(semdict[tag])
 
 
 def need_ea(tag):
-  return re.compile(r"\bEA\b").search(semdict[tag])
+    return re.compile(r"\bEA\b").search(semdict[tag])
 
 
 def imm_name(immlett):
-  return "%siV" % immlett
+    return "%siV" % immlett
 
 
 def read_semantics_file_obj(f):
-  eval_line = ""
-  for line in f.readlines():
-    if not line.startswith("#"):
-      eval_line += line
-      if line.endswith("\\\n"):
-        eval_line.rstrip("\\\n")
-      else:
-        eval(eval_line.strip())
-        eval_line = ""
+    eval_line = ""
+    for line in f.readlines():
+        if not line.startswith("#"):
+            eval_line += line
+            if line.endswith("\\\n"):
+                eval_line.rstrip("\\\n")
+            else:
+                eval(eval_line.strip())
+                eval_line = ""
 
 
 def read_semantics_file(name):
-  with open(name, 'rt') as f:
-    read_semantics_file_obj(f)
+    with open(name, "rt") as f:
+        read_semantics_file_obj(f)
 
 
 def read_attribs_file_obj(f):
-  attribre = re.compile(r'DEF_ATTRIB\(([A-Za-z0-9_]+), ([^,]*), ' +
-                        r'"([A-Za-z0-9_\.]*)", "([A-Za-z0-9_\.]*)"\)')
-  for line in f.readlines():
-    if not attribre.match(line):
-      continue
-    (attrib_base, descr, rreg, wreg) = attribre.findall(line)[0]
-    attrib_base = 'A_' + attrib_base
-    attribinfo[attrib_base] = {'rreg': rreg, 'wreg': wreg, 'descr': descr}
+    attribre = re.compile(
+        r"DEF_ATTRIB\(([A-Za-z0-9_]+), ([^,]*), "
+        + r'"([A-Za-z0-9_\.]*)", "([A-Za-z0-9_\.]*)"\)'
+    )
+    for line in f.readlines():
+        if not attribre.match(line):
+            continue
+        (attrib_base, descr, rreg, wreg) = attribre.findall(line)[0]
+        attrib_base = "A_" + attrib_base
+        attribinfo[attrib_base] = {"rreg": rreg, "wreg": wreg, "descr": descr}
 
 
 def read_attribs_file(name):
-  with open(name, 'rt') as f:
-    read_attribs_file_obj(f)
+    with open(name, "rt") as f:
+        read_attribs_file_obj(f)

@@ -20,6 +20,7 @@ TEST_DIR := "$(SRC_TOP)/src"
 BIN_DIR := "$(SRC_TOP)/bin"
 
 CFLAGS = -m$(Q6VERSION) -g
+SFLAGS = --m$(Q6VERSION) --pmu_statsfile /dev/null --statsfile /dev/null
 
 
 all: clean build
@@ -33,6 +34,6 @@ build:
 	cp $(BIN_DIR)/$(TARGET).elf $(BIN_DIR)/$(MAIN).elf
 
 sim:
-	$(SIM_HEXAGON) $(BIN_DIR)/$(MAIN).elf --pmu_statsfile /dev/null --statsfile /dev/null
+	$(SIM_HEXAGON) $(SFLAGS) $(BIN_DIR)/$(MAIN).elf 
 
 

@@ -289,6 +289,7 @@ def run_sim(packet, inputs):
     )
 
     if b"CRASH" in proc.stdout:
+        print(proc.stdout)
         return None, None
 
     inputs, outputs = read_output(proc.stdout)
@@ -308,6 +309,36 @@ def run_qemu(packet, inputs):
     return inputs, outputs
 
 
+def print_output(packet, output):
+    print("[Instruction]")
+    packet.print_packet()
+
+    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C8"]
+    emulators = output.keys()
+
+    print("[Inputs]")
+    print(" " * 10 + "".join(f" {t:8s}" for t in registers))
+    for e in emulators:
+        s = f"{e:10s}"
+        for t in registers:
+            if not output[e][0] or t not in output[e][0]:
+                s += "     None"
+            else:
+                s += f" {output[e][0][t]:08x}"
+        print(s)
+
+    print("[Outputs]")
+    print(" " * 10 + "".join(f" {t:8s}" for t in registers))
+    for e in emulators:
+        s = f"{e:10s}"
+        for t in registers:
+            if not output[e][1] or t not in output[e][1]:
+                s += "     None"
+            else:
+                s += f" {output[e][1][t]:08x}"
+        print(s)
+
+
 def main():
     while True:
         packet = InstructionPacket.generate()
@@ -316,15 +347,13 @@ def main():
         sim_inputs, sim_outputs = run_sim(packet, inputs)
         qemu_inputs, qemu_outputs = run_qemu(packet, inputs)
 
+        output = {
+            "sdk-sim": [sim_inputs, sim_outputs],
+            "qemu": [qemu_inputs, qemu_outputs],
+        }
+
         if sim_inputs != qemu_inputs or sim_outputs != qemu_outputs:
-            print("insns: ")
-            packet.print_packet()
-            print("inputs: ")
-            print(sim_inputs)
-            print(qemu_inputs)
-            print("outputs: ")
-            print(sim_outputs)
-            print(qemu_outputs)
+            print_output(packet, output)
         else:
             written = packet.get_written_reg() | set(["C4", "C8"])
             flag = False
@@ -340,15 +369,7 @@ def main():
                     break
 
             if flag:
-                print("insns: ")
-                packet.print_packet()
-                print("inputs: ")
-                print(sim_inputs)
-                print(qemu_inputs)
-                print("outputs: ")
-                print(sim_outputs)
-                print(qemu_outputs)
-                exit(0)
+                print_output(packet, output)
 
 
 if __name__ == "__main__":
