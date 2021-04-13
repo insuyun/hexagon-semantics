@@ -215,161 +215,169 @@ class InstructionPacket:
             return packet
 
 
-def generate_input():
-    with open("/dev/urandom", "rb") as f:
-        general = f.read(4 * 10)
-
-        predicate = b""
-        for _ in range(4):
-            t = random.randint(0, 2)
-            if t == 0:
-                predicate += b"\x00"
-            elif t == 1:
-                predicate += b"\xff"
-            else:
-                predicate += f.read(1)
-
-        user_status = bytearray(f.read(4))
-        user_status[0] &= 0b00111110
-        user_status[1] &= 0b11111100
-        user_status[2] &= 0b11000001
-        # What the hell is wrong with IEEE trap enable fields?
-        user_status[3] &= 0b00000000
-
-        # [16:15] HFI cannot be 11
-        if user_status[1] & 0b10000000 and user_status[2] & 0b00000001:
-            user_status[1] &= 0b01111111
-            user_status[2] &= 0b11111110
-
-    return general + predicate + user_status
-
-
-def read_output(output):
-    prog = re.compile(rb"([RC][0-9]{1,2}): ([0-9]{1,10})")
-
-    inputs, outputs = {}, {}
-    for line in output.split(b"\n"):
-        res = prog.match(line)
-        if not res:
-            continue
-        name, value = res.group(1).decode(), int(res.group(2))
-
-        if name not in inputs:
-            inputs[name] = value
-        else:
-            outputs[name] = value
-
-    return inputs, outputs
-
-
-def run_sim(packet, inputs):
-    with open("bin/template.elf", "rb") as f:
-        data = bytearray(f.read())
-
-    # Find 4 nops to replace
-    nops = (
-        data.find(
-            b"\x08\xc0\x2c\x62"
-            + b"\x00\x40\x00\x7f" * 3
-            + b"\x00\xc0\x00\x7f"
-            + b"\x0b\xc0\x04\x6a"
-        )
-        + 4
-    )
-    data[nops : nops + 16] = packet.get_bytes()
-
-    with open("bin/main.elf", "wb") as f:
-        f.write(data)
-
-    proc = subprocess.run(
-        ["make", "sim", "-s"],
-        input=inputs,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-
-    if b"CRASH" in proc.stdout:
-        print(proc.stdout)
-        return None, None
-
-    inputs, outputs = read_output(proc.stdout)
-    return inputs, outputs
-
-
-def run_qemu(packet, inputs):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect(("localhost", 9000))
-        s.send(packet.get_bytes() + inputs)
-        data = s.recv(1024)
-
-    if b"CRASH" in data:
-        return None, None
-
-    inputs, outputs = read_output(data)
-    return inputs, outputs
-
-
-def print_output(packet, output):
-    print("[Instruction]")
-    packet.print_packet()
-
+class Tester:
     registers = ["R{}".format(i) for i in range(10)] + ["C4", "C8"]
-    emulators = output.keys()
+    emulators = ["sdk-sim", "qemu"]
 
-    print("[Inputs]")
-    print(" " * 10 + "".join(f" {t:8s}" for t in registers))
-    for e in emulators:
-        s = f"{e:10s}"
-        for t in registers:
-            if not output[e][0] or t not in output[e][0]:
-                s += "     None"
-            else:
-                s += f" {output[e][0][t]:08x}"
-        print(s)
+    def __init__(self):
+        self.packet = None
+        self.input = None
+        self.output = None
+        self.tested = False
 
-    print("[Outputs]")
-    print(" " * 10 + "".join(f" {t:8s}" for t in registers))
-    for e in emulators:
-        s = f"{e:10s}"
-        for t in registers:
-            if not output[e][1] or t not in output[e][1]:
-                s += "     None"
+    def generate_case(self):
+        self.packet = InstructionPacket.generate()
+
+        with open("/dev/urandom", "rb") as f:
+            general = f.read(4 * 10)
+
+            predicate = b""
+            for _ in range(4):
+                t = random.randint(0, 2)
+                if t == 0:
+                    predicate += b"\x00"
+                elif t == 1:
+                    predicate += b"\xff"
+                else:
+                    predicate += f.read(1)
+
+            user_status = bytearray(f.read(4))
+            user_status[0] &= 0b00111110
+            user_status[1] &= 0b11111100
+            user_status[2] &= 0b11000001
+            # What the hell is wrong with IEEE trap enable fields?
+            user_status[3] &= 0b00000000
+
+            # [16:15] HFI cannot be 11
+            if user_status[1] & 0b10000000 and user_status[2] & 0b00000001:
+                user_status[1] &= 0b01111111
+                user_status[2] &= 0b11111110
+
+        self.input = general + predicate + user_status
+        self.tested = False
+
+    @staticmethod
+    def parse_output(output):
+        prog = re.compile(rb"([RC][0-9]{1,2}): ([0-9]{1,10})")
+
+        inputs, outputs = {}, {}
+        for line in output.split(b"\n"):
+            res = prog.match(line)
+            if not res:
+                continue
+            name, value = res.group(1).decode(), int(res.group(2))
+
+            if name not in inputs:
+                inputs[name] = value
             else:
-                s += f" {output[e][1][t]:08x}"
-        print(s)
+                outputs[name] = value
+
+        return {"input": inputs, "output": outputs}
+
+    def run_sim(self):
+        with open("bin/template.elf", "rb") as f:
+            data = bytearray(f.read())
+
+        # Find 4 nops to replace
+        nops = (
+            data.find(
+                b"\x08\xc0\x2c\x62"
+                + b"\x00\x40\x00\x7f" * 3
+                + b"\x00\xc0\x00\x7f"
+                + b"\x0b\xc0\x04\x6a"
+            )
+            + 4
+        )
+        data[nops : nops + 16] = self.packet.get_bytes()
+
+        with open("bin/main.elf", "wb") as f:
+            f.write(data)
+
+        proc = subprocess.run(
+            ["make", "sim", "-s"],
+            input=self.input,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        if b"CRASH" in proc.stdout:
+            return None
+        return self.parse_output(proc.stdout)
+
+    def run_qemu(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect(("localhost", 9000))
+            s.send(self.packet.get_bytes() + self.input)
+            data = s.recv(1024)
+
+        if b"CRASH" in data:
+            return None
+        return self.parse_output(data)
+
+    def run(self):
+        assert not self.tested
+
+        self.output = {
+            "qemu": self.run_qemu(),
+            "sdk-sim": self.run_sim(),
+        }
+        self.tested = True
+
+    def is_failed(self):
+        assert self.tested
+
+        if self.output["qemu"] is None or self.output["sdk-sim"] is None:
+            return True
+        if self.output["sdk-sim"]["input"] != self.output["qemu"]["input"]:
+            return True
+        if self.output["sdk-sim"]["output"] != self.output["qemu"]["output"]:
+            return True
+
+        written = self.packet.get_written_reg() | set(["C4", "C8"])
+        not_written = set(self.registers) - written
+        for _, emulator_case in self.output.items():
+            for reg in not_written:
+                if emulator_case["input"][reg] != emulator_case["output"][reg]:
+                    return True
+
+        return False
+
+    def print_output(self):
+        print("[Instruction]")
+        self.packet.print_packet()
+
+        print("[Inputs]")
+        print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
+        for e in self.emulators:
+            s = f"{e:10s}"
+            if self.output[e]:
+                s += "".join(
+                    f" {self.output[e]['input'][r]:08x}" for r in self.registers
+                )
+            else:
+                s += "     None" * len(self.registers)
+            print(s)
+
+        print("[Outputs]")
+        print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
+        for e in self.emulators:
+            s = f"{e:10s}"
+            if self.output[e]:
+                s += "".join(
+                    f" {self.output[e]['output'][r]:08x}" for r in self.registers
+                )
+            else:
+                s += "     None" * len(self.registers)
+            print(s)
 
 
 def main():
+    tester = Tester()
     while True:
-        packet = InstructionPacket.generate()
-        inputs = generate_input()
-
-        sim_inputs, sim_outputs = run_sim(packet, inputs)
-        qemu_inputs, qemu_outputs = run_qemu(packet, inputs)
-
-        output = {
-            "sdk-sim": [sim_inputs, sim_outputs],
-            "qemu": [qemu_inputs, qemu_outputs],
-        }
-
-        if sim_inputs != qemu_inputs or sim_outputs != qemu_outputs:
-            print_output(packet, output)
-        else:
-            written = packet.get_written_reg() | set(["C4", "C8"])
-            flag = False
-            for key in sim_outputs:
-                if key in written:
-                    continue
-
-                if (
-                    sim_inputs[key] != sim_outputs[key]
-                    or qemu_inputs[key] != qemu_outputs[key]
-                ):
-                    flag = True
-                    break
-
-            if flag:
-                print_output(packet, output)
+        tester.generate_case()
+        tester.run()
+        if tester.is_failed():
+            tester.print_output()
 
 
 if __name__ == "__main__":
