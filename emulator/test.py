@@ -57,11 +57,12 @@ read_instructions_csv()
 
 
 class Instruction:
-    def __init__(self, insn_bits, orig_insn_bits, insn_str, written):
+    def __init__(self, insn_bits, orig_insn_bits, insn_str, written, require):
         self.insn_bits = insn_bits
         self.orig_insn_bits = orig_insn_bits
         self.insn_str = insn_str
         self.written = written
+        self.require = require
 
         s = "".join(insn_bits[:32])
         self.insn_byte = int(s, 2).to_bytes((len(s) + 7) // 8, byteorder="little")
@@ -92,13 +93,12 @@ class Instruction:
         elif slot == 3:
             picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
 
-        # TODO: Support .new instruction
         while True:
             picked = random.choice(picked_insns)[:]
 
             insn_bits, insn_str = picked[:-1], picked[-1]
             orig_insn_bits = insn_bits[:]
-            if ".new" in insn_str or "deprecated" in insn_str:
+            if "deprecated" in insn_str:
                 continue
             break
 
@@ -109,10 +109,14 @@ class Instruction:
             cls.fill_insn_bits(insn_bits, "P", 3)
         cls.fill_insn_bits(insn_bits, "-", 0)
 
+        require = set()
+
         for c in ["j", "I", "N", "s", "t", "u", "v"]:
             count = insn_bits.count(c)
             if count == 0:
                 continue
+
+            is_new_value = False
 
             if c == "j":
                 opstr = re.search(r"(#[su][0-9]{1,2})", insn_str).group(1)
@@ -121,7 +125,9 @@ class Instruction:
             elif c == "N":
                 opstr = "[:<<N]"
             else:
-                opstr = re.search(r"([RPC]" + c + r"{1,2})", insn_str).group(1)
+                res = re.search(r"([RPC]" + c + r"{1,2})(\.new)?", insn_str)
+                opstr = res.group(1)
+                is_new_value = True if res.group(2) else False
 
             if "R" + c + c == opstr:
                 val = random.randint(0, min(2 ** count - 1, 8))
@@ -141,6 +147,9 @@ class Instruction:
                 )
             else:
                 insn_str = insn_str.replace(opstr, "{}{}".format(opstr[0], val))
+                if is_new_value:
+                    require = set(["{}{}".format(opstr[0], val)])
+
             cls.fill_insn_bits(insn_bits, c, val)
 
         written = set()
@@ -169,7 +178,7 @@ class Instruction:
                 insn_str = insn_str.replace(opstr, "{}{}".format(opstr[0], val))
             cls.fill_insn_bits(insn_bits, c, val)
 
-        return cls(insn_bits, orig_insn_bits, insn_str, written)
+        return cls(insn_bits, orig_insn_bits, insn_str, written, require)
 
 
 class InstructionPacket:
@@ -180,8 +189,11 @@ class InstructionPacket:
         return b"".join(insn.insn_byte for insn in reversed(self.insns))
 
     def is_valid(self):
+        all_require = set().union(*[insn.require for insn in self.insns])
         all_written = set().union(*[insn.written for insn in self.insns])
-        return len(all_written) == sum(len(insn.written) for insn in self.insns)
+        return len(all_written) == sum(
+            len(insn.written) for insn in self.insns
+        ) and len(all_require) == len(all_require & all_written)
 
     def get_written_reg(self):
         return set().union(*[insn.written for insn in self.insns])
@@ -279,7 +291,6 @@ def run_sim(packet, inputs):
     if b"CRASH" in proc.stdout:
         return None, None
 
-    # print(proc.stdout)
     inputs, outputs = read_output(proc.stdout)
     return inputs, outputs
 
@@ -293,7 +304,6 @@ def run_qemu(packet, inputs):
     if b"CRASH" in data:
         return None, None
 
-    # print(data)
     inputs, outputs = read_output(data)
     return inputs, outputs
 
@@ -316,16 +326,19 @@ def main():
             print(sim_outputs)
             print(qemu_outputs)
         else:
-            written = packet.get_written_reg() | set(['C4', 'C8'])
+            written = packet.get_written_reg() | set(["C4", "C8"])
             flag = False
             for key in sim_outputs:
                 if key in written:
                     continue
-                
-                if sim_inputs[key] != sim_outputs[key] or qemu_inputs[key] != qemu_outputs[key]:
+
+                if (
+                    sim_inputs[key] != sim_outputs[key]
+                    or qemu_inputs[key] != qemu_outputs[key]
+                ):
                     flag = True
                     break
-            
+
             if flag:
                 print("insns: ")
                 packet.print_packet()
