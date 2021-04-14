@@ -18,7 +18,8 @@ def read_instructions_csv():
         rows = list(reader)
 
     # ALU32 instructions
-    insns["alu32"] = rows[:118]
+    insns["alu32"] = rows[:10] + rows[11:118]
+    insns["nop"] = rows[10]
 
     # CR instructions
     # Slot 2, 3
@@ -57,27 +58,38 @@ read_instructions_csv()
 
 
 class Instruction:
-    def __init__(self, insn_bits, orig_insn_bits, insn_str, written, require):
-        self.insn_bits = insn_bits
-        self.orig_insn_bits = orig_insn_bits
-        self.insn_str = insn_str
-        self.written = written
-        self.require = require
+    opstr_preg = {
+        "j": re.compile(r"(#[su][0-9]{1,2})"),
+        "I": re.compile(r"(#[SU][0-9]{1,2})"),
+        "N": re.compile(r"(\[:<<N\])"),
+        **{c: re.compile(r"([RPC](" + c + r"{1,2}))(\.new)?") for c in "stuvdexy"},
+    }
 
-        s = "".join(insn_bits[:32])
-        self.insn_byte = int(s, 2).to_bytes((len(s) + 7) // 8, byteorder="little")
+    def __init__(self, insn_bits, insn_str):
+        self.bits = insn_bits
+        self.str = insn_str
+        self.orig_bits = insn_bits[:]
+        self.orig_str = insn_str
+        self.written = set()
+        self.require = set()
+        self.values = dict()
+
+    @property
+    def insn_byte(self):
+        return int("".join(self.bits), 2).to_bytes(4, byteorder="little")
 
     def print_insn(self, indent=0):
-        print(" " * (indent + 49) + "".join(self.orig_insn_bits))
-        print(" " * indent + f"{self.insn_str:48s} " + "".join(self.insn_bits))
+        print(" " * (indent + 49) + "".join(self.orig_bits))
+        print(" " * indent + f"{self.str:48s} " + "".join(self.bits))
 
-    @staticmethod
-    def fill_insn_bits(insn_bits, c, val):
-        count = insn_bits.count(c)
+    def set_value(self, c, val):
+        if c != "-":
+            self.values[c] = val
 
+        count = self.bits.count(c)
         for idx in range(32):
-            if insn_bits[idx] == c:
-                insn_bits[idx] = str((val >> (count - 1)) & 1)
+            if self.bits[idx] == c:
+                self.bits[idx] = str((val >> (count - 1)) & 1)
                 count -= 1
 
     @classmethod
@@ -95,90 +107,69 @@ class Instruction:
 
         while True:
             picked = random.choice(picked_insns)[:]
-
             insn_bits, insn_str = picked[:-1], picked[-1]
-            orig_insn_bits = insn_bits[:]
             if "deprecated" in insn_str:
                 continue
+            insn = cls(insn_bits, insn_str)
             break
 
         # TODO: Support loop end instruction?
         if slot:
-            cls.fill_insn_bits(insn_bits, "P", 1)
+            insn.set_value("P", 1)
         else:
-            cls.fill_insn_bits(insn_bits, "P", 3)
-        cls.fill_insn_bits(insn_bits, "-", 0)
+            insn.set_value("P", 3)
+        insn.set_value("-", 0)
 
-        require = set()
-
-        for c in ["j", "I", "N", "s", "t", "u", "v"]:
-            count = insn_bits.count(c)
+        for c in "jINstuvdexy":
+            count = insn.bits.count(c)
             if count == 0:
                 continue
 
-            is_new_value = False
-
-            if c == "j":
-                opstr = re.search(r"(#[su][0-9]{1,2})", insn_str).group(1)
-            elif c == "I":
-                opstr = re.search(r"(#[SU][0-9]{1,2})", insn_str).group(1)
-            elif c == "N":
-                opstr = "[:<<N]"
+            res = cls.opstr_preg[c].search(insn.str)
+            opstr = res.group(1)
+            if len(res.groups()) >= 2:
+                is_pair = True if res.group(2) and len(res.group(2)) == 2 else False
+                is_new_value = True if res.group(3) else False
             else:
-                res = re.search(r"([RPC]" + c + r"{1,2})(\.new)?", insn_str)
-                opstr = res.group(1)
-                is_new_value = True if res.group(2) else False
+                is_pair, is_new_value = False, False
 
-            if "R" + c + c == opstr:
+            if c in "jIN":
+                val = random.randint(0, 2 ** count - 1)
+            elif is_pair:
                 val = random.randint(0, min(2 ** count - 1, 8))
             else:
                 val = random.randint(0, min(2 ** count - 1, 9))
 
-            if c in ["j", "I"]:
-                insn_str = insn_str.replace(opstr, "#{}{}".format(val, opstr[1:]))
+            if c in "jI":
+                insn.str = insn.str.replace(opstr, "#{}{}".format(val, opstr[1:]))
             elif c == "N" and val:
                 assert val == 1
-                insn_str = insn_str.replace(opstr, ":<<1")
+                insn.str = insn.str.replace(opstr, ":<<1")
             elif c == "N" and not val:
-                insn_str = insn_str.replace(opstr, "")
-            elif "R" + c + c == opstr:
-                insn_str = insn_str.replace(
+                insn.str = insn.str.replace(opstr, "")
+            elif is_pair:
+                insn.str = insn.str.replace(
                     opstr, "{}{}:{}".format(opstr[0], val + 1, val)
                 )
             else:
-                insn_str = insn_str.replace(opstr, "{}{}".format(opstr[0], val))
-                if is_new_value:
-                    require = set(["{}{}".format(opstr[0], val)])
+                insn.str = insn.str.replace(opstr, "{}{}".format(opstr[0], val))
 
-            cls.fill_insn_bits(insn_bits, c, val)
+            if is_new_value:
+                insn.require |= set(["{}{}".format(opstr[0], val)])
+            if c in "dexy":
+                if is_pair:
+                    insn.written |= set(
+                        ["{}{}".format(opstr[0], val), "{}{}".format(opstr[0], val + 1)]
+                    )
+                else:
+                    insn.written |= set(["{}{}".format(opstr[0], val)])
 
-        written = set()
+            insn.set_value(c, val)
 
-        if "decbin" in insn_str:
-            written.add("P0")
+        if "decbin" in insn.str:
+            insn.written.add("P0")
 
-        for c in ["d", "x", "y", "e"]:
-            count = insn_bits.count(c)
-            if count == 0:
-                continue
-            opstr = re.search(r"([RPC]" + c + r"{1,2})", insn_str).group(1)
-
-            if "R" + c + c == opstr:
-                val = random.randint(0, min(2 ** count - 1, 8))
-                written |= set(["R{}".format(val), "R{}".format(val + 1)])
-            else:
-                val = random.randint(0, min(2 ** count - 1, 9))
-                written |= set(["{}{}".format(opstr[0], val)])
-
-            if "R" + c + c == opstr:
-                insn_str = insn_str.replace(
-                    opstr, "{}{}:{}".format(opstr[0], val + 1, val)
-                )
-            else:
-                insn_str = insn_str.replace(opstr, "{}{}".format(opstr[0], val))
-            cls.fill_insn_bits(insn_bits, c, val)
-
-        return cls(insn_bits, orig_insn_bits, insn_str, written, require)
+        return insn
 
 
 class InstructionPacket:
