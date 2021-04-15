@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
+import copy
 import csv
+import itertools
+import pickle
 import random
 import re
 import socket
@@ -18,7 +21,7 @@ def read_instructions_csv():
         rows = list(reader)
 
     # ALU32 instructions
-    insns["alu32"] = rows[:10] + rows[11:118]
+    insns["alu32"] = rows[:118]
     insns["nop"] = rows[10]
 
     # CR instructions
@@ -171,6 +174,16 @@ class Instruction:
 
         return insn
 
+    @classmethod
+    def nop(cls, slot):
+        nop = cls(insns["nop"][:32], insns["nop"][-1])
+        if slot:
+            nop.set_value("P", 1)
+        else:
+            nop.set_value("P", 3)
+        nop.set_value("-", 0)
+        return nop
+
 
 class InstructionPacket:
     def __init__(self, insns):
@@ -189,6 +202,14 @@ class InstructionPacket:
     def get_written_reg(self):
         return set().union(*[insn.written for insn in self.insns])
 
+    def get_required_insn_index(self, slots):
+        all_require = set().union(*[self.insns[i].require for i in slots])
+        ret = []
+        for i, insn in enumerate(self.insns):
+            if insn.written & all_require:
+                ret.append(i)
+        return ret
+
     def print_packet(self):
         print("{")
         for insn in self.insns:
@@ -206,19 +227,13 @@ class InstructionPacket:
             return packet
 
 
-class Tester:
-    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C8"]
-    emulators = ["sdk-sim", "qemu"]
+class TestCase:
+    def __init__(self, packet, input):
+        self.packet = packet
+        self.input = input
 
-    def __init__(self):
-        self.packet = None
-        self.input = None
-        self.output = None
-        self.tested = False
-
-    def generate_case(self):
-        self.packet = InstructionPacket.generate()
-
+    @staticmethod
+    def generate_input():
         with open("/dev/urandom", "rb") as f:
             general = f.read(4 * 10)
 
@@ -244,8 +259,54 @@ class Tester:
                 user_status[1] &= 0b01111111
                 user_status[2] &= 0b11111110
 
-        self.input = general + predicate + user_status
-        self.tested = False
+        return general + predicate + user_status
+
+    @classmethod
+    def generate(cls, db=None):
+        while True:
+            packet = InstructionPacket.generate()
+            input = cls.generate_input()
+            tc = cls(packet, input)
+            if db and db.check(tc):
+                continue
+            return tc
+
+    def mutate(self, slots, db=None):
+        required_index = self.packet.get_required_insn_index(slots)
+
+        while True:
+            packet = copy.deepcopy(self.packet)
+            for i in range(4):
+                if i in slots:
+                    continue
+                if i in required_index:
+                    while True:
+                        insn = Instruction.generate(i)
+                        if packet.insns[i].written == insn.written:
+                            packet.insns[i] = insn
+                            break
+                else:
+                    packet.insns[i] = Instruction.nop(i)
+
+            input = self.generate_input()
+            tc = self.__class__(packet, input)
+
+            if db and db.check(tc):
+                continue
+            return tc
+
+    def print_testcase(self):
+        self.packet.print_packet()
+        print(self.input.hex())
+
+
+class Tester:
+    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C8"]
+    emulators = ["sdk-sim", "qemu"]
+
+    def __init__(self):
+        self.testcase = None
+        self.output = None
 
     @staticmethod
     def parse_output(output):
@@ -279,14 +340,14 @@ class Tester:
             )
             + 4
         )
-        data[nops : nops + 16] = self.packet.get_bytes()
+        data[nops : nops + 16] = self.testcase.packet.get_bytes()
 
         with open("bin/main.elf", "wb") as f:
             f.write(data)
 
         proc = subprocess.run(
             ["make", "sim", "-s"],
-            input=self.input,
+            input=self.testcase.input,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
@@ -298,25 +359,21 @@ class Tester:
     def run_qemu(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect(("localhost", 9000))
-            s.send(self.packet.get_bytes() + self.input)
+            s.send(self.testcase.packet.get_bytes() + self.testcase.input)
             data = s.recv(1024)
 
         if b"CRASH" in data:
             return None
         return self.parse_output(data)
 
-    def run(self):
-        assert not self.tested
-
+    def run(self, testcase):
+        self.testcase = testcase
         self.output = {
             "qemu": self.run_qemu(),
             "sdk-sim": self.run_sim(),
         }
-        self.tested = True
 
     def is_failed(self):
-        assert self.tested
-
         if self.output["qemu"] is None or self.output["sdk-sim"] is None:
             return True
         if self.output["sdk-sim"]["input"] != self.output["qemu"]["input"]:
@@ -324,7 +381,7 @@ class Tester:
         if self.output["sdk-sim"]["output"] != self.output["qemu"]["output"]:
             return True
 
-        written = self.packet.get_written_reg() | set(["C4", "C8"])
+        written = self.testcase.packet.get_written_reg() | set(["C4", "C8"])
         not_written = set(self.registers) - written
         for _, emulator_case in self.output.items():
             for reg in not_written:
@@ -334,8 +391,8 @@ class Tester:
         return False
 
     def print_output(self):
-        print("[Instruction]")
-        self.packet.print_packet()
+        print("[Testcase]")
+        self.testcase.print_testcase()
 
         print("[Inputs]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
@@ -362,13 +419,65 @@ class Tester:
             print(s)
 
 
+class TestCaseDatabase:
+    def __init__(self):
+        self.db = set()
+
+    def insert(self, tc, slots):
+        key = frozenset([tc.packet.insns[i].orig_str for i in slots])
+        if key not in self.db:
+            self.db.add(key)
+
+    def check(self, tc):
+        insn_orig_strs = [insn.orig_str for insn in tc.packet.insns]
+        for n in range(1, 5):
+            for key in itertools.combinations(insn_orig_strs, n):
+                if frozenset(key) in self.db:
+                    return True
+        return False
+
+
 def main():
+    slots_combination = sum(
+        [list(itertools.combinations([0, 1, 2, 3], n)) for n in range(1, 5)], []
+    )
+
     tester = Tester()
+    try:
+        with open("tc_database.pickle", "rb") as f:
+            tc_database = pickle.load(f)
+    except:
+        tc_database = TestCaseDatabase()
+
     while True:
-        tester.generate_case()
-        tester.run()
-        if tester.is_failed():
-            tester.print_output()
+        tc = TestCase.generate(db=tc_database)
+        tester.run(tc)
+        if not tester.is_failed():
+            continue
+        tester.print_output()
+
+        identified = None
+        for slots in slots_combination:
+            flag = False
+            for _ in range(100):
+                mutated_tc = tc.mutate(slots, db=tc_database)
+                tester.run(mutated_tc)
+                if tester.is_failed():
+                    flag = True
+                    break
+            if flag:
+                identified = slots
+                break
+
+        if identified:
+            print("Identified, ", identified)
+            tc_database.insert(tc, identified)
+        else:
+            print("Failed to identify")
+
+        with open("tc_database.pickle", "wb") as f:
+            pickle.dump(tc_database, f)
+        print("=" * 118)
 
 
 if __name__ == "__main__":
