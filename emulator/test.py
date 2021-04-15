@@ -3,11 +3,14 @@
 import copy
 import csv
 import itertools
+import os
 import pickle
 import random
 import re
 import socket
 import subprocess
+from tempfile import NamedTemporaryFile
+import threading
 
 
 insns = {}
@@ -342,15 +345,19 @@ class Tester:
         )
         data[nops : nops + 16] = self.testcase.packet.get_bytes()
 
-        with open("bin/main.elf", "wb") as f:
-            f.write(data)
+        file = NamedTemporaryFile(delete=False)
+        file.write(data)
+        os.chmod(file.name, 0o555)
+        file.close()
 
         proc = subprocess.run(
-            ["make", "sim", "-s"],
+            ["make", "sim", "MAIN_BIN=" + file.name, "-s"],
             input=self.testcase.input,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
+
+        os.remove(file.name)
 
         if b"CRASH" in proc.stdout:
             return None
@@ -420,13 +427,35 @@ class Tester:
 
 
 class TestCaseDatabase:
-    def __init__(self):
-        self.db = set()
+    def __init__(self, db=None, path="tc_database.pickle"):
+        if db is None:
+            self.db = set()
+        else:
+            self.db = db
+        self.path = path
+        self.lock = threading.Lock()
+
+    @classmethod
+    def load(cls, path="tc_database.pickle"):
+        try:
+            with open(path, "rb") as f:
+                db = pickle.load(f)
+                return cls(db, path)
+        except:
+            return cls()
+
+    def save(self):
+        self.lock.acquire()
+        with open(self.path, "wb") as f:
+            pickle.dump(self.db, f)
+        self.lock.release()
 
     def insert(self, tc, slots):
+        self.lock.acquire()
         key = frozenset([tc.packet.insns[i].orig_str for i in slots])
         if key not in self.db:
             self.db.add(key)
+        self.lock.release()
 
     def check(self, tc):
         insn_orig_strs = [insn.orig_str for insn in tc.packet.insns]
@@ -437,47 +466,62 @@ class TestCaseDatabase:
         return False
 
 
-def main():
+# Better naming?
+class ThreadedTester:
     slots_combination = sum(
         [list(itertools.combinations([0, 1, 2, 3], n)) for n in range(1, 5)], []
     )
 
-    tester = Tester()
-    try:
-        with open("tc_database.pickle", "rb") as f:
-            tc_database = pickle.load(f)
-    except:
-        tc_database = TestCaseDatabase()
+    def __init__(self, num_thread):
+        self.tc_database = TestCaseDatabase().load()
+        self.num_thread = num_thread
+        self.print_lock = threading.Lock()
 
-    while True:
-        tc = TestCase.generate(db=tc_database)
-        tester.run(tc)
-        if not tester.is_failed():
-            continue
-        tester.print_output()
+    def run(self):
+        for _ in range(self.num_thread):
+            threading.Thread(target=self.run_thread).start()
 
-        identified = None
-        for slots in slots_combination:
-            flag = False
-            for _ in range(100):
-                mutated_tc = tc.mutate(slots, db=tc_database)
-                tester.run(mutated_tc)
-                if tester.is_failed():
-                    flag = True
+    def run_thread(self):
+        tester = Tester()
+        mutate_tester = Tester()
+        while True:
+            tc = TestCase.generate(db=self.tc_database)
+            tester.run(tc)
+            if not tester.is_failed():
+                continue
+
+            identified = None
+            for slots in self.slots_combination:
+                flag = False
+                for _ in range(100):
+                    mutated_tc = tc.mutate(slots, db=self.tc_database)
+                    mutate_tester.run(mutated_tc)
+                    if mutate_tester.is_failed():
+                        flag = True
+                        break
+                if flag:
+                    identified = slots
                     break
-            if flag:
-                identified = slots
-                break
 
-        if identified:
-            print("Identified, ", identified)
-            tc_database.insert(tc, identified)
-        else:
-            print("Failed to identify")
+            # Save to DB
+            if identified:
+                self.tc_database.insert(tc, identified)
+                self.tc_database.save()
 
-        with open("tc_database.pickle", "wb") as f:
-            pickle.dump(tc_database, f)
-        print("=" * 118)
+            # Print
+            self.print_lock.acquire()
+            tester.print_output()
+            if identified:
+                print("Identified, ", identified)
+            else:
+                print("Failed to identify")
+            print("=" * 118)
+            self.print_lock.release()
+
+
+def main():
+    threaded_tester = ThreadedTester(20)
+    threaded_tester.run()
 
 
 if __name__ == "__main__":

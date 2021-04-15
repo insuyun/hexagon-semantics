@@ -19,6 +19,10 @@ MAIN := main
 TEST_DIR := "$(SRC_TOP)/src"
 BIN_DIR := "$(SRC_TOP)/bin"
 
+TARGET_C := $(TEST_DIR)/$(TARGET).c
+TARGET_BIN = $(BIN_DIR)/$(TARGET).elf
+MAIN_BIN := $(BIN_DIR)/$(MAIN).elf
+
 CFLAGS = -m$(Q6VERSION) -g
 SFLAGS = --m$(Q6VERSION) --pmu_statsfile /dev/null --statsfile /dev/null
 
@@ -30,10 +34,10 @@ clean:
 
 build:
 	mkdir -p $(BIN_DIR)
-	$(CC_HEXAGON) $(CFLAGS) -o $(BIN_DIR)/$(TARGET).elf $(TEST_DIR)/$(TARGET).c
-	cp $(BIN_DIR)/$(TARGET).elf $(BIN_DIR)/$(MAIN).elf
+	$(CC_HEXAGON) $(CFLAGS) -o $(TARGET_BIN) $(TARGET_C)
+	cp $(TARGET_BIN) $(MAIN_BIN)
 
 sim:
-	$(SIM_HEXAGON) $(SFLAGS) $(BIN_DIR)/$(MAIN).elf 
+	$(SIM_HEXAGON) $(SFLAGS) $(MAIN_BIN)
 
 
