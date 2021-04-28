@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
+import argparse
 import copy
 import csv
 import itertools
+import json
 import os
 import pickle
 import random
@@ -22,6 +24,9 @@ def read_instructions_csv():
     with open("qemu_hexagon/instructions.csv") as f:
         reader = csv.reader(f)
         rows = list(reader)
+
+    for row in rows:
+        insns[row[-1]] = row
 
     # ALU32 instructions
     insns["alu32"] = rows[:118]
@@ -99,25 +104,31 @@ class Instruction:
                 count -= 1
 
     @classmethod
-    def generate(cls, slot):
+    def generate(cls, slot, target=None):
         global insns
 
-        if slot == 0:
-            picked_insns = insns["alu32"]
-        elif slot == 1:
-            picked_insns = insns["alu32"]
-        elif slot == 2:
-            picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
-        elif slot == 3:
-            picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
+        if target is None:
+            if slot == 0:
+                picked_insns = insns["alu32"]
+            elif slot == 1:
+                picked_insns = insns["alu32"]
+            elif slot == 2:
+                picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
+            elif slot == 3:
+                picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
 
-        while True:
-            picked = random.choice(picked_insns)[:]
+            while True:
+                picked = random.choice(picked_insns)[:]
+                insn_bits, insn_str = picked[:-1], picked[-1]
+                if "deprecated" in insn_str:
+                    continue
+                insn = cls(insn_bits, insn_str)
+                break
+
+        else:
+            picked = insns[target]
             insn_bits, insn_str = picked[:-1], picked[-1]
-            if "deprecated" in insn_str:
-                continue
             insn = cls(insn_bits, insn_str)
-            break
 
         # TODO: Support loop end instruction?
         if slot:
@@ -229,6 +240,16 @@ class InstructionPacket:
                 continue
             return packet
 
+    @classmethod
+    def generate_with_target(cls, target):
+        # Avoid double-writing
+        while True:
+            insns = [Instruction.generate(slot, target[slot]) for slot in range(4)]
+            packet = cls(insns)
+            if not packet.is_valid():
+                continue
+            return packet
+
 
 class TestCase:
     def __init__(self, packet, input):
@@ -273,6 +294,13 @@ class TestCase:
             if db and db.check(tc):
                 continue
             return tc
+
+    @classmethod
+    def generate_with_target(cls, target):
+        packet = InstructionPacket.generate_with_target(target)
+        input = cls.generate_input()
+        tc = cls(packet, input)
+        return tc
 
     def mutate(self, slots, db=None):
         required_index = self.packet.get_required_insn_index(slots)
@@ -472,16 +500,33 @@ class ThreadedTester:
         [list(itertools.combinations([0, 1, 2, 3], n)) for n in range(1, 5)], []
     )
 
-    def __init__(self, num_thread):
+    def __init__(self, num_thread, target_packet=None):
         self.tc_database = TestCaseDatabase().load()
         self.num_thread = num_thread
         self.print_lock = threading.Lock()
+        self.target_packet = target_packet
+        self.run_thread = (
+            self.run_thread_with_target if target_packet else self.run_thread_no_target
+        )
 
     def run(self):
         for _ in range(self.num_thread):
             threading.Thread(target=self.run_thread).start()
 
-    def run_thread(self):
+    def run_thread_with_target(self):
+        tester = Tester()
+        while True:
+            tc = TestCase.generate_with_target(self.target_packet)
+            tester.run(tc)
+            if not tester.is_failed():
+                continue
+
+            self.print_lock.acquire()
+            tester.print_output()
+            print("=" * 118)
+            self.print_lock.release()
+
+    def run_thread_no_target(self):
         tester = Tester()
         mutate_tester = Tester()
         while True:
@@ -520,7 +565,26 @@ class ThreadedTester:
 
 
 def main():
-    threaded_tester = ThreadedTester(20)
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "-c", "--num-cores", type=int, default=20, help="The number of cores to use"
+    )
+
+    parser.add_argument(
+        "-t",
+        "--target-packet",
+        help="The file containing the packet specification to fix the target packet",
+    )
+
+    args = parser.parse_args()
+
+    if args.target_packet:
+        target_packet = json.load(open(args.target_packet, "r"))
+    else:
+        target_packet = None
+
+    threaded_tester = ThreadedTester(args.num_cores, target_packet)
     threaded_tester.run()
 
 
