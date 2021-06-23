@@ -47,16 +47,18 @@ def read_instructions_csv():
     # insns['j'] = rows[164:258]
 
     # LD instructions
-    # insns['ld'] = rows[258:470]
+    insns["ld"] = rows[258:470]
 
     # MEMOP instructions
-    # insns['memop'] = rows[470:494]
+    insns["memop"] = rows[470:494]
 
     # NV instructions
     # insns['nv'] = rows[494:616]
+    insns["nv/j"] = rows[494:538]
+    insns["nv/st"] = rows[538:616]
 
     # ST instructions
-    # insns['st'] = rows[616:762]
+    insns["st"] = rows[616:762]
 
     # SYSTEM instructions
     # insns['system'] = rows[762:843]
@@ -73,7 +75,40 @@ class Instruction:
         "j": re.compile(r"(#[su][0-9]{1,2})"),
         "I": re.compile(r"(#[SU][0-9]{1,2})"),
         "N": re.compile(r"(\[:<<N\])"),
-        **{c: re.compile(r"([RPC](" + c + r"{1,2}))(\.new)?") for c in "stuvdexy"},
+        **{c: re.compile(r"([RPCMN](" + c + r"{1,2}))(\.new)?") for c in "stuvdexy"},
+    }
+
+    # TODO: Fill constraints
+    addressing_constraints = {
+        "#u6": [],
+        "Re=#U6": [],
+        "Rt<<#u2+#U6": [],
+        "Ru<<#u2+#U6": [],
+        "gp+#u16:3": [],
+        "gp+#u16:2": [],
+        "gp+#u16:1": [],
+        "gp+#u16:0": [],
+        "Rs+#s11:3": [],
+        "Rs+#s11:2": [],
+        "Rs+#s11:1": [],
+        "Rs+#s11:0": [],
+        "Rs+#u6:3": [],
+        "Rs+#u6:2": [],
+        "Rs+#u6:1": [],
+        "Rs+#u6:0": [],
+        "Rs+Rt<<#u2": [],
+        "Rs+Ru<<#u2": [],
+        "Rx++#s4:3": [],
+        "Rx++#s4:2": [],
+        "Rx++#s4:1": [],
+        "Rx++#s4:0": [],
+        "Rx++Mu": [],
+        "Rx++Mu:brev": [],
+        "Rx++#s4:3:circ(Mu)": [],
+        "Rx++#s4:2:circ(Mu)": [],
+        "Rx++#s4:1:circ(Mu)": [],
+        "Rx++#s4:0:circ(Mu)": [],
+        "Rx++I:circ(Mu)": [],
     }
 
     def __init__(self, insn_bits, insn_str):
@@ -109,9 +144,16 @@ class Instruction:
 
         if target is None:
             if slot == 0:
-                picked_insns = insns["alu32"]
+                picked_insns = (
+                    insns["alu32"]
+                    + insns["ld"]
+                    + insns["st"]
+                    + insns["memop"]
+                    + insns["nv/st"]
+                )
             elif slot == 1:
-                picked_insns = insns["alu32"]
+                # TODO: Need to consider st+st/st+ld/ld+ld here
+                picked_insns = insns["alu32"] + insns["ld"] + insns["st"]
             elif slot == 2:
                 picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
             elif slot == 3:
@@ -121,6 +163,9 @@ class Instruction:
                 picked = random.choice(picked_insns)[:]
                 insn_bits, insn_str = picked[:-1], picked[-1]
                 if "deprecated" in insn_str:
+                    continue
+                # Not possible to handle return instructions
+                if "return" in insn_str:
                     continue
                 insn = cls(insn_bits, insn_str)
                 break
@@ -136,6 +181,13 @@ class Instruction:
         else:
             insn.set_value("P", 3)
         insn.set_value("-", 0)
+
+        # Handle memory addressing
+        regex = re.compile(r"memu?b?[bhwd](?:_fifo)?\(([^\(\)]*(?:\(Mu\))?)\)")
+        res = regex.search(insn.str)
+        if res:
+            addr_mode = res.group(1)
+            insn.consts = cls.addressing_constraints[addr_mode]
 
         for c in "jINstuvdexy":
             count = insn.bits.count(c)
@@ -257,7 +309,7 @@ class TestCase:
         self.input = input
 
     @staticmethod
-    def generate_input():
+    def generate_input(_packet):
         with open("/dev/urandom", "rb") as f:
             general = f.read(4 * 10)
 
@@ -289,7 +341,7 @@ class TestCase:
     def generate(cls, db=None):
         while True:
             packet = InstructionPacket.generate()
-            input = cls.generate_input()
+            input = cls.generate_input(packet)
             tc = cls(packet, input)
             if db and db.check(tc):
                 continue
@@ -298,7 +350,7 @@ class TestCase:
     @classmethod
     def generate_with_target(cls, target):
         packet = InstructionPacket.generate_with_target(target)
-        input = cls.generate_input()
+        input = cls.generate_input(packet)
         tc = cls(packet, input)
         return tc
 
@@ -319,7 +371,7 @@ class TestCase:
                 else:
                     packet.insns[i] = Instruction.nop(i)
 
-            input = self.generate_input()
+            input = self.generate_input(packet)
             tc = self.__class__(packet, input)
 
             if db and db.check(tc):
