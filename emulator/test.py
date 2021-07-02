@@ -70,45 +70,20 @@ def read_instructions_csv():
 read_instructions_csv()
 
 
+def signed(v, bit):
+    if v >> (bit - 1) == 1:
+        t = (v ^ ((1 << bit) - 1)) + 1
+        return -t
+    else:
+        return v
+
+
 class Instruction:
     opstr_preg = {
         "j": re.compile(r"(#[su][0-9]{1,2})"),
         "I": re.compile(r"(#[SU][0-9]{1,2})"),
         "N": re.compile(r"(\[:<<N\])"),
         **{c: re.compile(r"([RPCMN](" + c + r"{1,2}))(\.new)?") for c in "stuvdexy"},
-    }
-
-    # TODO: Fill constraints
-    addressing_constraints = {
-        "#u6": [],
-        "Re=#U6": [],
-        "Rt<<#u2+#U6": [],
-        "Ru<<#u2+#U6": [],
-        "gp+#u16:3": [],
-        "gp+#u16:2": [],
-        "gp+#u16:1": [],
-        "gp+#u16:0": [],
-        "Rs+#s11:3": [],
-        "Rs+#s11:2": [],
-        "Rs+#s11:1": [],
-        "Rs+#s11:0": [],
-        "Rs+#u6:3": [],
-        "Rs+#u6:2": [],
-        "Rs+#u6:1": [],
-        "Rs+#u6:0": [],
-        "Rs+Rt<<#u2": [],
-        "Rs+Ru<<#u2": [],
-        "Rx++#s4:3": [],
-        "Rx++#s4:2": [],
-        "Rx++#s4:1": [],
-        "Rx++#s4:0": [],
-        "Rx++Mu": [],
-        "Rx++Mu:brev": [],
-        "Rx++#s4:3:circ(Mu)": [],
-        "Rx++#s4:2:circ(Mu)": [],
-        "Rx++#s4:1:circ(Mu)": [],
-        "Rx++#s4:0:circ(Mu)": [],
-        "Rx++I:circ(Mu)": [],
     }
 
     def __init__(self, insn_bits, insn_str):
@@ -119,6 +94,9 @@ class Instruction:
         self.written = set()
         self.require = set()
         self.values = dict()
+        self.address_mode = None
+        self.hints = dict()
+        self.invalid = False
 
     @property
     def insn_byte(self):
@@ -138,6 +116,86 @@ class Instruction:
                 self.bits[idx] = str((val >> (count - 1)) & 1)
                 count -= 1
 
+    def generate_hints(self):
+        if self.address_mode is None:
+            return
+
+        print(self.orig_str)
+
+        # TODO: expand targets
+        target = 0x410EEE0
+        if self.address_mode == "#u6":
+            # TODO: Better handling than rejection?
+            v = (target - self.values["j"]) % (1 << 32)
+            if v & 0b1111111 != 0:
+                self.invalid = True
+                return
+            self.hints["GP"] = v
+        elif self.address_mode == "Re=#U6":
+            # TODO: Better handling than rejection?
+            v = (target - self.values["I"]) % (1 << 32)
+            if v & 0b1111111 != 0:
+                self.invalid = True
+                return
+            self.hints["GP"] = v
+        elif self.address_mode == "Rt<<#u2+#U6":
+            v = target - self.values["I"]
+            if v % (1 << self.values["j"]) != 0:
+                self.invalid = True
+                return
+            self.hints[f'R{self.values["t"]}'] = v >> self.values["j"]
+        elif self.address_mode == "Ru<<#u2+#U6":
+            v = target - self.values["I"]
+            if v % (1 << self.values["j"]) != 0:
+                self.invalid = True
+                return
+            self.hints[f'R{self.values["u"]}'] = v >> self.values["j"]
+        elif self.address_mode[:-1] == "gp+#u16:":
+            # TODO: Better handling than rejection?
+            v = target - (self.values["j"] << int(self.address_mode[-1]))
+            if v & 0b1111111 != 0:
+                self.invalid = True
+                return
+            self.hints["GP"] = v
+        elif self.address_mode[:-1] == "Rs+#s11:":
+            self.hints[f'R{self.values["s"]}'] = target - (
+                signed(self.values["j"], 11) << int(self.address_mode[-1])
+            )
+        elif self.address_mode[:-1] == "Rs+#u6:":
+            self.hints[f'R{self.values["s"]}'] = target - (
+                self.values["j"] << int(self.address_mode[-1])
+            )
+        elif self.address_mode == "Rs+Rt<<#u2":
+            if self.values["t"] == self.values["s"]:
+                mult = 1 + (1 << self.values["j"])
+                if target % mult != 0:
+                    self.invalid = True
+                    return
+                self.hints[f'R{self.values["t"]}'] = target // mult
+            else:
+                t = random.getrandbits(32)
+                s = target - t << self.values["j"]
+                self.hints[f'R{self.values["t"]}'] = t
+                self.hints[f'R{self.values["s"]}'] = s
+        elif self.address_mode == "Rs+Ru<<#u2":
+            if self.values["u"] == self.values["s"]:
+                mult = 1 + (1 << self.values["j"])
+                if target % mult != 0:
+                    self.invalid = True
+                    return
+                self.hints[f'R{self.values["u"]}'] = target // mult
+            else:
+                u = random.getrandbits(32)
+                s = target - u << self.values["j"]
+                self.hints[f'R{self.values["u"]}'] = u
+                self.hints[f'R{self.values["s"]}'] = s
+        elif self.address_mode == "Rx++I:circ(Mu)":
+            t = f"{target:032b}"
+            t = int(t[:16] + t[16:][::-1], 2)
+            self.hints[f'R{self.values["x"]}'] = t
+        else:
+            self.hints[f'R{self.values["x"]}'] = target
+
     @classmethod
     def generate(cls, slot, target=None):
         global insns
@@ -146,14 +204,14 @@ class Instruction:
             if slot == 0:
                 picked_insns = (
                     insns["alu32"]
-                    # + insns["ld"]
-                    # + insns["st"]
-                    # + insns["memop"]
+                    + insns["ld"]
+                    + insns["st"]
+                    + insns["memop"]
                     # + insns["nv/st"]
                 )
             elif slot == 1:
                 # TODO: Need to consider st+st/st+ld/ld+ld here
-                picked_insns = insns["alu32"]  # + insns["ld"] + insns["st"]
+                picked_insns = insns["alu32"] + insns["ld"]  # + insns["st"]
             elif slot == 2:
                 picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
             elif slot == 3:
@@ -167,6 +225,11 @@ class Instruction:
                 # Not possible to handle return instructions
                 if "return" in insn_str:
                     continue
+
+                # TODO: Handle those:
+                if "(#u6)" in insn_str or "(Re=#U6)" in insn_str:
+                    continue
+
                 insn = cls(insn_bits, insn_str)
                 break
 
@@ -182,12 +245,10 @@ class Instruction:
             insn.set_value("P", 3)
         insn.set_value("-", 0)
 
-        # Handle memory addressing
+        # Get memory addressing
         regex = re.compile(r"memu?b?[bhwd](?:_fifo)?\(([^\(\)]*(?:\(Mu\))?)\)")
         res = regex.search(insn.str)
-        if res:
-            addr_mode = res.group(1)
-            insn.consts = cls.addressing_constraints[addr_mode]
+        insn.address_mode = res.group(1) if res else None
 
         for c in "jINstuvdexy":
             count = insn.bits.count(c)
@@ -238,6 +299,9 @@ class Instruction:
         if "decbin" in insn.str:
             insn.written.add("P0")
 
+        # Handle memory addressing
+        insn.generate_hints()
+
         return insn
 
     @classmethod
@@ -254,11 +318,27 @@ class Instruction:
 class InstructionPacket:
     def __init__(self, insns):
         self.insns = insns
+        self.hints = dict()
+        self.invalid_hints = False
+
+        for insn in insns:
+            for key, value in insn.hints.items():
+                if key in self.hints and self.hints[key] != value:
+                    self.invalid_hints = True
+                else:
+                    self.hints[key] = value
+
+        print(self.hints)
 
     def get_bytes(self):
         return b"".join(insn.insn_byte for insn in reversed(self.insns))
 
     def is_valid(self):
+        if self.invalid_hints:
+            return False
+        if any(insn.invalid for insn in self.insns):
+            return False
+
         all_require = set().union(*[insn.require for insn in self.insns])
         all_written = set().union(*[insn.written for insn in self.insns])
         return len(all_written) == sum(
@@ -309,9 +389,15 @@ class TestCase:
         self.input = input
 
     @staticmethod
-    def generate_input(_packet):
+    def generate_input(packet):
         with open("/dev/urandom", "rb") as f:
-            general = f.read(4 * 10)
+            general = b""
+            for i in range(10):
+                v = f.read(4)
+                if f"R{i}" in packet.hints:
+                    v = packet.hints[f"R{i}"] % (1 << 32)
+                    v = v.to_bytes(4, "little")
+                general += v
 
             predicate = b""
             for _ in range(4):
@@ -339,6 +425,8 @@ class TestCase:
 
             gp = bytearray(f.read(4))
             gp[0] &= 0b10000000
+            if "GP" in packet.hints:
+                gp = packet.hints[f"GP"].to_bytes(4, "little")
 
             mem = f.read(4 * 4)
 
