@@ -7,8 +7,8 @@ cd qemu
 # 	make docker-image-debian-hexagon-cross 2>&1
 # fi
 
-./scripts/archive-source.sh ../qemu.tar
+# ./scripts/archive-source.sh ../qemu.tar
 
 cd ..
 docker build -f hexagon.dockerfile -t rbtree/qemu-hexagon . --progress=plain
-rm qemu.tar
+# rm qemu.tar

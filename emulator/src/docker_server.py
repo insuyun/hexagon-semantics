@@ -21,7 +21,7 @@ class ThreadedServer(object):
             # Find 4 nops to replace
             nops = (
                 binary_data.find(
-                    b"\x08\xc0\x2c\x62"
+                    b"\x0b\xc0\x2f\x62"
                     + b"\x00\x40\x00\x7f" * 3
                     + b"\x00\xc0\x00\x7f"
                     + b"\x0b\xc0\x04\x6a"
@@ -40,8 +40,8 @@ class ThreadedServer(object):
             threading.Thread(target=self.listenToClient, args=(client,)).start()
 
     def listenToClient(self, client):
-        data = client.recv(16 + 48)
-        if not data or len(data) < 16 + 48:
+        data = client.recv(16 + 4 * 19)
+        if not data or len(data) < 16 + 4 * 19:
             client.send(b"CRASH")
             client.close()
             return
@@ -61,7 +61,9 @@ class ThreadedServer(object):
             stderr=subprocess.DEVNULL,
         )
 
-        client.send(proc.stdout)
+        l = proc.stdout
+        print(l)
+        client.send(l)
         client.close()
 
         os.remove(file.name)

@@ -146,14 +146,14 @@ class Instruction:
             if slot == 0:
                 picked_insns = (
                     insns["alu32"]
-                    + insns["ld"]
-                    + insns["st"]
-                    + insns["memop"]
-                    + insns["nv/st"]
+                    # + insns["ld"]
+                    # + insns["st"]
+                    # + insns["memop"]
+                    # + insns["nv/st"]
                 )
             elif slot == 1:
                 # TODO: Need to consider st+st/st+ld/ld+ld here
-                picked_insns = insns["alu32"] + insns["ld"] + insns["st"]
+                picked_insns = insns["alu32"]  # + insns["ld"] + insns["st"]
             elif slot == 2:
                 picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
             elif slot == 3:
@@ -323,6 +323,8 @@ class TestCase:
                 else:
                     predicate += f.read(1)
 
+            m0m1 = f.read(4 * 2)
+
             user_status = bytearray(f.read(4))
             user_status[0] &= 0b00111110
             user_status[1] &= 0b11111100
@@ -335,7 +337,12 @@ class TestCase:
                 user_status[1] &= 0b01111111
                 user_status[2] &= 0b11111110
 
-        return general + predicate + user_status
+            gp = bytearray(f.read(4))
+            gp[0] &= 0b10000000
+
+            mem = f.read(4 * 4)
+
+        return general + predicate + m0m1 + user_status + gp + mem
 
     @classmethod
     def generate(cls, db=None):
@@ -384,7 +391,8 @@ class TestCase:
 
 
 class Tester:
-    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C8"]
+    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C6", "C7", "C8", "C11"]
+    memories = ["Mem{}".format(i) for i in range(4)]
     emulators = ["sdk-sim", "qemu"]
 
     def __init__(self):
@@ -393,7 +401,7 @@ class Tester:
 
     @staticmethod
     def parse_output(output):
-        prog = re.compile(rb"([RC][0-9]{1,2}): ([0-9]{1,10})")
+        prog = re.compile(rb"((?:R|C|Mem)[0-9]{1,2}): ([0-9]{1,10})")
 
         inputs, outputs = {}, {}
         for line in output.split(b"\n"):
@@ -416,7 +424,7 @@ class Tester:
         # Find 4 nops to replace
         nops = (
             data.find(
-                b"\x08\xc0\x2c\x62"
+                b"\x0b\xc0\x2f\x62"
                 + b"\x00\x40\x00\x7f" * 3
                 + b"\x00\xc0\x00\x7f"
                 + b"\x0b\xc0\x04\x6a"
@@ -481,7 +489,7 @@ class Tester:
         print("[Testcase]")
         self.testcase.print_testcase()
 
-        print("[Inputs]")
+        print("[Input Registers]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
         for e in self.emulators:
             s = f"{e:10s}"
@@ -493,7 +501,19 @@ class Tester:
                 s += "     None" * len(self.registers)
             print(s)
 
-        print("[Outputs]")
+        print("[Input Memories]")
+        print(" " * 10 + "".join(f" {r:8s}" for r in self.memories))
+        for e in self.emulators:
+            s = f"{e:10s}"
+            if self.output[e]:
+                s += "".join(
+                    f" {self.output[e]['input'][r]:08x}" for r in self.memories
+                )
+            else:
+                s += "     None" * len(self.memories)
+            print(s)
+
+        print("[Output Registers]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
         for e in self.emulators:
             s = f"{e:10s}"
@@ -503,6 +523,18 @@ class Tester:
                 )
             else:
                 s += "     None" * len(self.registers)
+            print(s)
+
+        print("[Output Memories]")
+        print(" " * 10 + "".join(f" {r:8s}" for r in self.memories))
+        for e in self.emulators:
+            s = f"{e:10s}"
+            if self.output[e]:
+                s += "".join(
+                    f" {self.output[e]['output'][r]:08x}" for r in self.memories
+                )
+            else:
+                s += "     None" * len(self.memories)
             print(s)
 
 
