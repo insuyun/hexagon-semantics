@@ -272,7 +272,12 @@ class Instruction:
                 val = random.randint(0, min(2 ** count - 1, 9))
 
             if c in "jI":
-                insn.str = insn.str.replace(opstr, "#{}{}".format(val, opstr[1:]))
+                if "s" in opstr[1:] or "S" in opstr[1:]:
+                    insn.str = insn.str.replace(
+                        opstr, "#{}{}".format(signed(val, count), opstr[1:])
+                    )
+                else:
+                    insn.str = insn.str.replace(opstr, "#{}{}".format(val, opstr[1:]))
             elif c == "N" and val:
                 assert val == 1
                 insn.str = insn.str.replace(opstr, ":<<1")
@@ -337,9 +342,12 @@ class InstructionPacket:
             return False
         if any(insn.invalid for insn in self.insns):
             return False
-        
+
         # ld + st is not allowed
-        if self.insns[0].orig_str in insns["ld"] and self.insns[1].orig_str in insns["st"]:
+        if (
+            self.insns[0].orig_str in insns["ld"]
+            and self.insns[1].orig_str in insns["st"]
+        ):
             return False
 
         all_require = set().union(*[insn.require for insn in self.insns])
