@@ -343,13 +343,6 @@ class InstructionPacket:
         if any(insn.invalid for insn in self.insns):
             return False
 
-        # st + ld is not allowed
-        if (
-            self.insns[0].orig_str in insns["st"]
-            and self.insns[1].orig_str in insns["ld"]
-        ):
-            return False
-
         # slot 1 st should be with slot 0 st/ld
         if (
             self.insns[0].orig_str not in insns["ld"]
