@@ -120,8 +120,6 @@ class Instruction:
         if self.address_mode is None:
             return
 
-        print(self.orig_str)
-
         # TODO: expand targets
         target = 0x410EEE0
         if self.address_mode == "#u6":
@@ -152,7 +150,7 @@ class Instruction:
             self.hints[f'R{self.values["u"]}'] = v >> self.values["j"]
         elif self.address_mode[:-1] == "gp+#u16:":
             # TODO: Better handling than rejection?
-            v = target - (self.values["j"] << int(self.address_mode[-1]))
+            v = (target - (self.values["j"] << int(self.address_mode[-1]))) % (1 << 32)
             if v & 0b1111111 != 0:
                 self.invalid = True
                 return
@@ -174,7 +172,7 @@ class Instruction:
                 self.hints[f'R{self.values["t"]}'] = target // mult
             else:
                 t = random.getrandbits(32)
-                s = target - t << self.values["j"]
+                s = (target - (t << self.values["j"])) % (1 << 32)
                 self.hints[f'R{self.values["t"]}'] = t
                 self.hints[f'R{self.values["s"]}'] = s
         elif self.address_mode == "Rs+Ru<<#u2":
@@ -186,10 +184,10 @@ class Instruction:
                 self.hints[f'R{self.values["u"]}'] = target // mult
             else:
                 u = random.getrandbits(32)
-                s = target - u << self.values["j"]
+                s = (target - (u << self.values["j"])) % (1 << 32)
                 self.hints[f'R{self.values["u"]}'] = u
                 self.hints[f'R{self.values["s"]}'] = s
-        elif self.address_mode == "Rx++I:circ(Mu)":
+        elif self.address_mode == "Rx++Mu:brev":
             t = f"{target:032b}"
             t = int(t[:16] + t[16:][::-1], 2)
             self.hints[f'R{self.values["x"]}'] = t
@@ -210,8 +208,7 @@ class Instruction:
                     # + insns["nv/st"]
                 )
             elif slot == 1:
-                # TODO: Need to consider st+st/st+ld/ld+ld here
-                picked_insns = insns["alu32"] + insns["ld"]  # + insns["st"]
+                picked_insns = insns["alu32"] + insns["st"] + insns["ld"]
             elif slot == 2:
                 picked_insns = insns["alu32"] + insns["xtype"] + insns["cr23"]
             elif slot == 3:
@@ -228,6 +225,10 @@ class Instruction:
 
                 # TODO: Handle those:
                 if "(#u6)" in insn_str or "(Re=#U6)" in insn_str:
+                    continue
+
+                # Not testing allocframe and deallocframe
+                if "allocframe" in insn_str:
                     continue
 
                 insn = cls(insn_bits, insn_str)
@@ -328,8 +329,6 @@ class InstructionPacket:
                 else:
                     self.hints[key] = value
 
-        print(self.hints)
-
     def get_bytes(self):
         return b"".join(insn.insn_byte for insn in reversed(self.insns))
 
@@ -337,6 +336,10 @@ class InstructionPacket:
         if self.invalid_hints:
             return False
         if any(insn.invalid for insn in self.insns):
+            return False
+        
+        # ld + st is not allowed
+        if self.insns[0].orig_str in insns["ld"] and self.insns[1].orig_str in insns["st"]:
             return False
 
         all_require = set().union(*[insn.require for insn in self.insns])
