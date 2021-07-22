@@ -722,7 +722,7 @@ class ThreadedTester:
             identified = None
             for slots in self.slots_combination:
                 flag = False
-                for _ in range(100):
+                for _ in range(500):
                     mutated_tc = tc.mutate(slots, db=self.tc_database)
                     mutate_tester.run(mutated_tc)
                     if mutate_tester.is_failed():
