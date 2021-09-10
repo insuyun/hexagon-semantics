@@ -16,10 +16,11 @@ import threading
 
 
 insns = {}
+ld_set, st_set = set(), set()
 
 
 def read_instructions_csv():
-    global insns
+    global insns, ld_set, st_set
 
     with open("qemu_hexagon/instructions.csv") as f:
         reader = csv.reader(f)
@@ -48,6 +49,8 @@ def read_instructions_csv():
 
     # LD instructions
     insns["ld"] = rows[258:470]
+    for row in rows[258:470]:
+        ld_set.add(row[-1])
 
     # MEMOP instructions
     insns["memop"] = rows[470:494]
@@ -59,6 +62,8 @@ def read_instructions_csv():
 
     # ST instructions
     insns["st"] = rows[616:762]
+    for row in rows[616:762]:
+        st_set.add(row[-1])
 
     # SYSTEM instructions
     # insns['system'] = rows[762:843]
@@ -345,9 +350,16 @@ class InstructionPacket:
 
         # slot 1 st should be with slot 0 st/ld
         if (
-            self.insns[0].orig_str not in insns["ld"]
-            and self.insns[0].orig_str not in insns["st"]
-            and self.insns[1].orig_str in insns["st"]
+            self.insns[0].orig_str not in ld_set
+            and self.insns[0].orig_str not in st_set
+            and self.insns[1].orig_str in st_set
+        ):
+            return False
+
+        # Slot 1 ld should be with slot 0 ld
+        if (
+            self.insns[0].orig_str not in ld_set
+            and self.insns[1].orig_str in ld_set
         ):
             return False
 
@@ -440,9 +452,11 @@ class TestCase:
             if "GP" in packet.hints:
                 gp = packet.hints[f"GP"].to_bytes(4, "little")
 
+            cs = f.read(8)
+
             mem = f.read(4 * 4)
 
-        return general + predicate + m0m1 + user_status + gp + mem
+        return general + predicate + m0m1 + user_status + gp + cs + mem
 
     @classmethod
     def generate(cls, db=None):
@@ -491,7 +505,7 @@ class TestCase:
 
 
 class Tester:
-    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C6", "C7", "C8", "C11"]
+    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C6", "C7", "C8", "C11", "C12", "C13"]
     memories = ["Mem{}".format(i) for i in range(4)]
     emulators = ["sdk-sim", "qemu"]
 
@@ -524,7 +538,7 @@ class Tester:
         # Find 4 nops to replace
         nops = (
             data.find(
-                b"\x0b\xc0\x2f\x62"
+                b"\x0d\xc0\x31\x62"
                 + b"\x00\x40\x00\x7f" * 3
                 + b"\x00\xc0\x00\x7f"
                 + b"\x0b\xc0\x04\x6a"

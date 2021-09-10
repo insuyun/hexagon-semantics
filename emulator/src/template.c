@@ -11,7 +11,7 @@ int main()
 
     unsigned int *mem = (unsigned int*) 0x410eee0;
     int i;
-    unsigned int inputs[19] = {};
+    unsigned int inputs[21] = {};
     read(0, inputs, sizeof(inputs));
     for (i = 0; i < 10; i++) {
         printf("R%d: %u\n", i, inputs[i]);
@@ -21,8 +21,11 @@ int main()
     printf("C7: %u\n", inputs[12]);
     printf("C8: %u\n", inputs[13]);
     printf("C11: %u\n", inputs[14]);
+    printf("C12: %u\n", inputs[15]);
+    printf("C13: %u\n", inputs[16]);
     for (i = 0; i < 4; i++) {
-        mem[i] = inputs[15 + i];
+        mem[i] = inputs[17 + i];
+        printf("inputs: %u\n", inputs[17 + i]);
         printf("Mem%d: %u\n", i, mem[i]);
     }
     __asm(
@@ -51,6 +54,9 @@ int main()
         "R14 = memw(R10 + #52);"
         "} {"
         "R15 = memw(R10 + #56);"
+        "R16 = memw(R10 + #60);"
+        "} {"
+        "R17 = memw(R10 + #64);"
         "} {"
         "C4 = R11;"
         "} {"
@@ -64,6 +70,10 @@ int main()
         "} {"
         "C11 = R15;"
         "} {"
+        "C12 = R16;"
+        "} {"
+        "C13 = R17;"
+        "} {"
         " nop; nop; nop; nop; "
         "} {"
         "R11 = C4;"
@@ -76,6 +86,10 @@ int main()
         "} {"
         "R15 = C11;"
         "} {"
+        "R16 = C12;"
+        "} {"
+        "R17 = C13;"
+        "} {"
         "C11 = R20;"
         "} {"
         "memw(R10 + #40) = R11;"
@@ -85,6 +99,9 @@ int main()
         "memw(R10 + #52) = R14;"
         "} {"
         "memw(R10 + #56) = R15;"
+        "memw(R10 + #60) = R16;"
+        "} {"
+        "memw(R10 + #64) = R17;"
         "} {"
         "memw(R10 + #0) = R0;"
         "memw(R10 + #4) = R1;"
@@ -110,6 +127,8 @@ int main()
     printf("C7: %u\n", inputs[12]);
     printf("C8: %u\n", inputs[13]);
     printf("C11: %u\n", inputs[14]);
+    printf("C12: %u\n", inputs[15]);
+    printf("C13: %u\n", inputs[16]);
     for (i = 0; i < 4; i++) {
         printf("Mem%d: %u\n", i, mem[i]);
     }
