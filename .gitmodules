@@ -1,3 +1,6 @@
 [submodule "qemu"]
 	path = emulator/qemu
 	url = https://github.com/quic/qemu.git
+[submodule "emulator/binja-hexagon"]
+	path = emulator/binja-hexagon
+	url = git@github.com:google/binja-hexagon.git
