@@ -4,3 +4,6 @@
 [submodule "emulator/binja-hexagon"]
 	path = emulator/binja-hexagon
 	url = git@github.com:google/binja-hexagon.git
+[submodule "emulator/emilator"]
+	path = emulator/emilator
+	url = https://github.com/jhs7jhs/emilator
