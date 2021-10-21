@@ -504,15 +504,14 @@ class TestCase:
         print(self.input.hex())
 
 
-class Tester:
-    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C6", "C7", "C8", "C11", "C12", "C13"]
-    memories = ["Mem{}".format(i) for i in range(4)]
-    emulators = ["sdk-sim", "qemu"]
+class Emulator:
 
-    def __init__(self):
-        self.testcase = None
-        self.output = None
-
+    def __init__(self, name):
+        self.name = name
+    
+    def run(self, testcase):
+        raise NotImplemented
+    
     @staticmethod
     def parse_output(output):
         prog = re.compile(rb"((?:R|C|Mem)[0-9]{1,2}): ([0-9]{1,10})")
@@ -531,7 +530,13 @@ class Tester:
 
         return {"input": inputs, "output": outputs}
 
-    def run_sim(self):
+
+class SimEmulator(Emulator):
+
+    def __init__(self):
+        super().__init__("sdk-sim")
+    
+    def run(self, testcase):
         with open("bin/template.elf", "rb") as f:
             data = bytearray(f.read())
 
@@ -545,7 +550,7 @@ class Tester:
             )
             + 4
         )
-        data[nops : nops + 16] = self.testcase.packet.get_bytes()
+        data[nops : nops + 16] = testcase.packet.get_bytes()
 
         file = NamedTemporaryFile(delete=False)
         file.write(data)
@@ -554,7 +559,7 @@ class Tester:
 
         proc = subprocess.run(
             ["make", "sim", "MAIN_BIN=" + file.name, "-s"],
-            input=self.testcase.input,
+            input=testcase.input,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
@@ -565,22 +570,40 @@ class Tester:
             return None
         return self.parse_output(proc.stdout)
 
-    def run_qemu(self):
+
+class QemuEmulator(Emulator):
+
+    def __init__(self):
+        super().__init__("qemu")
+    
+    def run(self, testcase):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect(("localhost", 9000))
-            s.send(self.testcase.packet.get_bytes() + self.testcase.input)
+            s.send(testcase.packet.get_bytes() + testcase.input)
             data = s.recv(1024)
 
         if b"CRASH" in data:
             return None
         return self.parse_output(data)
 
+class Tester:
+    registers = ["R{}".format(i) for i in range(10)] + ["C4", "C6", "C7", "C8", "C11", "C12", "C13"]
+    memories = ["Mem{}".format(i) for i in range(4)]
+
+    def __init__(self):
+        self.testcase = None
+        self.output = None
+        self.emulators = [
+            SimEmulator(),
+            QemuEmulator(),
+        ]
+
     def run(self, testcase):
         self.testcase = testcase
-        self.output = {
-            "qemu": self.run_qemu(),
-            "sdk-sim": self.run_sim(),
-        }
+        self.output = {}
+        for emulator in self.emulators:
+            output = emulator.run(testcase)
+            self.output[emulator.name] = output
 
     def is_failed(self):
         if self.output["qemu"] is None or self.output["sdk-sim"] is None:
@@ -606,10 +629,10 @@ class Tester:
         print("[Input Registers]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
         for e in self.emulators:
-            s = f"{e:10s}"
-            if self.output[e]:
+            s = f"{e.name:10s}"
+            if self.output[e.name]:
                 s += "".join(
-                    f" {self.output[e]['input'][r]:08x}" for r in self.registers
+                    f" {self.output[e.name]['input'][r]:08x}" for r in self.registers
                 )
             else:
                 s += "     None" * len(self.registers)
@@ -618,10 +641,10 @@ class Tester:
         print("[Input Memories]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.memories))
         for e in self.emulators:
-            s = f"{e:10s}"
-            if self.output[e]:
+            s = f"{e.name:10s}"
+            if self.output[e.name]:
                 s += "".join(
-                    f" {self.output[e]['input'][r]:08x}" for r in self.memories
+                    f" {self.output[e.name]['input'][r]:08x}" for r in self.memories
                 )
             else:
                 s += "     None" * len(self.memories)
@@ -630,10 +653,10 @@ class Tester:
         print("[Output Registers]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
         for e in self.emulators:
-            s = f"{e:10s}"
-            if self.output[e]:
+            s = f"{e.name:10s}"
+            if self.output[e.name]:
                 s += "".join(
-                    f" {self.output[e]['output'][r]:08x}" for r in self.registers
+                    f" {self.output[e.name]['output'][r]:08x}" for r in self.registers
                 )
             else:
                 s += "     None" * len(self.registers)
@@ -642,10 +665,10 @@ class Tester:
         print("[Output Memories]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.memories))
         for e in self.emulators:
-            s = f"{e:10s}"
-            if self.output[e]:
+            s = f"{e.name:10s}"
+            if self.output[e.name]:
                 s += "".join(
-                    f" {self.output[e]['output'][r]:08x}" for r in self.memories
+                    f" {self.output[e.name]['output'][r]:08x}" for r in self.memories
                 )
             else:
                 s += "     None" * len(self.memories)
