@@ -586,6 +586,46 @@ class QemuEmulator(Emulator):
             return None
         return self.parse_output(data)
 
+
+class BinjaEmulator(Emulator):
+
+    def __init__(self):
+        super().__init__("binja")
+        with open('./src/template_asm.elf', 'rb') as f:
+            self.data = bytearray(f.read())
+        self.nops = self.data.find((b"\x00\x40\x00\x7f" * 3 + b"\x00\xc0\x00\x7f") * 2)
+
+    def run(self, testcase):
+        self.data[self.nops : self.nops + 16] = testcase.packet.get_bytes()
+
+        file = NamedTemporaryFile(delete=False)
+        file.write(self.data)
+        # os.chmod(file.name, 0o555)
+        file.close()
+
+        proc = subprocess.run(
+            ["python3", "test_binja_inner.py", file.name],
+            input=testcase.input,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        os.remove(file.name)
+
+        if proc.stderr:
+            # TODO: Implement Exceptions
+            print("BinjaEmulator ERROR")
+            print(proc.stderr)
+            return None
+        
+        self.insns, output = proc.stdout.split(b"[OUTPUTS]\n")
+        if b"undefined" in self.insns:
+            # TODO: Handle this properly
+            return -1
+        
+        return self.parse_output(output)
+
+
 class Tester:
     registers = ["R{}".format(i) for i in range(10)] + ["C4", "C6", "C7", "C8", "C11", "C12", "C13"]
     memories = ["Mem{}".format(i) for i in range(4)]
@@ -596,6 +636,7 @@ class Tester:
         self.emulators = [
             SimEmulator(),
             QemuEmulator(),
+            BinjaEmulator(),
         ]
 
     def run(self, testcase):
@@ -603,14 +644,30 @@ class Tester:
         self.output = {}
         for emulator in self.emulators:
             output = emulator.run(testcase)
-            self.output[emulator.name] = output
+            if output != -1:
+                self.output[emulator.name] = output
 
     def is_failed(self):
-        if self.output["qemu"] is None or self.output["sdk-sim"] is None:
+        # if any(v is None for v in self.output.values()):
+        #     return True
+        # for x, y in itertools.combinations(self.output.values(), 2):
+        #     if x["input"] != y["input"]:
+        #         return True
+        #     if x["output"] != y["output"]:
+        #         return True
+
+        if len(self.output) != 3:
+            return False
+        
+        print(self.output)
+        
+        if self.output["sdk-sim"]["input"] != self.output["binja"]["input"]:
             return True
-        if self.output["sdk-sim"]["input"] != self.output["qemu"]["input"]:
+        if self.output["qemu"]["input"] != self.output["binja"]["input"]:
             return True
-        if self.output["sdk-sim"]["output"] != self.output["qemu"]["output"]:
+        if self.output["sdk-sim"]["output"] != self.output["binja"]["output"]:
+            return True
+        if self.output["qemu"]["output"] != self.output["binja"]["output"]:
             return True
 
         written = self.testcase.packet.get_written_reg() | set(["C4", "C8"])
@@ -626,53 +683,61 @@ class Tester:
         print("[Testcase]")
         self.testcase.print_testcase()
 
+        if len(self.output) == 3:
+            print("[Binja output]")
+            print(self.emulators[2].insns.decode())
+
         print("[Input Registers]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
         for e in self.emulators:
             s = f"{e.name:10s}"
-            if self.output[e.name]:
+            if e.name in self.output and self.output[e.name]:
                 s += "".join(
                     f" {self.output[e.name]['input'][r]:08x}" for r in self.registers
                 )
             else:
                 s += "     None" * len(self.registers)
-            print(s)
+            if e.name in self.output:
+                print(s)
 
         print("[Input Memories]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.memories))
         for e in self.emulators:
             s = f"{e.name:10s}"
-            if self.output[e.name]:
+            if e.name in self.output and self.output[e.name]:
                 s += "".join(
                     f" {self.output[e.name]['input'][r]:08x}" for r in self.memories
                 )
             else:
                 s += "     None" * len(self.memories)
-            print(s)
+            if e.name in self.output:
+                print(s)
 
         print("[Output Registers]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.registers))
         for e in self.emulators:
             s = f"{e.name:10s}"
-            if self.output[e.name]:
+            if e.name in self.output and self.output[e.name]:
                 s += "".join(
                     f" {self.output[e.name]['output'][r]:08x}" for r in self.registers
                 )
             else:
                 s += "     None" * len(self.registers)
-            print(s)
+            if e.name in self.output:
+                print(s)
 
         print("[Output Memories]")
         print(" " * 10 + "".join(f" {r:8s}" for r in self.memories))
         for e in self.emulators:
             s = f"{e.name:10s}"
-            if self.output[e.name]:
+            if e.name in self.output and self.output[e.name]:
                 s += "".join(
                     f" {self.output[e.name]['output'][r]:08x}" for r in self.memories
                 )
             else:
                 s += "     None" * len(self.memories)
-            print(s)
+            if e.name in self.output:
+                print(s)
 
 
 class TestCaseDatabase:

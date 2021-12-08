@@ -1,0 +1,2310 @@
+[Testcase]
+{
+                                                     00110001011sssssPPjtttttjvvddddd
+    if (!P0)R6=memuh(R6+R9<<#2u2)                    00110001011001101110100100000110
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#26160u16:1)=R1.H                        01001010011100110100000100110000
+                                                     11101110N01sssssPP-ttttt001xxxxx
+    R7-=mpy(R9.L,R8.H):<<1                           11101110101010010100100000100111
+                                                     11101111010sssssPP0ttttt001xxxxx
+    R0&=or(R4,R7)                                    11101111010001000100011100100000
+}
+22f45ab0ef9dde9064c5d171db053b5a12ab3e3176a22ab410606c2f4ba09bf9e0f10d65b42329755d00ff22736e0c144af13fb82e18410080221004349651a0ea5e4f325877e8b69809927f56694da75b101406
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    b05af422 90de9def 71d1c564 5a3b05db 313eab12 b42aa276 2f6c6010 f99ba04b 650df1e0 752923b4 22ff005d 140c6e73 b83ff14a 0041182e 04102280 a0519634 324f5eea
+qemu       b05af422 90de9def 71d1c564 5a3b05db 313eab12 b42aa276 2f6c6010 f99ba04b 650df1e0 752923b4 22ff005d 140c6e73 b83ff14a 0041182e 04102280 a0519634 324f5eea
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b6e87758 7f920998 a74d6956 0614105b
+qemu       b6e87758 7f920998 a74d6956 0614105b
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    b01aa002 90de9def 71d1c564 5a3b05db 313eab12 b42aa276 2f6c6010 dd6bf803 650df1e0 752923b4 22ff005d 140c6e73 b83ff14a 0041182e 04102280 a0519634 324f5eea
+qemu       b01aa002 90de9def 71d1c564 5a3b05db 313eab12 b42aa276 2f6c6010 dd6bf803 650df1e0 752923b4 22ff005d 140c6e73 b83ff14a 0041182e 04102280 a0519634 324f5eea
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b6e890de 7f920998 a74d6956 0614105b
+qemu       b6e87758 7f920998 a74d6956 0614105b
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000101100sssssPP0ttjjjjjjddddd
+    if (!P2)R9=memw(R3+#18u6:2)                      01000101100000111101001001001001
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#8800u16:0)=R4                           01001000000100010100010001100000
+                                                     11101100N01sssssPP-ttttt011ddddd
+    R4=mpy(R1.H,R1.H):rnd                            11101100001000010100000101100100
+                                                     1100100100-sssssPP-ttttt01-ddddd
+    R3=extract(R8,R1:0)                              11001001000010000100000001000011
+}
+396d5d32a141262f9541593c98ee10044a963f61cb3794697228484a5a3914d133d4945d474b7d2a00ffffff63afbb3e2bee92602a34810080cc10048c1693a0140fb68f30c6426fd72fceae916cc7d3ea57758b
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    325d6d39 2f2641a1 3c594195 0410ee98 613f964a 699437cb 4a482872 d114395a 5d94d433 2a7d4b47 ffffff00 3ebbaf63 6092ee2b 0081342a 0410cc80 a093168c 8fb60f14
+qemu       325d6d39 2f2641a1 3c594195 0410ee98 613f964a 699437cb 4a482872 d114395a 5d94d433 2a7d4b47 ffffff00 3ebbaf63 6092ee2b 0081342a 0410cc80 a093168c 8fb60f14
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    6f42c630 aece2fd7 d3c76c91 8b7557ea
+qemu       6f42c630 aece2fd7 d3c76c91 8b7557ea
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    325d6d39 2f2641a1 3c594195 00000000 08af79a4 699437cb 4a482872 d114395a 5d94d433 2a7d4b47 ffffff00 3ebbaf63 6092ee2b 0081342a 0410cc80 a093168c 8fb60f14
+qemu       325d6d39 2f2641a1 3c594195 00000000 08af79a4 699437cb 4a482872 d114395a 5d94d433 2a7d4b47 ffffff00 3ebbaf63 6092ee2b 0081342a 0410cc80 a093168c 8fb60f14
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    6f42c64a aece2fd7 d3c76c91 8b7557ea
+qemu       6f42c630 aece2fd7 d3c76c91 8b7557ea
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001010sssssPPjtttttjvvddddd
+    if (!P1)R7=memh(R4+R9<<#2u2)                     00110001010001001110100100100111
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#23088u16:1)=R6.H                        01001010011011010100011000110000
+                                                     011010111100--ssPP0-----------dd
+    P1=not(P2)                                       01101011110000100100000000000001
+                                                     11100111101sssssPP0ttttt111xxxxx
+    R1:0^=vpmpyh(R3,R6)                              11100111101000110100011011100000
+}
+561365dd7a01622678d4794ea9d1c9b384f4719f450bcc71afe68ad6b529fea9c5fb306397be279977ffff008058c8562687b2861af8c000803a1004d4a8bdb16cd3f8b5b9524dff6db4f080378013cf7d22ca71
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    dd651356 2662017a 4e79d478 b3c9d1a9 9f71f484 71cc0b45 d68ae6af a9fe29b5 6330fbc5 9927be97 00ffff77 56c85880 86b28726 00c0f81a 04103a80 b1bda8d4 b5f8d36c
+qemu       dd651356 2662017a 4e79d478 b3c9d1a9 9f71f484 71cc0b45 d68ae6af a9fe29b5 6330fbc5 9927be97 00ffff77 56c85880 86b28726 00c0f81a 04103a80 b1bda8d4 b5f8d36c
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    ff4d52b9 80f0b46d cf138037 71ca227d
+qemu       ff4d52b9 80f0b46d cf138037 71ca227d
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    263f5de1 5bbd4562 4e79d478 b3c9d1a9 9f71f484 71cc0b45 d68ae6af a9fe29b5 6330fbc5 9927be97 00ff0077 56c85880 86b28726 00c0f81a 04103a80 b1bda8d4 b5f8d36c
+qemu       263f5de1 5bbd4562 4e79d478 b3c9d1a9 9f71f484 71cc0b45 d68ae6af a9fe29b5 6330fbc5 9927be97 00ff0077 56c85880 86b28726 00c0f81a 04103a80 b1bda8d4 b5f8d36c
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    ff4dd68a 80f0b46d cf138037 71ca227d
+qemu       ff4d52b9 80f0b46d cf138037 71ca227d
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000111sssssPP1-10uu---ddddd
+    if (!P1) R5=sxth(R7)                             01110000111001111110100100000101
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#44000u16:0)=R8                          01001100000101010110100011100000
+                                                     11110011010sssssPP-ttttt---ddddd
+    R9=cmp.eq(R9,R3)                                 11110011010010010100001100001001
+                                                     011010110010--ssPP0---tt------dd
+    P2=or(P1,P2)                                     01101011001000100100000100000010
+}
+06879c1a92346fbe4997b2f860d32c8a4ac15bb55be074df610c0f3e9caf81af9ca403f3824eb619ffff35bd7a395bb22356110a2c58c000004310042a3ed8045dba930c1d3f75d2906f94e1e62652d94806ae3e
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    1a9c8706 be6f3492 f8b29749 8a2cd360 b55bc14a df74e05b 3e0f0c61 af81af9c f303a49c 19b64e82 bd35ffff b25b397a 0a115623 00c0582c 04104300 04d83e2a 0c93ba5d
+qemu       1a9c8706 be6f3492 f8b29749 8a2cd360 b55bc14a df74e05b 3e0f0c61 af81af9c f303a49c 19b64e82 bd35ffff b25b397a 0a115623 00c0582c 04104300 04d83e2a 0c93ba5d
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    d2753f1d e1946f90 d95226e6 3eae0648
+qemu       d2753f1d e1946f90 d95226e6 3eae0648
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    1a9c8706 be6f3492 f8b29749 8a2cd360 b55bc14a df74e05b 3e0f0c61 af81af9c f303a49c 00000000 bdffffff b25b397a 0a115623 00c0582c 04104300 04d83e2a 0c93ba5d
+qemu       1a9c8706 be6f3492 f8b29749 8a2cd360 b55bc14a df74e05b 3e0f0c61 af81af9c f303a49c 00000000 bdffffff b25b397a 0a115623 00c0582c 04104300 04d83e2a 0c93ba5d
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    d2753f9c e1946f90 d95226e6 3eae0648
+qemu       d2753f1d e1946f90 d95226e6 3eae0648
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     011111100uu0jjjjPP0jjjjjjjjddddd
+    if (P0) R8=#261s12                               01111110000000011100000010101000
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#23280u16:1)=R7.H                        01001010011011010100011111110000
+                                                     10001100000sssssPP------100ddddd
+    R4=clb(R8)                                       10001100000010000100000010000100
+                                                     11000111100sssssPP-ttttt------dd
+    P1=bitsclr(R9,R2)                                11000111100010010100001000000001
+}
+bc0bcf29508c14b5f8e06e2bdda5f6eb727886f20d7237fd5b03fecb48e85153c32b8468ff59d53a0aff52ad18b5f477fa9ca52a0060c000003910047dbd1c7da11fc86e77a7da7ca05e61f44c9c20f7dd215724
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    29cf0bbc b5148c50 2b6ee0f8 ebf6a5dd f2867872 fd37720d cbfe035b 5351e848 68842bc3 3ad559ff ad52ff0a 77f4b518 2aa59cfa 00c06000 04103900 7d1cbd7d 6ec81fa1
+qemu       29cf0bbc b5148c50 2b6ee0f8 ebf6a5dd f2867872 fd37720d cbfe035b 5351e848 68842bc3 3ad559ff ad52ff0a 77f4b518 2aa59cfa 00c06000 04103900 7d1cbd7d 6ec81fa1
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    7cdaa777 f4615ea0 f7209c4c 245721dd
+qemu       7cdaa777 f4615ea0 f7209c4c 245721dd
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    29cf0bbc b5148c50 2b6ee0f8 ebf6a5dd 00000001 fd37720d cbfe035b 5351e848 68842bc3 3ad559ff ad52000a 77f4b518 2aa59cfa 00c06000 04103900 7d1cbd7d 6ec81fa1
+qemu       29cf0bbc b5148c50 2b6ee0f8 ebf6a5dd 00000001 fd37720d cbfe035b 5351e848 68842bc3 3ad559ff ad52000a 77f4b518 2aa59cfa 00c06000 04103900 7d1cbd7d 6ec81fa1
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    7cda5351 f4615ea0 f7209c4c 245721dd
+qemu       7cdaa777 f4615ea0 f7209c4c 245721dd
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000000sssssPP1-10uu---ddddd
+    if (!P2) R5=aslh(R0)                             01110000000000001110101000000101
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#15928u16:2)=R8                          01001000100111110100100000111000
+                                                     11011101-10sssssPP-0jjjjjjj01-dd
+    P0=cmph.gtu(R3,#21u7)                            11011101010000110100001010101000
+                                                     1000011101jsssssPPIIIIIIjjjxxxxx
+    R3=tableidxh(R5,#3u4,#11S6):raw                  10000111010001010100101101100011
+}
+eff5b6f45801faaac89894d75a72b7e1f7bf62442abce2ec1971ac7a424f45e5d81bc13110135a8f5100ff908c4d010ee4db4e6e025c000000f60f04780cdab45df6d22548d1870937a1a94e6719df5dbd953326
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    f4b6f5ef aafa0158 d79498c8 e1b7725a 4462bff7 ece2bc2a 7aac7119 e5454f42 31c11bd8 8f5a1310 90ff0051 0e014d8c 6e4edbe4 00005c02 040ff600 b4da0c78 25d2f65d
+qemu       f4b6f5ef aafa0158 d79498c8 e1b7725a 4462bff7 ece2bc2a 7aac7119 e5454f42 31c11bd8 8f5a1310 90ff0051 0e014d8c 6e4edbe4 00005c02 040ff600 b4da0c78 25d2f65d
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    0987d148 4ea9a137 5ddf1967 263395bd
+qemu       0987d148 4ea9a137 5ddf1967 263395bd
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    f4b6f5ef aafa0158 d79498c8 e1b77256 4462bff7 ece2bc2a 7aac7119 e5454f42 31c11bd8 8f5a1310 90ff00ff 0e014d8c 6e4edbe4 00005c02 040ff600 b4da0c78 25d2f65d
+qemu       f4b6f5ef aafa0158 d79498c8 e1b77256 4462bff7 ece2bc2a 7aac7119 e5454f42 31c11bd8 8f5a1310 90ff00ff 0e014d8c 6e4edbe4 00005c02 040ff600 b4da0c78 25d2f65d
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    31c11bd8 4ea9a137 5ddf1967 263395bd
+qemu       0987d148 4ea9a137 5ddf1967 263395bd
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-1sssssPP0ttttt0uuddddd
+    if (P1) R3=sub(R5,R3)                            11111011001000111100010100100011
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#64496u16:1)=R3                          01001110010111010110001111110000
+                                                     1000111001-sssssPP0jjjjj010xxxxx
+    R9&=asl(R5,#9u5)                                 10001110010001010100100101001001
+                                                     11011110jjjxxxxxPPjIIIIIjjj1j11-
+    R5=sub(#54u8,lsr(R5,#31U5))                      11011110001001010111111101110110
+}
+02c9f02701242576a6a5bc90bf40b81f40951383355a991026604b4e47de17d07533c91008d323fe4c00ff00bc25abcca6a67df83cf4800000f70e04a038c3933c8135addb8f38be2d3487b1725925cf7db2181b
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    27f0c902 76252401 90bca5a6 1fb840bf 83139540 10995a35 4e4b6026 d017de47 10c93375 fe23d308 00ff004c ccab25bc f87da6a6 0080f43c 040ef700 93c338a0 ad35813c
+qemu       27f0c902 76252401 90bca5a6 1fb840bf 83139540 10995a35 4e4b6026 d017de47 10c93375 fe23d308 00ff004c ccab25bc f87da6a6 0080f43c 040ef700 93c338a0 ad35813c
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    be388fdb b187342d cf255972 1b18b27d
+qemu       be388fdb b187342d cf255972 1b18b27d
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    27f0c902 76252401 90bca5a6 1fb840bf 83139540 00000036 4e4b6026 d017de47 10c93375 32204200 00ff004c ccab25bc f87da6a6 0080f43c 040ef700 93c338a0 ad35813c
+qemu       27f0c902 76252401 90bca5a6 1fb840bf 83139540 00000036 4e4b6026 d017de47 10c93375 32204200 00ff004c ccab25bc f87da6a6 0080f43c 040ef700 93c338a0 ad35813c
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    be3840bf b187342d cf255972 1b18b27d
+qemu       be388fdb b187342d cf255972 1b18b27d
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000001110sssssPP0ttjjjjjjddddd
+    if (P0)R2:1=memd(R4+#38u6:3)                     01000001110001001100010011000001
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#55544u16:2)=R1                          01001110100011000100000111111000
+                                                     11000101---sssssPP-ttttt110ddddd
+    R4=cmpyrwh(R7:6,R9):<<1:rnd:sat                  11000101000001100100100111000100
+                                                     11010101001sssssPP-ttttt01-ddddd
+    R6=sub(R8.L,R7.H)                                11010101001001110100100001000110
+}
+a595d56c030a7be021bfe1be522cdd14b0ed10046106023bdbee5f1c09eb21a47373456293365e7e0000000095b7327168f766ff2c2c4000008b0d04dd031ecb8ead2f4801e218c924a98305981bed45c7eb83dd
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    6cd595a5 e07b0a03 bee1bf21 14dd2c52 0410edb0 3b020661 1c5feedb a421eb09 62457373 7e5e3693 00000000 7132b795 ff66f768 00402c2c 040d8b00 cb1e03dd 482fad8e
+qemu       6cd595a5 e07b0a03 bee1bf21 14dd2c52 0410edb0 3b020661 1c5feedb a421eb09 62457373 7e5e3693 00000000 7132b795 ff66f768 00402c2c 040d8b00 cb1e03dd 482fad8e
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    c918e201 0583a924 45ed1b98 dd83ebc7
+qemu       c918e201 0583a924 45ed1b98 dd83ebc7
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    6cd595a5 e07b0a03 bee1bf21 14dd2c52 66cb22ab 3b020661 ffffcf52 a421eb09 62457373 7e5e3693 00000000 7132b795 ff66f768 00402c2c 040d8b00 cb1e03dd 482fad8e
+qemu       6cd595a5 e07b0a03 bee1bf21 14dd2c52 66cb22ab 3b020661 ffffcf52 a421eb09 62457373 7e5e3693 00000000 7132b795 ff66f768 00402c2c 040d8b00 cb1e03dd 482fad8e
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    e07b0a03 0583a924 45ed1b98 dd83ebc7
+qemu       c918e201 0583a924 45ed1b98 dd83ebc7
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000100sssssPP1-00uu---ddddd
+    if (P3) R8=zxtb(R1)                              01110000100000011110001100001000
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#12528u16:1)=R0.H                        01001000011110000100000011110000
+                                                     11100101000sssssPP0ttttt000ddddd
+    R1:0=mpy(R2,R0)                                  11100101000000100100000000000000
+                                                     10000101010sssssPP------------dd
+    P2=R4                                            10000101010001000100000000000010
+}
+a16d11b4271a95206596722678d6d0130e0d48e844f2b309355c8c58d68986ac5f527b0bc3b4e060ffff0000dafe4a7c2f5147311200c000008d100411fb2e0c52b777c777fc99300009d82906697b738adcce43
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    b4116da1 20951a27 26729665 13d0d678 e8480d0e 09b3f244 588c5c35 ac8689d6 0b7b525f 60e0b4c3 0000ffff 7c4afeda 3147512f 00c00012 04108d00 0c2efb11 c777b752
+qemu       b4116da1 20951a27 26729665 13d0d678 e8480d0e 09b3f244 588c5c35 ac8689d6 0b7b525f 60e0b4c3 0000ffff 7c4afeda 3147512f 00c00012 04108d00 0c2efb11 c777b752
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    3099fc77 29d80900 737b6906 43cedc8a
+qemu       3099fc77 29d80900 737b6906 43cedc8a
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    f8ce9685 f498996c 26729665 13d0d678 e8480d0e 09b3f244 588c5c35 ac8689d6 0b7b525f 60e0b4c3 000effff 7c4afeda 3147512f 00c00012 04108d00 0c2efb11 c777b752
+qemu       f8ce9685 f498996c 26729665 13d0d678 e8480d0e 09b3f244 588c5c35 ac8689d6 0b7b525f 60e0b4c3 000effff 7c4afeda 3147512f 00c00012 04108d00 0c2efb11 c777b752
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    3099b411 29d80900 737b6906 43cedc8a
+qemu       3099fc77 29d80900 737b6906 43cedc8a
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001001sssssPPjtttttjvvddddd
+    if (!P2)R1=memub(R9+R2<<#3u2)                    00110001001010011110001011000001
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#43056u16:1)=R0                          01001100010101000100000000110000
+                                                     11010010111sssssPP-ttttt000---dd
+    P1=dfcmp.eq(R4:3,R6:5)                           11010010111000110100010100000001
+                                                     11011101-00sssssPP-jjjjjjjj01-dd
+    P3=cmph.eq(R8,#-10s8)                            11011101000010000101111011001011
+}
+daef7309cae523e21c1f4ee64ef67e79d1fec0a9e9a51ff3f761813f38e7bc0712340b2b00f69fd100ffffff622d313448ac01371e708100809e0f04850fe9e79056e05869068a14e27cce40a3d55ea7990c516d
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    0973efda e223e5ca e64e1f1c 797ef64e a9c0fed1 f31fa5e9 3f8161f7 07bce738 2b0b3412 d19ff600 ffffff00 34312d62 3701ac48 0081701e 040f9e80 e7e90f85 58e05690
+qemu       0973efda e223e5ca e64e1f1c 797ef64e a9c0fed1 f31fa5e9 3f8161f7 07bce738 2b0b3412 d19ff600 ffffff00 34312d62 3701ac48 0081701e 040f9e80 e7e90f85 58e05690
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    148a0669 40ce7ce2 a75ed5a3 6d510c99
+qemu       148a0669 40ce7ce2 a75ed5a3 6d510c99
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    0973efda e223e5ca e64e1f1c 797ef64e a9c0fed1 f31fa5e9 3f8161f7 07bce738 2b0b3412 d19ff600 00ff0000 34312d62 3701ac48 0081701e 040f9e80 e7e90f85 58e05690
+qemu       0973efda e223e5ca e64e1f1c 797ef64e a9c0fed1 f31fa5e9 3f8161f7 07bce738 2b0b3412 d19ff600 00ff0000 34312d62 3701ac48 0081701e 040f9e80 e7e90f85 58e05690
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    148aefda 40ce7ce2 a75ed5a3 6d510c99
+qemu       148a0669 40ce7ce2 a75ed5a3 6d510c99
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000101001sssssPP0ttjjjjjjddddd
+    if (!P1)R1=memub(R3+#47u6:0)                     01000101001000111100110111100001
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#6320u16:1)=R9                           01001000010011000100100110110000
+                                                     1100011011-sssssPP-ttttt10-ddddd
+    R6=round(R9,R9)                                  11000110110010010100100110000110
+                                                     11100111001sssssPP0ttttt000xxxxx
+    R9:8-=mpy(R4,R1)                                 11100111001001000100000100001000
+}
+f5c373332b3b79795ddc8aa4b1ee1004f2397985c292902b9d68622ebfa9f6df5effa84c432230bd009fbdff45554d583227473f0620410080bd1004e4c3671f794a2e28508dd0c39bdc76e762b6b8af1022b1a0
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3373c3f5 79793b2b a48adc5d 0410eeb1 857939f2 2b9092c2 2e62689d dff6a9bf 4ca8ff5e bd302243 ffbd9f00 584d5545 3f472732 00412006 0410bd80 1f67c3e4 282e4a79
+qemu       3373c3f5 79793b2b a48adc5d 0410eeb1 857939f2 2b9092c2 2e62689d dff6a9bf 4ca8ff5e bd302243 ffbd9f00 584d5545 3f472732 00412006 0410bd80 1f67c3e4 282e4a79
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    c3d08d50 e776dc9b afb8b662 a0b12210
+qemu       c3d08d50 e776dc9b afb8b662 a0b12210
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3373c3f5 79793b2b a48adc5d 0410eeb1 857939f2 2b9092c2 f7a60448 dff6a9bf 2b8f7db8 f753dbe5 ffbd9f00 584d5545 3f472732 00412006 0410bd80 1f67c3e4 282e4a79
+qemu       3373c3f5 79793b2b a48adc5d 0410eeb1 857939f2 2b9092c2 f7a60448 dff6a9bf 2b8f7db8 f753dbe5 ffbd9f00 584d5545 3f472732 00412006 0410bd80 1f67c3e4 282e4a79
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    c3d02243 e776dc9b afb8b662 a0b12210
+qemu       c3d08d50 e776dc9b afb8b662 a0b12210
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000001sssssPP1-10uu---ddddd
+    if (!P0) R8=asrh(R4)                             01110000001001001110100000001000
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#64048u16:1)=R4.H                        01001110011111010100010000110000
+                                                     11100111001sssssPP0ttttt000xxxxx
+    R1:0-=mpy(R0,R6)                                 11100111001000000100011000000000
+                                                     10000000010sssssPP0jjjjj000ddddd
+    R7:6=vasrw(R3:2,#5u5)                            10000000010000100100010100000110
+}
+0651355d6fe136a8d5810bfe76c5c6a7bf10b2e9f8b89392ef126cbc284278d31d78ee686788bc41ff2affb818ec6bd7c85e4ea4307cc00080fa0e0405e066d9ceb924b0f3f0ad04a250441aa7d2645f16db277b
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    5d355106 a836e16f fe0b81d5 a7c6c576 e9b210bf 9293b8f8 bc6c12ef d3784228 68ee781d 41bc8867 b8ff2aff d76bec18 a44e5ec8 00c07c30 040efa80 d966e005 b024b9ce
+qemu       5d355106 a836e16f fe0b81d5 a7c6c576 e9b210bf 9293b8f8 bc6c12ef d3784228 68ee781d 41bc8867 b8ff2aff d76bec18 a44e5ec8 00c07c30 040efa80 d966e005 b024b9ce
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    04adf0f3 1a4450a2 5f64d2a7 7b27db16
+qemu       04adf0f3 1a4450a2 5f64d2a7 7b27db16
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    0234406c c0d1b192 fe0b81d5 a7c6c576 e9b210bf 9293b8f8 fff05c0e fd3e362b 68ee781d 41bc8867 b8ff2aff d76bec18 a44e5ec8 00c07c30 040efa80 d966e005 b024b9ce
+qemu       0234406c c0d1b192 fe0b81d5 a7c6c576 e9b210bf 9293b8f8 fff05c0e fd3e362b 68ee781d 41bc8867 b8ff2aff d76bec18 a44e5ec8 00c07c30 040efa80 d966e005 b024b9ce
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    04ade9b2 1a4450a2 5f64d2a7 7b27db16
+qemu       04adf0f3 1a4450a2 5f64d2a7 7b27db16
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000110sssssPP1-00uu---ddddd
+    if (P1) R0=zxth(R8)                              01110000110010001110000100000000
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#60256u16:0)=R6                          01001110000101010110011001100000
+                                                     11101101111sssssPP0ttttt100ddddd
+    R4=mpy(R8,R3.L):<<1:rnd:sat                      11101101111010000100001110000100
+                                                     11001011000sssssPP-ttttt01-xxxxx
+    R8:7|=lsr(R4:3,R1)                               11001011000000110100000101000111
+}
+bf86b12f23ddb9975579ea3518ad1340a672d2b987fedefacab20d005db9fcc15189ec41236986ebff0000d2eecb2ad032f9c4732290800080031004f0daf75fb8257eaed0357d555a3a414a253f42cb29a65b52
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    2fb186bf 97b9dd23 35ea7955 4013ad18 b9d272a6 fadefe87 000db2ca c1fcb95d 41ec8951 eb866923 d20000ff d02acbee 73c4f932 00809022 04100380 5ff7daf0 ae7e25b8
+qemu       2fb186bf 97b9dd23 35ea7955 4013ad18 b9d272a6 fadefe87 000db2ca c1fcb95d 41ec8951 eb866923 d20000ff d02acbee 73c4f932 00809022 04100380 5ff7daf0 ae7e25b8
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    557d35d0 4a413a5a cb423f25 525ba629
+qemu       557d35d0 4a413a5a cb423f25 525ba629
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    2fb186bf 97b9dd23 35ea7955 4013ad18 d54cfb4f fadefe87 000db2ca d7feff5d 41ec8951 eb866923 d20000ff d02acbee 73c4f932 00809022 04100380 5ff7daf0 ae7e25b8
+qemu       2fb186bf 97b9dd23 35ea7955 4013ad18 d54cfb4f fadefe87 000db2ca d7feff5d 41ec8951 eb866923 d20000ff d02acbee 73c4f932 00809022 04100380 5ff7daf0 ae7e25b8
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    557d35ca 4a413a5a cb423f25 525ba629
+qemu       557d35d0 4a413a5a cb423f25 525ba629
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000001011sssssPP0ttjjjjjjddddd
+    if (P0)R2=memuh(R6+#46u6:1)                      01000001011001101100010111000010
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#12856u16:2)=R7                          01001000100110010100011100111000
+                                                     11001011001sssssPP0xxxxx001uuuuu
+    R5:4=vrmaxh(R7:6,R6)                             11001011001001100100010000100110
+                                                     11101000110sssssPP0ttttt001ddddd
+    R1:0=vrmpybsu(R1:0,R9:8)                         11101000110000000100100000100000
+}
+45366d4114b40e3866b415a0c32b52c1c2a4438630dd7de784ee100475792b64e1c87648575862337e0091002414ae772457df942618c000002610049f9233e6fbeac1ce34ea08043226f7cd10eb3dff3f1a49ec
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    416d3645 380eb414 a015b466 c1522bc3 8643a4c2 e77ddd30 0410ee84 642b7975 4876c8e1 33625857 0091007e 77ae1424 94df5724 00c01826 04102600 e633929f cec1eafb
+qemu       416d3645 380eb414 a015b466 c1522bc3 8643a4c2 e77ddd30 0410ee84 642b7975 4876c8e1 33625857 0091007e 77ae1424 94df5724 00c01826 04102600 e633929f cec1eafb
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    0408ea34 cdf72632 ff3deb10 ec491a3f
+qemu       0408ea34 cdf72632 ff3deb10 ec491a3f
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    0000ab5b fffffd30 a015b466 c1522bc3 00007975 0410ee84 0410ee84 642b7975 4876c8e1 33625857 0091007e 77ae1424 94df5724 00c01826 04102600 e633929f cec1eafb
+qemu       0000ab5b fffffd30 a015b466 c1522bc3 00007975 0410ee84 0410ee84 642b7975 4876c8e1 33625857 0091007e 77ae1424 94df5724 00c01826 04102600 e633929f cec1eafb
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    642b7975 cdf72632 ff3deb10 ec491a3f
+qemu       0408ea34 cdf72632 ff3deb10 ec491a3f
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000000sssssPP1-00uu---ddddd
+    if (P0) R5=aslh(R7)                              01110000000001111110000000000101
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#49392u16:1)=R0.H                        01001110011000000100000011110000
+                                                     10000000110sssssPP------110ddddd
+    R4:3=brev(R4:3)                                  10000000110000110100000011000011
+                                                     11011101-10sssssPP-0jjjjjjj01-dd
+    P2=cmph.gtu(R8,#92u7)                            11011101010010000100101110001010
+}
+a990806a075b55f908610f8873886fe0db3c58a124a15968c6a625bc874660c8711573ccf57a519274d4f70058da728df93b7528026c8000006d0f0441af8d08bc54497a3e84bd7e3f0a99dfddf91636d9c1748c
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    6a8090a9 f9555b07 880f6108 e06f8873 a1583cdb 6859a124 bc25a6c6 c8604687 cc731571 92517af5 00f7d474 8d72da58 28753bf9 00806c02 040f6d00 088daf41 7a4954bc
+qemu       6a8090a9 f9555b07 880f6108 e06f8873 a1583cdb 6859a124 bc25a6c6 c8604687 cc731571 92517af5 00f7d474 8d72da58 28753bf9 00806c02 040f6d00 088daf41 7a4954bc
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    7ebd843e df990a3f 3616f9dd 8c74c1d9
+qemu       7ebd843e df990a3f 3616f9dd 8c74c1d9
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    6a8090a9 f9555b07 880f6108 db3c1a85 ce11f607 6859a124 bc25a6c6 c8604687 cc731571 92517af5 00ffd474 8d72da58 28753bf9 00806c02 040f6d00 088daf41 7a4954bc
+qemu       6a8090a9 f9555b07 880f6108 db3c1a85 ce11f607 6859a124 bc25a6c6 c8604687 cc731571 92517af5 00ffd474 8d72da58 28753bf9 00806c02 040f6d00 088daf41 7a4954bc
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    7ebd6a80 df990a3f 3616f9dd 8c74c1d9
+qemu       7ebd843e df990a3f 3616f9dd 8c74c1d9
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000110sssssPP1-00uu---ddddd
+    if (P3) R9=zxth(R9)                              01110000110010011110001100001001
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#53552u16:1)=R1.H                        01001110011010000110000100110000
+                                                     1000010000-sssssPP------10-ddddd
+    R7:6=vsxthw(R9)                                  10000100000010010100000010000110
+                                                     11101110N10sssssPP-ttttt010xxxxx
+    R3+=mpyu(R2.H,R3.L)                              11101110010000100100001101000011
+}
+1cc98ddc431f1db7451207ed7fca645ab4a1529598347c6d97780f9106ee71ed4aa23b7f3f7b402dffd0ff003458befe39e4b18014708100804c0f044ab7773cecbde648b1fc6138d42d17785ab2b2751ccfefa0
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    dc8dc91c b71d1f43 ed071245 5a64ca7f 9552a1b4 6d7c3498 910f7897 ed71ee06 7f3ba24a 2d407b3f 00ffd0ff febe5834 80b1e439 00817014 040f4c80 3c77b74a 48e6bdec
+qemu       dc8dc91c b71d1f43 ed071245 5a64ca7f 9552a1b4 6d7c3498 910f7897 ed71ee06 7f3ba24a 2d407b3f 00ffd0ff febe5834 80b1e439 00817014 040f4c80 3c77b74a 48e6bdec
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    3861fcb1 78172dd4 75b2b25a a0efcf1c
+qemu       3861fcb1 78172dd4 75b2b25a a0efcf1c
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    dc8dc91c b71d1f43 ed071245 15e1e6f8 9552a1b4 6d7c3498 00007b3f 00002d40 7f3ba24a 2d407b3f 00ffd0ff febe5834 80b1e439 00817014 040f4c80 3c77b74a 48e6bdec
+qemu       dc8dc91c b71d1f43 ed071245 15e1e6f8 9552a1b4 6d7c3498 00007b3f 00002d40 7f3ba24a 2d407b3f 00ffd0ff febe5834 80b1e439 00817014 040f4c80 3c77b74a 48e6bdec
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    3861b71d 78172dd4 75b2b25a a0efcf1c
+qemu       3861fcb1 78172dd4 75b2b25a a0efcf1c
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000101sssssPP1-00uu---ddddd
+    if (P1) R6=sxtb(R3)                              01110000101000111110000100000110
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#49008u16:1)=R0                          01001100010111110110000001110000
+                                                     11100100N10sssssPP-ttttt-11ddddd
+    R8:7=mpyu(R9.H,R1.H)                             11100100010010010100000101100111
+                                                     11010011010sssssPP-ttttt100ddddd
+    R4:3=vavgh(R9:8,R8:7):crnd                       11010011010010000100011110000011
+}
+132e78b849c8e5f39161b999f31c8e85bbf22162b5f61f97a45b38cb6ef7b59b3f3c10dad6acb467d6000000f4bae9f7eb5929871e1c000000700f04a41e3546b4cc4a6359993bb6b3bb7b68d59e12a2d885e64a
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    b8782e13 f3e5c849 99b96191 858e1cf3 6221f2bb 971ff6b5 cb385ba4 9bb5f76e da103c3f 67b4acd6 000000d6 f7e9baf4 872959eb 00001c1e 040f7000 46351ea4 634accb4
+qemu       b8782e13 f3e5c849 99b96191 858e1cf3 6221f2bb 971ff6b5 cb385ba4 9bb5f76e da103c3f 67b4acd6 000000d6 f7e9baf4 872959eb 00001c1e 040f7000 46351ea4 634accb4
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b63b9959 687bbbb3 a2129ed5 4ae685d8
+qemu       b63b9959 687bbbb3 a2129ed5 4ae685d8
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    b8782e13 f3e5c849 99b96191 bae219d6 20e2f48a 971ff6b5 cb385ba4 62cca004 00000000 67b4acd6 000000d6 f7e9baf4 872959eb 00001c1e 040f7000 46351ea4 634accb4
+qemu       b8782e13 f3e5c849 99b96191 bae219d6 20e2f48a 971ff6b5 cb385ba4 62cca004 00000000 67b4acd6 000000d6 f7e9baf4 872959eb 00001c1e 040f7000 46351ea4 634accb4
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b63b2e13 687bbbb3 a2129ed5 4ae685d8
+qemu       b63b9959 687bbbb3 a2129ed5 4ae685d8
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000001110sssssPP0ttjjjjjjddddd
+    if (P0)R5:4=memd(R5+#22u6:3)                     01000001110001011100001011000100
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#43248u16:1)=R6.H                        01001100011101000100011011110000
+                                                     1000011110jsssssPPIIIIIIjjjxxxxx
+    R7=tableidxw(R6,#12u4,#-7S6):raw                 10000111101001100111100110000111
+                                                     1000111001-sssssPP0jjjjj101xxxxx
+    R3|=lsr(R1,#18u5)                                10001110010000010101001010100011
+}
+e7de2f7c99b2c3d2702dc916a9ffb052a04244b330ee1004eb452ee1fdc4a9028b2282e6ce7926ae0000ab0008613c0d044ba7283a38c100009d0f0413e388bb101772c87a2199aa5dc599103e8218a707e74793
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7c2fdee7 d2c3b299 16c92d70 52b0ffa9 b34442a0 0410ee30 e12e45eb 02a9c4fd e682228b ae2679ce 00ab0000 0d3c6108 28a74b04 00c1383a 040f9d00 bb88e313 c8721710
+qemu       7c2fdee7 d2c3b299 16c92d70 52b0ffa9 b34442a0 0410ee30 e12e45eb 02a9c4fd e682228b ae2679ce 00ab0000 0d3c6108 28a74b04 00c1383a 040f9d00 bb88e313 c8721710
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    aa99217a 1099c55d a718823e 9347e707
+qemu       aa99217a 1099c55d a718823e 9347e707
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7c2fdee7 d2c3b299 16c92d70 52b0ffb9 b34442a0 0410ee30 e12e45eb 02a9f581 e682228b ae2679ce 00ab0000 0d3c6108 28a74b04 00c1383a 040f9d00 bb88e313 c8721710
+qemu       7c2fdee7 d2c3b299 16c92d70 52b0ffb9 b34442a0 0410ee30 e12e45eb 02a9f581 e682228b ae2679ce 00ab0000 0d3c6108 28a74b04 00c1383a 040f9d00 bb88e313 c8721710
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    aa99e12e 1099c55d a718823e 9347e707
+qemu       aa99217a 1099c55d a718823e 9347e707
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000101110sssssPP0ttjjjjjjddddd
+    if (!P3)R3:2=memd(R4+#44u6:3)                    01000101110001001101110110000010
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#42264u16:2)=R4                          01001100100100100110010000011000
+                                                     11100100N10sssssPP-ttttt-01ddddd
+    R9:8=mpyu(R2.L,R2.H)                             11100100010000100100001000101000
+                                                     1100011001-sssssPP-ttttt10-ddddd
+    R5=asl(R8,R4)                                    11000110010010000100010010000101
+}
+9fedda6b6e88838736dcfde848522f4380ed10049ea93d231d3b42c5e0b442da050ef4f2b90b1798ffffc4ffc91fd083a615ec573c24c100805a0e0441f0addc6b531a9277d78a03810aedbba9e986f9fd2db321
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    6bdaed9f 8783886e e8fddc36 432f5248 0410ed80 233da99e c5423b1d da42b4e0 f2f40e05 98170bb9 ffc4ffff 83d01fc9 57ec15a6 00c1243c 040e5a80 dcadf041 921a536b
+qemu       6bdaed9f 8783886e e8fddc36 432f5248 0410ed80 233da99e c5423b1d da42b4e0 f2f40e05 98170bb9 ffc4ffff 83d01fc9 57ec15a6 00c1243c 040e5a80 dcadf041 921a536b
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    038ad777 bbed0a81 f986e9a9 21b32dfd
+qemu       038ad777 bbed0a81 f986e9a9 21b32dfd
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    6bdaed9f 8783886e e8fddc36 432f5248 0410ed80 f2f40e05 c5423b1d da42b4e0 c86a915e 00000000 ffc4ffff 83d01fc9 57ec15a6 00c1243c 040e5a80 dcadf041 921a536b
+qemu       6bdaed9f 8783886e e8fddc36 432f5248 0410ed80 f2f40e05 c5423b1d da42b4e0 c86a915e 00000000 ffc4ffff 83d01fc9 57ec15a6 00c1243c 040e5a80 dcadf041 921a536b
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    0410ed80 bbed0a81 f986e9a9 21b32dfd
+qemu       038ad777 bbed0a81 f986e9a9 21b32dfd
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-1sssssPP0ttttt1uuddddd
+    if (!P1) R1=sub(R3,R5)                           11111011001001011100001110100001
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#10800u16:1)=R4.H                        01001000011101010100010000110000
+                                                     100011011IIsssssPP0jjjjjIIIddddd
+    R8=extract(R8,#29u5,#1U5)                        10001101100010000101110100101000
+                                                     100001001--sssssPP------010ddddd
+    R3:2=convert_w2df(R0)                            10000100100000000100000001000010
+}
+a61f393a32b5724fdf273424e8c16af6d8794e1c8a40ae0906a8d434bf8968962a232144e8ac32b633ff0000840f32e1e5a7780d1c804000809a1004abae766d0287fc8bf657e22cbb33ca32046b16ad4d7c0247
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3a391fa6 4f72b532 243427df f66ac1e8 1c4e79d8 09ae408a 34d4a806 966889bf 4421232a b632ace8 0000ff33 e1320f84 0d78a7e5 0040801c 04109a80 6d76aeab 8bfc8702
+qemu       3a391fa6 4f72b532 243427df f66ac1e8 1c4e79d8 09ae408a 34d4a806 966889bf 4421232a b632ace8 0000ff33 e1320f84 0d78a7e5 0040801c 04109a80 6d76aeab 8bfc8702
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    2ce257f6 32ca33bb ad166b04 47027c4d
+qemu       2ce257f6 32ca33bb ad166b04 47027c4d
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3a391fa6 4f72b532 d3000000 41cd1c8f 1c4e79d8 09ae408a 34d4a806 966889bf 02109195 b632ace8 0000ff33 e1320f84 0d78a7e5 0040801c 04109a80 6d76aeab 8bfc8702
+qemu       3a391fa6 4f72b532 d3000000 41cd1c8f 1c4e79d8 09ae408a 34d4a806 966889bf 02109195 b632ace8 0000ff33 e1320f84 0d78a7e5 0040801c 04109a80 6d76aeab 8bfc8702
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    2ce21c4e 32ca33bb ad166b04 47027c4d
+qemu       2ce257f6 32ca33bb ad166b04 47027c4d
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000111sssssPP1-00uu---ddddd
+    if (P3) R9=sxth(R0)                              01110000111000001110001100001001
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#42904u16:2)=R6                          01001100100100110110011010011000
+                                                     01110011-10sssssPP1jjjjjjjjddddd
+    R3=cmp.eq(R3,#44s8)                              01110011010000110110010110000011
+                                                     11010101010sssssPP-ttttt010ddddd
+    R5=add(R1.H,R2.L):<<16                           11010101010000100100000101000101
+}
+6d71f92a6ae880b432908eba9d663b02f4a5328e2aa9e6890c15626293dd0fc4a75ba79dab9286a90066ff00339463734d1da877302c810080500e048ea1f523c0f70bee47a8bc85d84ecb19485000dbfe9e05b4
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    2af9716d b480e86a ba8e9032 023b669d 8e32a5f4 89e6a92a 6262150c c40fdd93 9da75ba7 a98692ab 00ff6600 73639433 77a81d4d 00812c30 040e5080 23f5a18e ee0bf7c0
+qemu       2af9716d b480e86a ba8e9032 023b669d 8e32a5f4 89e6a92a 6262150c c40fdd93 9da75ba7 a98692ab 00ff6600 73639433 77a81d4d 00812c30 040e5080 23f5a18e ee0bf7c0
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    85bca847 19cb4ed8 db005048 b4059efe
+qemu       85bca847 19cb4ed8 db005048 b4059efe
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    2af9716d b480e86a ba8e9032 00000000 8e32a5f4 44b20000 6262150c c40fdd93 9da75ba7 a98692ab 00ff6600 73639433 77a81d4d 00812c30 040e5080 23f5a18e ee0bf7c0
+qemu       2af9716d b480e86a ba8e9032 00000000 8e32a5f4 44b20000 6262150c c40fdd93 9da75ba7 a98692ab 00ff6600 73639433 77a81d4d 00812c30 040e5080 23f5a18e ee0bf7c0
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    6262150c 19cb4ed8 db005048 b4059efe
+qemu       85bca847 19cb4ed8 db005048 b4059efe
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001001sssssPPjtttttjvvddddd
+    if (!P1)R2=memub(R5+R6<<#3u2)                    00110001001001011110011010100010
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#40624u16:1)=R0.H                        01001100011011110100000010110000
+                                                     1100001111-sssssPPjttttt11jddddd
+    R9:8=vrcrotate(R4:3,R3,#3u2)                     11000011110000110110001111101000
+                                                     11110111-00sssssPP-ttttt---ddddd
+    R5=vavgh(R5,R5)                                  11110111000001010100010100000101
+}
+b1b339af8a8adb5de3c093d38bd7863e084cb73fa0c38a4a68c5309798a6fca9928832dd0c3b2006c7ffc1ff6432de920019e79e0054800080b10f04498d1cb4e8c936bdee68cc20f79ac48485e0e52e9ac00ec3
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    af39b3b1 5ddb8a8a d393c0e3 3e86d78b 3fb74c08 4a8ac3a0 9730c568 a9fca698 dd328892 06203b0c ffc1ffc7 92de3264 9ee71900 00805400 040fb180 b41c8d49 bd36c9e8
+qemu       af39b3b1 5ddb8a8a d393c0e3 3e86d78b 3fb74c08 4a8ac3a0 9730c568 a9fca698 dd328892 06203b0c ffc1ffc7 92de3264 9ee71900 00805400 040fb180 b41c8d49 bd36c9e8
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    20cc68ee 84c49af7 2ee5e085 c30ec09a
+qemu       20cc68ee 84c49af7 2ee5e085 c30ec09a
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    af39b3b1 5ddb8a8a d393c0e3 3e86d78b 3fb74c08 4a8ac3a0 9730c568 a9fca698 00000052 ffffff40 ffc1ffc7 92de3264 9ee71900 00805400 040fb180 b41c8d49 bd36c9e8
+qemu       af39b3b1 5ddb8a8a d393c0e3 3e86d78b 3fb74c08 4a8ac3a0 9730c568 a9fca698 00000052 ffffff40 ffc1ffc7 92de3264 9ee71900 00805400 040fb180 b41c8d49 bd36c9e8
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    20ccaf39 84c49af7 2ee5e085 c30ec09a
+qemu       20cc68ee 84c49af7 2ee5e085 c30ec09a
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000001sssssPPjtttttjvvddddd
+    if (P0)R6=memub(R8+R1<<#1u2)                     00110000001010001100000110000110
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#62304u16:0)=R4                          01001110000110010110010001100000
+                                                     11101111001sssssPP0ttttt000xxxxx
+    R3|=and(R5,~R9)                                  11101111001001010100100100000011
+                                                     11010011011sssssPP-ttttt110ddddd
+    R9:8=add(R5:4,R5:4):raw:lo                       11010011011001000100010011001000
+}
+28517ec16bf134b1625ffe4c7d3f20f29e2d89a2aacbebdfc548c2c95c3a47280a0ca7a1819c9fa100ff00ff920bd4cc00663e2b1258c10080fb0f04e3f355a7a1ab586e3ca20ea3f63349c44758441670dba257
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    c17e5128 b134f16b 4cfe5f62 f2203f7d a2892d9e dfebcbaa c9c248c5 28473a5c a1a70c0a a19f9c81 ff00ff00 ccd40b92 2b3e6600 00c15812 040ffb80 a755f3e3 6e58aba1
+qemu       c17e5128 b134f16b 4cfe5f62 f2203f7d a2892d9e dfebcbaa c9c248c5 28473a5c a1a70c0a a19f9c81 ff00ff00 ccd40b92 2b3e6600 00c15812 040ffb80 a755f3e3 6e58aba1
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    a30ea23c c44933f6 16445847 57a2db70
+qemu       a30ea23c c44933f6 16445847 57a2db70
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    c17e5128 b134f16b 4cfe5f62 fe607f7f a2892d9e dfebcbaa c9c248c5 28473a5c 45125b3c dfebcbaa ff00ff00 ccd40b92 2b3e6600 00c15812 040ffb80 a755f3e3 6e58aba1
+qemu       c17e5128 b134f16b 4cfe5f62 fe607f7f a2892d9e dfebcbaa c9c248c5 28473a5c 45125b3c dfebcbaa ff00ff00 ccd40b92 2b3e6600 00c15812 040ffb80 a755f3e3 6e58aba1
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    a30ea29e c44933f6 16445847 57a2db70
+qemu       a30ea23c c44933f6 16445847 57a2db70
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000000sssssPP1-10uu---ddddd
+    if (!P2) R6=aslh(R7)                             01110000000001111110101000000110
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#5856u16:0)=R9                           01001000000010110100100111100000
+                                                     11101111010sssssPP0ttttt011xxxxx
+    R4|=and(R5,R4)                                   11101111010001010100010001100100
+                                                     1100110011-sssssPP-ttttt01-xxxxx
+    R7+=lsr(R8,R0)                                   11001100110010000100000001000111
+}
+5bb560660831c35c7fd2fda096620d441331642291837c2e7ce4d60b77c10c989aee049cda690aadb439ff00e04b5cc8eda8ba5318bc800000d81004f56d1b7c0a17bf0ee3d7b645d15e5f3d8ce3ab83f6b70d6c
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    6660b55b 5cc33108 a0fdd27f 440d6296 22643113 2e7c8391 0bd6e47c 980cc177 9c04ee9a ad0a69da 00ff39b4 c85c4be0 53baa8ed 0080bc18 0410d800 7c1b6df5 0ebf170a
+qemu       6660b55b 5cc33108 a0fdd27f 440d6296 22643113 2e7c8391 0bd6e47c 980cc177 9c04ee9a ad0a69da 00ff39b4 c85c4be0 53baa8ed 0080bc18 0410d800 7c1b6df5 0ebf170a
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    45b6d7e3 3d5f5ed1 83abe38c 6c0db7f6
+qemu       45b6d7e3 3d5f5ed1 83abe38c 6c0db7f6
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    6660b55b 5cc33108 a0fdd27f 440d6296 22643113 2e7c8391 0bd6e47c 980cc177 9c04ee9a ad0a69da 00ff39b4 c85c4be0 53baa8ed 0080bc18 0410d800 7c1b6df5 0ebf170a
+qemu       6660b55b 5cc33108 a0fdd27f 440d6296 22643113 2e7c8391 0bd6e47c 980cc177 9c04ee9a ad0a69da 00ff39b4 c85c4be0 53baa8ed 0080bc18 0410d800 7c1b6df5 0ebf170a
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    45b6d7da 3d5f5ed1 83abe38c 6c0db7f6
+qemu       45b6d7e3 3d5f5ed1 83abe38c 6c0db7f6
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000110sssssPP1-10uu---ddddd
+    if (!P0) R6=zxth(R7)                             01110000110001111110100000000110
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#19640u16:2)=R4                          01001010100001100100010010111000
+                                                     01110000001sssssPP1-10uu---ddddd
+    if (!P3) R7=asrh(R4)                             01110000001001000110101100000111
+                                                     011010111100--ssPP0-----------dd
+    P2=not(P1)                                       01101011110000010100000000000010
+}
+a06e0d1bd9fdc3ba89e37ed69757f070c9f82d02a1e10900f601194d978690c7c434269f487a758ba1ff9cac3768408d9d600cc83818000000bc0f041e425e2cd1222d9aac15e9f0e107ebf357562cbd1d69418c
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    1b0d6ea0 bac3fdd9 d67ee389 70f05797 022df8c9 0009e1a1 4d1901f6 c7908697 9f2634c4 8b757a48 ac9cffa1 8d406837 c80c609d 00001838 040fbc00 2c5e421e 9a2d22d1
+qemu       1b0d6ea0 bac3fdd9 d67ee389 70f05797 022df8c9 0009e1a1 4d1901f6 c7908697 9f2634c4 8b757a48 ac9cffa1 8d406837 c80c609d 00001838 040fbc00 2c5e421e 9a2d22d1
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    f0e915ac f3eb07e1 bd2c5657 8c41691d
+qemu       f0e915ac f3eb07e1 bd2c5657 8c41691d
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    1b0d6ea0 bac3fdd9 d67ee389 70f05797 022df8c9 0009e1a1 4d1901f6 0000022d 9f2634c4 8b757a48 ac00ffa1 8d406837 c80c609d 00001838 040fbc00 2c5e421e 9a2d22d1
+qemu       1b0d6ea0 bac3fdd9 d67ee389 70f05797 022df8c9 0009e1a1 4d1901f6 0000022d 9f2634c4 8b757a48 ac00ffa1 8d406837 c80c609d 00001838 040fbc00 2c5e421e 9a2d22d1
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    022df8c9 f3eb07e1 bd2c5657 8c41691d
+qemu       f0e915ac f3eb07e1 bd2c5657 8c41691d
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001100sssssPPjtttttjvvddddd
+    if (!P1)R0=memw(R1+R3<<#1u2)                     00110001100000011100001110100000
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#3184u16:1)=R1.H                         01001000011001100100000101110000
+                                                     11101000011sssssPP0ttttt000ddddd
+    R7:6=vabsdiffh(R2:1,R9:8)                        11101000011010000100000100000110
+                                                     10000101000sssssPP0jjjjj------dd
+    P3=tstbit(R2,#10u5)                              10000101000000100100101000000011
+}
+daa912fa3e6d15dfc5d7f529d1c07d921490241c8d6cef19f8884600372011b5372d32bb06d2349800819d11961503a452c32d472c28000000d61004dd078d714d119ce0c2ac2bd9f8cf65b473f621c67806361e
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    fa12a9da df156d3e 29f5d7c5 927dc0d1 1c249014 19ef6c8d 004688f8 b5112037 bb322d37 9834d206 119d8100 a4031596 472dc352 0000282c 0410d600 718d07dd e09c114d
+qemu       fa12a9da df156d3e 29f5d7c5 927dc0d1 1c249014 19ef6c8d 004688f8 b5112037 bb322d37 9834d206 119d8100 a4031596 472dc352 0000282c 0410d600 718d07dd e09c114d
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    d92bacc2 b465cff8 c621f673 1e360678
+qemu       d92bacc2 b465cff8 c621f673 1e360678
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    fa12a9da df156d3e 29f5d7c5 927dc0d1 1c249014 19ef6c8d 23e34007 91c105bf bb322d37 9834d206 ff9d8100 a4031596 472dc352 0000282c 0410d600 718d07dd e09c114d
+qemu       fa12a9da df156d3e 29f5d7c5 927dc0d1 1c249014 19ef6c8d 23e34007 91c105bf bb322d37 9834d206 ff9d8100 a4031596 472dc352 0000282c 0410d600 718d07dd e09c114d
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    d92bdf15 b465cff8 c621f673 1e360678
+qemu       d92bacc2 b465cff8 c621f673 1e360678
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-0sssssPP0ttttt0uuddddd
+    if (P1) R0=add(R0,R3)                            11111011000000001100001100100000
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#29664u16:0)=R3                          01001010000110010110001111100000
+                                                     11000111000sssssPP-ttttt------dd
+    P0=tstbit(R4,R1)                                 11000111000001000100000100000000
+                                                     1100000111-sssssPP-ttttt10-ddddd
+    R2:1=extract(R6:5,R1:0)                          11000001110001010100000010000001
+}
+ee38229a64fc587afca4bea907166db6411c24fe9e8ec52d645e55b45a7c57fa740afc980dd4e42bff1464ffa85798b8fb27c78338700100007b10041c34161659c8315afcfcca7269e7e48d85074f18753c570d
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    9a2238ee 7a58fc64 a9bea4fc b66d1607 fe241c41 2dc58e9e b4555e64 fa577c5a 98fc0a74 2be4d40d ff6414ff b89857a8 83c727fb 00017038 04107b00 1616341c 5a31c859
+qemu       9a2238ee 7a58fc64 a9bea4fc b66d1607 fe241c41 2dc58e9e b4555e64 fa577c5a 98fc0a74 2be4d40d ff6414ff b89857a8 83c727fb 00017038 04107b00 1616341c 5a31c859
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    72cafcfc 8de4e769 184f0785 0d573c75
+qemu       72cafcfc 8de4e769 184f0785 0d573c75
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    9a2238ee 3a780000 00000006 b66d1607 fe241c41 2dc58e9e b4555e64 fa577c5a 98fc0a74 2be4d40d ff641400 b89857a8 83c727fb 00017038 04107b00 1616341c 5a31c859
+qemu       9a2238ee 3a780000 00000006 b66d1607 fe241c41 2dc58e9e b4555e64 fa577c5a 98fc0a74 2be4d40d ff641400 b89857a8 83c727fb 00017038 04107b00 1616341c 5a31c859
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    72cafc07 8de4e769 184f0785 0d573c75
+qemu       72cafcfc 8de4e769 184f0785 0d573c75
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000101100sssssPP0ttjjjjjjddddd
+    if (!P3)R7=memw(R8+#10u6:2)                      01000101100010001101100101000111
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#47600u16:1)=R5                          01001100010111000110010111110000
+                                                     1100110001-sssssPP-ttttt01-xxxxx
+    R8&=lsr(R0,R9)                                   11001100010000000100100101001000
+                                                     11101011010sssssPP0ttttt000ddddd
+    R4=sfmpy(R8,R5)                                  11101011010010000100010100000100
+}
+c28412ca4e9a60745896b190b11e73c13e1aed3243335d1cdb43e7b8bd758288b8ee10043103e41aff00a9ffa9b12c446b101fdb04580100007b0f04bab5836d9fc10bf7b0a3c08172ff8a3b7cbaf7ff45f630a8
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    ca1284c2 74609a4e 90b19658 c1731eb1 32ed1a3e 1c5d3343 b8e743db 888275bd 0410eeb8 1ae40331 ffa900ff 442cb1a9 db1f106b 00015804 040f7b00 6d83b5ba f70bc19f
+qemu       ca1284c2 74609a4e 90b19658 c1731eb1 32ed1a3e 1c5d3343 b8e743db 888275bd 0410eeb8 1ae40331 ffa900ff 442cb1a9 db1f106b 00015804 040f7b00 6d83b5ba f70bc19f
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    81c0a3b0 3b8aff72 fff7ba7c a830f645
+qemu       81c0a3b0 3b8aff72 fff7ba7c a830f645
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    ca1284c2 74609a4e 90b19658 c1731eb1 00000000 1c5d3343 b8e743db 888275bd 00000000 1ae40331 ffa900ff 442cb1a9 db1f106b 00015834 040f7b00 6d83b5ba f70bc19f
+qemu       ca1284c2 74609a4e 90b19658 c1731eb1 00000000 1c5d3343 b8e743db 888275bd 00000000 1ae40331 ffa900ff 442cb1a9 db1f106b 00015834 040f7b00 6d83b5ba f70bc19f
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    81c03343 3b8aff72 fff7ba7c a830f645
+qemu       81c0a3b0 3b8aff72 fff7ba7c a830f645
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000111sssssPP1-10uu---ddddd
+    if (!P2) R8=sxth(R5)                             01110000111001011110101000001000
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#46448u16:1)=R0.H                        01001100011110100110000001110000
+                                                     11010101111sssssPP-ttttt---ddddd
+    R5=parity(R6,R9)                                 11010101111001100100100100000101
+                                                     011010111001--ssPP0---ttuu----dd
+    P2=and(P3,and(P2,!P3))                           01101011100100110100001011000010
+}
+edc7faa96398a59bfe731cc9f237d1be2d0f241c094ce625aed4788cd42efddceda3e239427e3bf9ffff73ff655bed7c7c1e5ac41664810000840f045559e42d7ba10c02aebdd5bcaa879ed0f73ee8528dcc0e34
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    a9fac7ed 9ba59863 c91c73fe bed137f2 1c240f2d 25e64c09 8c78d4ae dcfd2ed4 39e2a3ed f93b7e42 ff73ffff 7ced5b65 c45a1e7c 00816416 040f8400 2de45955 020ca17b
+qemu       a9fac7ed 9ba59863 c91c73fe bed137f2 1c240f2d 25e64c09 8c78d4ae dcfd2ed4 39e2a3ed f93b7e42 ff73ffff 7ced5b65 c45a1e7c 00816416 040f8400 2de45955 020ca17b
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    bcd5bdae d09e87aa 52e83ef7 340ecc8d
+qemu       bcd5bdae d09e87aa 52e83ef7 340ecc8d
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    a9fac7ed 9ba59863 c91c73fe bed137f2 1c240f2d 00000001 8c78d4ae dcfd2ed4 39e2a3ed f93b7e42 ff00ffff 7ced5b65 c45a1e7c 00816416 040f8400 2de45955 020ca17b
+qemu       a9fac7ed 9ba59863 c91c73fe bed137f2 1c240f2d 00000001 8c78d4ae dcfd2ed4 39e2a3ed f93b7e42 ff00ffff 7ced5b65 c45a1e7c 00816416 040f8400 2de45955 020ca17b
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    bcd5a9fa d09e87aa 52e83ef7 340ecc8d
+qemu       bcd5bdae d09e87aa 52e83ef7 340ecc8d
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000110sssssPPjtttttjvvddddd
+    if (P1)R7:6=memd(R9+R0<<#3u2)                    00110000110010011110000010100110
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#22896u16:1)=R5.H                        01001010011011000110010101110000
+                                                     10001000100sssssPP------000ddddd
+    R1=vtrunohb(R1:0)                                10001000100000000100000000000001
+                                                     11001011001sssssPP0xxxxx110uuuuu
+    R4:3=vrminw(R2:1,R4)                             11001011001000010100001111000100
+}
+4f635131d9ea48216b50918b168ad446c242bd05c35c1a73f594c80242168cf544bb72a168d48579a100d6ffe4a288dc448adbb11a0c8000003c1004c566514daf4e7bb4e281b7f9c8419fbabf4ffe552d829d4a
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3151634f 2148ead9 8b91506b 46d48a16 05bd42c2 731a5cc3 02c894f5 f58c1642 a172bb44 7985d468 ffd600a1 dc88a2e4 b1db8a44 00800c1a 04103c00 4d5166c5 b47b4eaf
+qemu       3151634f 2148ead9 8b91506b 46d48a16 05bd42c2 731a5cc3 02c894f5 f58c1642 a172bb44 7985d468 ffd600a1 dc88a2e4 b1db8a44 00800c1a 04103c00 4d5166c5 b47b4eaf
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    f9b781e2 ba9f41c8 55fe4fbf 4a9d822d
+qemu       f9b781e2 ba9f41c8 55fe4fbf 4a9d822d
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3151634f 21ea3163 8b91506b 8b91506b 05bd42c6 731a5cc3 02c894f5 f58c1642 a172bb44 7985d468 ffd600a1 dc88a2e4 b1db8a44 00800c1a 04103c00 4d5166c5 b47b4eaf
+qemu       3151634f 21ea3163 8b91506b 8b91506b 05bd42c6 731a5cc3 02c894f5 f58c1642 a172bb44 7985d468 ffd600a1 dc88a2e4 b1db8a44 00800c1a 04103c00 4d5166c5 b47b4eaf
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    f9b7731a ba9f41c8 55fe4fbf 4a9d822d
+qemu       f9b781e2 ba9f41c8 55fe4fbf 4a9d822d
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001011sssssPPjtttttjvvddddd
+    if (!P0)R5=memuh(R8+R2<<#3u2)                    00110001011010001110001010000101
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#18784u16:0)=R3                          01001010000001000110001101100000
+                                                     1100110011-sssssPP-ttttt10-xxxxx
+    R7+=asl(R2,R0)                                   11001100110000100100000010000111
+                                                     1100100100-sssssPP-ttttt00-ddddd
+    R3=extractu(R7,R8:7)                             11001001000001110100011100000011
+}
+8ad4b22694ef16aecf001ac512d728892ca86dd964e6c8eb999bd3c02a5dc95468e840db2796ebaf03ffff6d8604cb918c2c5e143e40c00080a510046820a31e9e40a716d6e2444c068037ade7b7d57ef3a7e6a2
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    26b2d48a ae16ef94 c51a00cf 8928d712 d96da82c ebc8e664 c0d39b99 54c95d2a db40e868 afeb9627 6dffff03 91cb0486 145e2c8c 00c0403e 0410a580 1ea32068 16a7409e
+qemu       26b2d48a ae16ef94 c51a00cf 8928d712 d96da82c ebc8e664 c0d39b99 54c95d2a db40e868 afeb9627 6dffff03 91cb0486 145e2c8c 00c0403e 0410a580 1ea32068 16a7409e
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    4c44e2d6 ad378006 7ed5b7e7 a2e6a7f3
+qemu       4c44e2d6 ad378006 7ed5b7e7 a2e6a7f3
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    26b2d48a ae16ef94 c51a00cf 00000000 d96da82c ebc8e664 c0d39b99 bccc992a db40e868 afeb9627 6dffff03 91cb0486 145e2c8c 00c0403e 0410a580 1ea32068 16a7409e
+qemu       26b2d48a ae16ef94 c51a00cf 00000000 d96da82c ebc8e664 c0d39b99 bccc992a db40e868 afeb9627 6dffff03 91cb0486 145e2c8c 00c0403e 0410a580 1ea32068 16a7409e
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    4c44e212 ad378006 7ed5b7e7 a2e6a7f3
+qemu       4c44e2d6 ad378006 7ed5b7e7 a2e6a7f3
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001000sssssPPjtttttjvvddddd
+    if (!P2)R8=memb(R2+R3<<#3u2)                     00110001000000101110001111001000
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#28256u16:0)=R7                          01001010000101110100011101100000
+                                                     011010110101--ssPP0---ttuu----dd
+    P2=or(P1,and(P0,P3))                             01101011010100010100000011000010
+                                                     011010111110--ssPP0---tt------dd
+    P3=or(P3,!P2)                                    01101011111000100100001100000011
+}
+ed44bb3b664cea5c90a4c3f64aa9a90149edbf9b392393f9bbe208d19231f08b053fa28353ccdc1e0000ff4ae5a951c9117235c8044841008080100447f348b2e7dd73da51a9b5fb6af083b77042cabe172bda0b
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3bbb44ed 5cea4c66 f6c3a490 01a9a94a 9bbfed49 f9932339 d108e2bb 8bf03192 83a23f05 1edccc53 4aff0000 c951a9e5 c8357211 00414804 04108080 b248f347 da73dde7
+qemu       3bbb44ed 5cea4c66 f6c3a490 01a9a94a 9bbfed49 f9932339 d108e2bb 8bf03192 83a23f05 1edccc53 4aff0000 c951a9e5 c8357211 00414804 04108080 b248f347 da73dde7
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    fbb5a951 b783f06a beca4270 0bda2b17
+qemu       fbb5a951 b783f06a beca4270 0bda2b17
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3bbb44ed 5cea4c66 f6c3a490 01a9a94a 9bbfed49 f9932339 d108e2bb 8bf03192 83a23f05 1edccc53 4a000000 c951a9e5 c8357211 00414804 04108080 b248f347 da73dde7
+qemu       3bbb44ed 5cea4c66 f6c3a490 01a9a94a 9bbfed49 f9932339 d108e2bb 8bf03192 83a23f05 1edccc53 4a000000 c951a9e5 c8357211 00414804 04108080 b248f347 da73dde7
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    fbb5a992 b783f06a beca4270 0bda2b17
+qemu       fbb5a951 b783f06a beca4270 0bda2b17
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000100sssssPPjtttttjvvddddd
+    if (P2)R0=memw(R3+R8<<#0u2)                      00110000100000111100100001000000
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#59192u16:2)=R4                          01001110100100110110010000111000
+                                                     1100001101-sssssPP-ttttt01-ddddd
+    R4:3=vlsrh(R1:0,R5)                              11000011010000000100010101000011
+                                                     11110011000sssssPP-ttttt---ddddd
+    R6=add(R5,R5)                                    11110011000001010100010100000110
+}
+700f65e55e635646f4dd628cfe433c5e77b60817b038c9c89bbed6bb8dc0baa2e2aad4a5bcdbc1b60000000088076b42f2d7d3451678c00000520d040bec4c816b98b64b99abc4e0451cf14ee7a593e62d28c972
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e5650f70 4656635e 8c62ddf4 5e3c43fe 1708b677 c8c938b0 bbd6be9b a2bac08d a5d4aae2 b6c1dbbc 00000000 426b0788 45d3d7f2 00c07816 040d5200 814cec0b 4bb6986b
+qemu       e5650f70 4656635e 8c62ddf4 5e3c43fe 1708b677 c8c938b0 bbd6be9b a2bac08d a5d4aae2 b6c1dbbc 00000000 426b0788 45d3d7f2 00c07816 040d5200 814cec0b 4bb6986b
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    e0c4ab99 4ef11c45 e693a5e7 72c9282d
+qemu       e0c4ab99 4ef11c45 e693a5e7 72c9282d
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e5650f70 4656635e 8c62ddf4 00000000 00000000 c8c938b0 91927160 a2bac08d a5d4aae2 b6c1dbbc 00000000 426b0788 45d3d7f2 00c07816 040d5200 814cec0b 4bb6986b
+qemu       e5650f70 4656635e 8c62ddf4 00000000 00000000 c8c938b0 91927160 a2bac08d a5d4aae2 b6c1dbbc 00000000 426b0788 45d3d7f2 00c07816 040d5200 814cec0b 4bb6986b
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    1708b677 4ef11c45 e693a5e7 72c9282d
+qemu       e0c4ab99 4ef11c45 e693a5e7 72c9282d
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000000sssssPPjtttttjvvddddd
+    if (P1)R8=memb(R6+R3<<#2u2)                      00110000000001101110001100101000
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#12256u16:0)=R0                          01001000000101110110000011100000
+                                                     10001100010sssssPP------111ddddd
+    R3=vsplatb(R8)                                   10001100010010000100000011100011
+                                                     10001011101sssssPP------000ddddd
+    R4=sffixupr(R9)                                  10001011101010010100000000000100
+}
+a407cd0bcae26d3984a654f196d6cc3dcc3608b7fb55a17c8894dd0ccc5136b147f8ab7372534bbac4000072d058277ce2dcfc0a36ac400000bf1004f1142623ba6db07daaa3c74ee893b0a095aa2e06e615c7e4
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    0bcd07a4 396de2ca f154a684 3dccd696 b70836cc 7ca155fb 0cdd9488 b13651cc 73abf847 ba4b5372 720000c4 7c2758d0 0afcdce2 0040ac36 0410bf00 232614f1 7db06dba
+qemu       0bcd07a4 396de2ca f154a684 3dccd696 b70836cc 7ca155fb 0cdd9488 b13651cc 73abf847 ba4b5372 720000c4 7c2758d0 0afcdce2 0040ac36 0410bf00 232614f1 7db06dba
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    4ec7a3aa a0b093e8 062eaa95 e4c715e6
+qemu       4ec7a3aa a0b093e8 062eaa95 e4c715e6
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    0bcd07a4 396de2ca f154a684 47474747 ffffffff 7ca155fb 0cdd9488 b13651cc 73abf847 ba4b5372 720000c4 7c2758d0 0afcdce2 0040ac36 0410bf00 232614f1 7db06dba
+qemu       0bcd07a4 396de2ca f154a684 47474747 ffffffff 7ca155fb 0cdd9488 b13651cc 73abf847 ba4b5372 720000c4 7c2758d0 0afcdce2 0040ac36 0410bf00 232614f1 7db06dba
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    4ec7a3a4 a0b093e8 062eaa95 e4c715e6
+qemu       4ec7a3aa a0b093e8 062eaa95 e4c715e6
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001110sssssPPjtttttjvvddddd
+    if (!P0)R6:5=memd(R7+R2<<#1u2)                   00110001110001111100001010000101
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#33112u16:2)=R2                          01001100100000000110001001011000
+                                                     11101100N01sssssPP-ttttt010ddddd
+    R1=mpy(R7.H,R4.L):<<1:rnd                        11101100101001110100010001000001
+                                                     01110000101sssssPP0--------ddddd
+    R8=sxtb(R9)                                      01110000101010010100000000001000
+}
+406e986487ab634a873f44e34f48ec420f30166edc111c8e16614001d26f883d52e4bc860cfcad57ffff00ff21cb568694a39e7f1898400080e90e04497445a9b53a30c855d42745463f759b3e4b7c2fb959dc4f
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    64986e40 4a63ab87 e3443f87 42ec484f 6e16300f 8e1c11dc 01406116 3d886fd2 86bce452 57adfc0c ff00ffff 8656cb21 7f9ea394 00409818 040ee980 a9457449 c8303ab5
+qemu       64986e40 4a63ab87 e3443f87 42ec484f 6e16300f 8e1c11dc 01406116 3d886fd2 86bce452 57adfc0c ff00ffff 8656cb21 7f9ea394 00409818 040ee980 a9457449 c8303ab5
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    4527d455 9b753f46 2f7c4b3e 4fdc59b9
+qemu       4527d455 9b753f46 2f7c4b3e 4fdc59b9
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    64986e40 171ab5f0 e3443f87 42ec484f 6e16300f 8e1c11dc 01406116 3d886fd2 0000000c 57adfc0c ff00ffff 8656cb21 7f9ea394 00409818 040ee980 a9457449 c8303ab5
+qemu       64986e40 171ab5f0 e3443f87 42ec484f 6e16300f 8e1c11dc 01406116 3d886fd2 0000000c 57adfc0c ff00ffff 8656cb21 7f9ea394 00409818 040ee980 a9457449 c8303ab5
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    e3443f87 9b753f46 2f7c4b3e 4fdc59b9
+qemu       4527d455 9b753f46 2f7c4b3e 4fdc59b9
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000011sssssPPjtttttjvvddddd
+    if (P1)R2=memuh(R5+R6<<#1u2)                     00110000011001011100011010100010
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#4336u16:1)=R8.H                         01001000011010000100100011110000
+                                                     11010011100sssssPP-ttttt010ddddd
+    R6:5=vnavgh(R7:6,R2:1):crnd:sat                  11010011100000010100011001000101
+                                                     11101100N01sssssPP-ttttt011ddddd
+    R0=mpy(R6.H,R4.H):rnd                            11101100001001100100010001100000
+}
+8de61b56f0185a7d1c1a12ab7116e063dc02bc3882b221f22f9ef7882b5a2c52650a05bd82804c84ff00ffff3187df9efdf415bc2440000000cd1004f3e324048a4895303715717f868df39457b81f1a23e4ebda
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    561be68d 7d5a18f0 ab121a1c 63e01671 38bc02dc f221b282 88f79e2f 522c5a2b bd050a65 844c8082 ffff00ff 9edf8731 bc15f4fd 00004024 0410cd00 0424e3f3 3095488a
+qemu       561be68d 7d5a18f0 ab121a1c 63e01671 38bc02dc f221b282 88f79e2f 522c5a2b bd050a65 844c8082 ffff00ff 9edf8731 bc15f4fd 00004024 0410cd00 0424e3f3 3095488a
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    7f711537 94f38d86 1a1fb857 daebe423
+qemu       7f711537 94f38d86 1a1fb857 daebe423
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e59f1d64 7d5a18f0 ab121a1c 63e01671 38bc02dc 85cec2a0 538d2008 522c5a2b bd050a65 844c8082 ffff00ff 9edf8731 bc15f4fd 00004024 0410cd00 0424e3f3 3095488a
+qemu       e59f1d64 7d5a18f0 ab121a1c 63e01671 38bc02dc 85cec2a0 538d2008 522c5a2b bd050a65 844c8082 ffff00ff 9edf8731 bc15f4fd 00004024 0410cd00 0424e3f3 3095488a
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    7f71bd05 94f38d86 1a1fb857 daebe423
+qemu       7f711537 94f38d86 1a1fb857 daebe423
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-0sssssPP0ttttt0uuddddd
+    if (P1) R6=add(R6,R6)                            11111011000001101100011000100110
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#47536u16:1)=R5.H                        01001100011111000110010110110000
+                                                     11101111100sssssPP0ttttt011xxxxx
+    R5^=xor(R9,R3)                                   11101111100010010100001101100101
+                                                     11010011001sssssPP-ttttt010ddddd
+    R1:0=vsubh(R6:5,R6:5)                            11010011001001010100010101000000
+}
+ab2080b43c223b410e424690a3097975ed3be20b7c7dc5ce30e215083586a6bce7d0746bcda00a680000bb030761f9623f83bae638480000807b0f0443f615dc1f921ff4aad7d18824c499074a159329a772c177
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    b48020ab 413b223c 9046420e 757909a3 0be23bed cec57d7c 0815e230 bca68635 6b74d0e7 680aa0cd 03bb0000 62f96107 e6ba833f 00004838 040f7b80 dc15f643 f41f921f
+qemu       b48020ab 413b223c 9046420e 757909a3 0be23bed cec57d7c 0815e230 bca68635 6b74d0e7 680aa0cd 03bb0000 62f96107 e6ba833f 00004838 040f7b80 dc15f643 f41f921f
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    88d1d7aa 0799c424 2993154a 77c172a7
+qemu       88d1d7aa 0799c424 2993154a 77c172a7
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    00000000 00000000 9046420e 757909a3 0be23bed d3b6d412 0815e230 bca68635 6b74d0e7 680aa0cd 03bb0000 62f96107 e6ba833f 00004838 040f7b80 dc15f643 f41f921f
+qemu       00000000 00000000 9046420e 757909a3 0be23bed d3b6d412 0815e230 bca68635 6b74d0e7 680aa0cd 03bb0000 62f96107 e6ba833f 00004838 040f7b80 dc15f643 f41f921f
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    88d1cec5 0799c424 2993154a 77c172a7
+qemu       88d1d7aa 0799c424 2993154a 77c172a7
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001000sssssPPjtttttjvvddddd
+    if (!P2)R4=memb(R0+R6<<#1u2)                     00110001000000001100011011000100
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#47320u16:2)=R8                          01001100100111000100100011011000
+                                                     1000001000-sssssPPjjjjjj010xxxxx
+    R1:0-=asl(R3:2,#58u6)                            10000010000000100111101001000000
+                                                     10001011011sssssPP------001ddddd
+    R8=convert_sf2uw(R6):chop                        10001011011001100100000000101000
+}
+be76e012205eac8916df7fe56724f5dcaa49889f19ae066f113c9878bfa8adf3117c439a11c9f20bff00bbff09612a7a874076bb0c608000800b0e04fa89b53aaf57138b199ce9491c1749e42b45bbed27b0c234
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    12e076be 89ac5e20 e57fdf16 dcf52467 9f8849aa 6f06ae19 78983c11 f3ada8bf 9a437c11 0bf2c911 ffbb00ff 7a2a6109 bb764087 0080600c 040e0b80 3ab589fa 8b1357af
+qemu       12e076be 89ac5e20 e57fdf16 dcf52467 9f8849aa 6f06ae19 78983c11 f3ada8bf 9a437c11 0bf2c911 ffbb00ff 7a2a6109 bb764087 0080600c 040e0b80 3ab589fa 8b1357af
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    49e99c19 e449171c edbb452b 34c2b027
+qemu       49e99c19 e449171c edbb452b 34c2b027
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    12e076be 31ac5e20 e57fdf16 dcf52467 9f8849aa 6f06ae19 78983c11 f3ada8bf ffffffff 0bf2c911 ffbb00ff 7a2a6109 bb764087 0080600e 040e0b80 3ab589fa 8b1357af
+qemu       12e076be 31ac5e20 e57fdf16 dcf52467 9f8849aa 6f06ae19 78983c11 f3ada8bf ffffffff 0bf2c911 ffbb00ff 7a2a6109 bb764087 0080600e 040e0b80 3ab589fa 8b1357af
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    9a437c11 e449171c edbb452b 34c2b027
+qemu       49e99c19 e449171c edbb452b 34c2b027
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000101110sssssPP0ttjjjjjjddddd
+    if (!P3)R8:7=memd(R7+#37u6:3)                    01000101110001111101110010100111
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#11232u16:0)=R9                          01001000000101010110100111100000
+                                                     11101010010sssssPP0ttttt010xxxxx
+    R2:1+=vrsadub(R7:6,R6:5)                         11101010010001100100010101000001
+                                                     100001001--sssssPP------000ddddd
+    R6:5=convert_sf2df(R3)                           10000100100000110100000000000101
+}
+a49a17321563f4782068535149b35f72dc846e834e4ced967f234b85b8ed100447fb8597f8a8a5a800533eff2c02e8e9b034d89332f0800000c31004716e0188f700f2f450b45a14bfea318c79a2bfd3aeb2bf3c
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    32179aa4 78f46315 51536820 725fb349 836e84dc 96ed4c4e 854b237f 0410edb8 9785fb47 a8a5a8f8 ff3e5300 e9e8022c 93d834b0 0080f032 0410c300 88016e71 f4f200f7
+qemu       32179aa4 78f46315 51536820 725fb349 836e84dc 96ed4c4e 854b237f 0410edb8 9785fb47 a8a5a8f8 ff3e5300 e9e8022c 93d834b0 0080f032 0410c300 88016e71 f4f200f7
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    145ab450 8c31eabf d3bfa279 3cbfb2ae
+qemu       145ab450 8c31eabf d3bfa279 3cbfb2ae
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    32179aa4 78f46422 515369df 725fb349 836e84dc 20000000 464bf669 0410edb8 9785fb47 a8a5a8f8 ff3e5300 e9e8022c 93d834b0 0080f032 0410c300 88016e71 f4f200f7
+qemu       32179aa4 78f46422 515369df 725fb349 836e84dc 20000000 464bf669 0410edb8 9785fb47 a8a5a8f8 ff3e5300 e9e8022c 93d834b0 0080f032 0410c300 88016e71 f4f200f7
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    145ab4f8 8c31eabf d3bfa279 3cbfb2ae
+qemu       145ab450 8c31eabf d3bfa279 3cbfb2ae
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000001sssssPP1-00uu---ddddd
+    if (P1) R1=asrh(R9)                              01110000001010011110000100000001
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#53104u16:1)=R3                          01001110010001110110001101110000
+                                                     1101011001j-----PPjjjjjjjjjddddd
+    R2=sfmake(#95u10):neg                            11010110010000000100101111100010
+                                                     11100110N10sssssPP-ttttt000xxxxx
+    R8:7+=mpyu(R6.L,R6.L):<<1                        11100110110001100100011000000111
+}
+97bfad32f2e14cbd24324e2cbd6f14bf132154c51e8d35e700bf2ae2d75ed149ee32575395f104c14e2ae8ff8b23f193deb97b1b2c38000000500f041f18775de48a680099f53f88c2467855e9500f5e3f10f478
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    32adbf97 bd4ce1f2 2c4e3224 bf146fbd c5542113 e7358d1e e22abf00 49d15ed7 535732ee c104f195 ffe82a4e 93f1238b 1b7bb9de 0000382c 040f5000 5d77181f 00688ae4
+qemu       32adbf97 bd4ce1f2 2c4e3224 bf146fbd c5542113 e7358d1e e22abf00 49d15ed7 535732ee c104f195 ffe82a4e 93f1238b 1b7bb9de 0000382c 040f5000 5d77181f 00688ae4
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    883ff599 557846c2 5e0f50e9 78f4103f
+qemu       883ff599 557846c2 5e0f50e9 78f4103f
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    32adbf97 bd4ce1f2 bd3e0000 bf146fbd c5542113 e7358d1e e22abf00 66d35ed7 535732ef c104f195 ffe82a4e 93f1238b 1b7bb9de 0000382c 040f5000 5d77181f 00688ae4
+qemu       32adbf97 bd4ce1f2 bd3e0000 bf146fbd c5542113 e7358d1e e22abf00 66d35ed7 535732ef c104f195 ffe82a4e 93f1238b 1b7bb9de 0000382c 040f5000 5d77181f 00688ae4
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    883f6fbd 557846c2 5e0f50e9 78f4103f
+qemu       883ff599 557846c2 5e0f50e9 78f4103f
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111001-11sssssPP0ttttt1uuddddd
+    if (!P2) R6=xor(R2,R3)                           11111001011000101100001111000110
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#28896u16:0)=R6                          01001010000110000100011011100000
+                                                     11101111011sssssPP0ttttt000xxxxx
+    R4+=mpy(R2,R8):<<1:sat                           11101111011000100100100000000100
+                                                     11101100N10sssssPP-ttttt011ddddd
+    R2=mpyu(R8.H,R4.H):<<1                           11101100110010000100010001100010
+}
+de684fe5e11ebd4657be106f67ae96224f1d2f514e6f069cec4d8f6364579f0ee53014716c209cc3ff00ffff88b6244a29c752d73cf0c000007e10048a80fd630aa1bea8f697daae70fd8820bf08a84f8c1c5dbb
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e54f68de 46bd1ee1 6f10be57 2296ae67 512f1d4f 9c066f4e 638f4dec 0e9f5764 711430e5 c39c206c ffff00ff 4a24b688 d752c729 00c0f03c 04107e00 63fd808a a8bea10a
+qemu       e54f68de 46bd1ee1 6f10be57 2296ae67 512f1d4f 9c066f4e 638f4dec 0e9f5764 711430e5 c39c206c ffff00ff 4a24b688 d752c729 00c0f03c 04107e00 63fd808a a8bea10a
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    aeda97f6 2088fd70 4fa808bf bb5d1c8c
+qemu       aeda97f6 2088fd70 4fa808bf bb5d1c8c
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e54f68de 46bd1ee1 47b82d58 2296ae67 7fffffff 9c066f4e 638f4dec 0e9f5764 711430e5 c39c206c ffff00ff 4a24b688 d752c729 00c0f03d 04107e00 63fd808a a8bea10a
+qemu       e54f68de 46bd1ee1 47b82d58 2296ae67 7fffffff 9c066f4e 638f4dec 0e9f5764 711430e5 c39c206c ffff00ff 4a24b688 d752c729 00c0f03d 04107e00 63fd808a a8bea10a
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    aeda97ec 2088fd70 4fa808bf bb5d1c8c
+qemu       aeda97f6 2088fd70 4fa808bf bb5d1c8c
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111101---sssssPP0ttttt0uuddddd
+    if (P1) R1:0=combine(R9,R5)                      11111101000010011100010100100000
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#38624u16:0)=R1                          01001100000010110100000111100000
+                                                     11001011000sssssPP-ttttt00-xxxxx
+    R4:3|=asr(R9:8,R8)                               11001011000010000100100000000011
+                                                     11000111111sssssPP-ttttt000---dd
+    P3=sfcmp.ge(R8,R8)                               11000111111010000100100000000011
+}
+e4adf1e649f3208147efdb84e6f16f25befe4ebf0a3193252d571089f5590a8382b8a9b2f0edd9ba0000ff00e1930bd273f4da040660c1000058100473cb823af4bbde041a6902196dd5178f6c53c833d36396ac
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e6f1ade4 8120f349 84dbef47 256ff1e6 bf4efebe 2593310a 8910572d 830a59f5 b2a9b882 bad9edf0 00ff0000 d20b93e1 04daf473 00c16006 04105800 3a82cb73 04debbf4
+qemu       e6f1ade4 8120f349 84dbef47 256ff1e6 bf4efebe 2593310a 8910572d 830a59f5 b2a9b882 bad9edf0 00ff0000 d20b93e1 04daf473 00c16006 04105800 3a82cb73 04debbf4
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    1902691a 8f17d56d 33c8536c ac9663d3
+qemu       1902691a 8f17d56d 33c8536c ac9663d3
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e6f1ade4 8120f349 84dbef47 2defffe6 fffefffe 2593310a 8910572d 830a59f5 b2a9b882 bad9edf0 ffff0000 d20b93e1 04daf473 00c16006 04105800 3a82cb73 04debbf4
+qemu       e6f1ade4 8120f349 84dbef47 2defffe6 fffefffe 2593310a 8910572d 830a59f5 b2a9b882 bad9edf0 ffff0000 d20b93e1 04daf473 00c16006 04105800 3a82cb73 04debbf4
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    19026949 8f17d56d 33c8536c ac9663d3
+qemu       1902691a 8f17d56d 33c8536c ac9663d3
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     011111101uu0jjjjPP0jjjjjjjjddddd
+    if (!P2) R9=#1575s12                             01111110110001101100010011101001
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#31328u16:0)=R3                          01001010000111010100001101100000
+                                                     11011100001sssssPP-jjjjjjjj10-dd
+    P1=vcmpw.gt(R9:8,#91s8)                          11011100001010000100101101110001
+                                                     11010101011sssssPP-ttttt110ddddd
+    R1=sub(R8.H,R9.L):sat:<<16                       11010101011010010100100011000001
+}
+c60bf7b94fc25b0556a5b503ec8b53ceadb917c888be8737325f8c02c885fa99f5a6a9a9104a45acc800ffff21c9af3ff81d88ea12b4c0008074100415783ff7e5445667478eb5046d99ff698fdae410c9672f2f
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    b9f70bc6 055bc24f 03b5a556 ce538bec c817b9ad 3787be88 028c5f32 99fa85c8 a9a9a6f5 ac454a10 ffff00c8 3fafc921 ea881df8 00c0b412 04107480 f73f7815 675644e5
+qemu       b9f70bc6 055bc24f 03b5a556 ce538bec c817b9ad 3787be88 028c5f32 99fa85c8 a9a9a6f5 ac454a10 ffff00c8 3fafc921 ea881df8 00c0b412 04107480 f73f7815 675644e5
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    04b58e47 69ff996d 10e4da8f 2f2f67c9
+qemu       04b58e47 69ff996d 10e4da8f 2f2f67c9
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    b9f70bc6 80000000 03b5a556 ce538bec c817b9ad 3787be88 028c5f32 99fa85c8 a9a9a6f5 ac454a10 ffff00c8 3fafc921 ea881df8 00c0b413 04107480 f73f7815 675644e5
+qemu       b9f70bc6 80000000 03b5a556 ce538bec c817b9ad 3787be88 028c5f32 99fa85c8 a9a9a6f5 ac454a10 ffff00c8 3fafc921 ea881df8 00c0b413 04107480 f73f7815 675644e5
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    04b58eec 69ff996d 10e4da8f 2f2f67c9
+qemu       04b58e47 69ff996d 10e4da8f 2f2f67c9
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001010sssssPPjtttttjvvddddd
+    if (!P3)R4=memh(R7+R7<<#0u2)                     00110001010001111100011101100100
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#42008u16:2)=R7                          01001100100100100100011100011000
+                                                     11001011001sssssPP1xxxxx101uuuuu
+    R7:6=vrminuh(R1:0,R5)                            11001011001000000110011010100101
+                                                     11000111111sssssPP-ttttt100---dd
+    P3=sfcmp.gt(R0,R1)                               11000111111000000100000110000011
+}
+bcb09b27594f3c4a85205994c7f98a4114416bf8d975bc48b0dcaf5c70770802d941f9a51ad86b16ff0000491e14ed0d80ddc2640824c000805e0e0457c86ebd7077355047b1e700462936d9693e2f9d18c04799
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    279bb0bc 4a3c4f59 94592085 418af9c7 f86b4114 48bc75d9 5cafdcb0 02087770 a5f941d9 166bd81a 490000ff 0ded141e 64c2dd80 00c02408 040e5e80 bd6ec857 50357770
+qemu       279bb0bc 4a3c4f59 94592085 418af9c7 f86b4114 48bc75d9 5cafdcb0 02087770 a5f941d9 166bd81a 490000ff 0ded141e 64c2dd80 00c02408 040e5e80 bd6ec857 50357770
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    00e7b147 d9362946 9d2f3e69 9947c018
+qemu       00e7b147 d9362946 9d2f3e69 9947c018
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    279bb0bc 4a3c4f59 94592085 418af9c7 f86b4114 48bc75d9 0000279b 48bc75db a5f941d9 166bd81a 000000ff 0ded141e 64c2dd80 00c02408 040e5e80 bd6ec857 50357770
+qemu       279bb0bc 4a3c4f59 94592085 418af9c7 f86b4114 48bc75d9 0000279b 48bc75db a5f941d9 166bd81a 000000ff 0ded141e 64c2dd80 00c02408 040e5e80 bd6ec857 50357770
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    02087770 d9362946 9d2f3e69 9947c018
+qemu       00e7b147 d9362946 9d2f3e69 9947c018
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000101sssssPP1-00uu---ddddd
+    if (P0) R7=sxtb(R0)                              01110000101000001110000000000111
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#41904u16:1)=R3.H                        01001100011100010110001110110000
+                                                     11010101011sssssPP-ttttt011ddddd
+    R0=sub(R6.H,R3.H):<<16                           11010101011000110100011001100000
+                                                     1000001001-sssssPPjjjjjj010xxxxx
+    R5:4&=asl(R5:4,#29u6)                            10000010010001000101110101000100
+}
+d71b4a415827b2a2aaa29aa67f7f1c62087cc832ad4768a719116230f48d36d2ce9b5d93e7fefd4e40ffa7ff72d1a34ebf363ea73a4c000080a70f042337fd9940c3e4be032c9abca1764bf061a877552c728e3c
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    414a1bd7 a2b22758 a69aa2aa 621c7f7f 32c87c08 a76847ad 30621119 d2368df4 935d9bce 4efdfee7 ffa7ff40 4ea3d172 a73e36bf 00004c3a 040fa780 99fd3723 bee4c340
+qemu       414a1bd7 a2b22758 a69aa2aa 621c7f7f 32c87c08 a76847ad 30621119 d2368df4 935d9bce 4efdfee7 ffa7ff40 4ea3d172 a73e36bf 00004c3a 040fa780 99fd3723 bee4c340
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    bc9a2c03 f04b76a1 5577a861 3c8e722c
+qemu       bc9a2c03 f04b76a1 5577a861 3c8e722c
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    ce460000 a2b22758 a69aa2aa 621c7f7f 00000000 a6480781 30621119 d2368df4 935d9bce 4efdfee7 ffa7ff40 4ea3d172 a73e36bf 00004c3a 040fa780 99fd3723 bee4c340
+qemu       ce460000 a2b22758 a69aa2aa 621c7f7f 00000000 a6480781 30621119 d2368df4 935d9bce 4efdfee7 ffa7ff40 4ea3d172 a73e36bf 00004c3a 040fa780 99fd3723 bee4c340
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    bc9a621c f04b76a1 5577a861 3c8e722c
+qemu       bc9a2c03 f04b76a1 5577a861 3c8e722c
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000100sssssPP1-10uu---ddddd
+    if (!P3) R8=zxtb(R3)                             01110000100000111110101100001000
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#54512u16:1)=R1                          01001110010010100100000111110000
+                                                     10001000011sssssPPjjjjjj010ddddd
+    R7=add(clb(R2:1),#11s6)                          10001000011000010100101101000111
+                                                     10001011001sssssPP------000ddddd
+    R9=convert_uw2sf(R5)                             10001011001001010100000000001001
+}
+5e2dbc7a56d4aee17bb2675ed9d5bb923d81a65cdae6e56b4eb57079a056ea41c5471ea429e0aa4eb000ffffd1c9c4f1119c17cc0c34400000450f04a624ac9d2a408e5922481e02c3330a4e45546604088760d2
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7abc2d5e e1aed456 5e67b27b 92bbd5d9 5ca6813d 6be5e6da 7970b54e 41ea56a0 a41e47c5 4eaae029 ffff00b0 f1c4c9d1 cc179c11 0040340c 040f4500 9dac24a6 598e402a
+qemu       7abc2d5e e1aed456 5e67b27b 92bbd5d9 5ca6813d 6be5e6da 7970b54e 41ea56a0 a41e47c5 4eaae029 ffff00b0 f1c4c9d1 cc179c11 0040340c 040f4500 9dac24a6 598e402a
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    021e4822 4e0a33c3 04665445 d2608708
+qemu       021e4822 4e0a33c3 04665445 d2608708
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7abc2d5e e1aed456 5e67b27b 92bbd5d9 5ca6813d 6be5e6da 7970b54e 0000000c a41e47c5 4ed7cbcd ffff00b0 f1c4c9d1 cc179c11 0040342c 040f4500 9dac24a6 598e402a
+qemu       7abc2d5e e1aed456 5e67b27b 92bbd5d9 5ca6813d 6be5e6da 7970b54e 0000000c a41e47c5 4ed7cbcd ffff00b0 f1c4c9d1 cc179c11 0040342c 040f4500 9dac24a6 598e402a
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    021ed456 4e0a33c3 04665445 d2608708
+qemu       021e4822 4e0a33c3 04665445 d2608708
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111001-00sssssPP0ttttt1uuddddd
+    if (!P2) R2=and(R6,R0)                           11111001000001101100000011000010
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#46576u16:1)=R2                          01001100010110100110001011110000
+                                                     11110001011sssssPP-ttttt---ddddd
+    R6=xor(R9,R3)                                    11110001011010010100001100000110
+                                                     11101110N00sssssPP-ttttt100xxxxx
+    R9+=mpy(R7.L,R6.L):sat                           11101110000001110100011010001001
+}
+3c8fa9064cc31211bcda7193358686e31498e221af6c88739d3fb1dbaea98f085af165a80e255a3e6100ffffec4b3c99a82a90dc0444410000830f04f0e8f648ec4c52ce934cfb27a35fba08fdcbf4956f50022c
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    06a98f3c 1112c34c 9371dabc e3868635 21e29814 73886caf dbb13f9d 088fa9ae a865f15a 3e5a250e ffff0061 993c4bec dc902aa8 00414404 040f8300 48f6e8f0 ce524cec
+qemu       06a98f3c 1112c34c 9371dabc e3868635 21e29814 73886caf dbb13f9d 088fa9ae a865f15a 3e5a250e ffff0061 993c4bec dc902aa8 00414404 040f8300 48f6e8f0 ce524cec
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    27fb4c93 08ba5fa3 95f4cbfd 2c02506f
+qemu       27fb4c93 08ba5fa3 95f4cbfd 2c02506f
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    06a98f3c 1112c34c 9371dabc e3868635 21e29814 73886caf dddca33b 088fa9ae a865f15a 28e706c4 ffff0061 993c4bec dc902aa8 00414404 040f8300 48f6e8f0 ce524cec
+qemu       06a98f3c 1112c34c 9371dabc e3868635 21e29814 73886caf dddca33b 088fa9ae a865f15a 28e706c4 ffff0061 993c4bec dc902aa8 00414404 040f8300 48f6e8f0 ce524cec
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    27fbdabc 08ba5fa3 95f4cbfd 2c02506f
+qemu       27fb4c93 08ba5fa3 95f4cbfd 2c02506f
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001000sssssPPjtttttjvvddddd
+    if (!P0)R9=memb(R6+R1<<#1u2)                     00110001000001101100000110001001
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#6832u16:1)=R5.H                         01001000011011010100010110110000
+                                                     11000111111sssssPP-ttttt011---dd
+    P2=sfcmp.eq(R5,R2)                               11000111111001010100001001100010
+                                                     11110110101sssssPP-ttttt---ddddd
+    R8=vsubh(R3,R3):sat                              11110110101000110100001100001000
+}
+f29858fbb19918f1f15d928082be639e9000fd10a6fdefd17ebbdf21c17ab954df2157650d7d784eff0000ffdd074586cb10b8b40c4c400080b91004b3840f1d12194b0b629b822ed7a9f8657f97c9cc98cb34ab
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    fb5898f2 f11899b1 80925df1 9e63be82 10fd0090 d1effda6 21dfbb7e 54b97ac1 655721df 4e787d0d ff0000ff 864507dd b4b810cb 00404c0c 0410b980 1d0f84b3 0b4b1912
+qemu       fb5898f2 f11899b1 80925df1 9e63be82 10fd0090 d1effda6 21dfbb7e 54b97ac1 655721df 4e787d0d ff0000ff 864507dd b4b810cb 00404c0c 0410b980 1d0f84b3 0b4b1912
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    2e829b62 65f8a9d7 ccc9977f ab34cb98
+qemu       2e829b62 65f8a9d7 ccc9977f ab34cb98
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    fb5898f2 f11899b1 80925df1 9e63be82 10fd0090 d1effda6 21dfbb7e 54b97ac1 00000000 4e787d0d ff0000ff 864507dd b4b810cb 00404c0c 0410b980 1d0f84b3 0b4b1912
+qemu       fb5898f2 f11899b1 80925df1 9e63be82 10fd0090 d1effda6 21dfbb7e 54b97ac1 00000000 4e787d0d ff0000ff 864507dd b4b810cb 00404c0c 0410b980 1d0f84b3 0b4b1912
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    2e82d1ef 65f8a9d7 ccc9977f ab34cb98
+qemu       2e829b62 65f8a9d7 ccc9977f ab34cb98
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000001sssssPP1-10uu---ddddd
+    if (!P1) R0=asrh(R5)                             01110000001001011110100100000000
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#10712u16:2)=R7                          01001000100101000110011111011000
+                                                     11101111001sssssPP0ttttt000xxxxx
+    R8|=and(R5,~R3)                                  11101111001001010100001100001000
+                                                     1101100101j-----PPjjjjjjjjjddddd
+    R7:6=dfmake(#925u10):neg                         11011001011000000111001110100110
+}
+a18d7119ce4b3d4f0d7b76198668701310a6ac7fb9dd54fce01dfb03cf51399b6c0aafb23f55b1dd00ff0e009fe14851bebfefde265401008047100471dc0f2d6e43705e0a8dee01da14d9090001e8184a844b65
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    19718da1 4f3d4bce 19767b0d 13706886 7faca610 fc54ddb9 03fb1de0 9b3951cf b2af0a6c ddb1553f 000eff00 5148e19f deefbfbe 00015426 04104780 2d0fdc71 5e70436e
+qemu       19718da1 4f3d4bce 19767b0d 13706886 7faca610 fc54ddb9 03fb1de0 9b3951cf b2af0a6c ddb1553f 000eff00 5148e19f deefbfbe 00015426 04104780 2d0fdc71 5e70436e
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    01ee8d0a 09d914da 18e80100 654b844a
+qemu       01ee8d0a 09d914da 18e80100 654b844a
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    19718da1 4f3d4bce 19767b0d 13706886 7faca610 fc54ddb9 00000000 c0774000 feaf9f7d ddb1553f 000eff00 5148e19f deefbfbe 00015426 04104780 2d0fdc71 5e70436e
+qemu       19718da1 4f3d4bce 19767b0d 13706886 7faca610 fc54ddb9 00000000 c0774000 feaf9f7d ddb1553f 000eff00 5148e19f deefbfbe 00015426 04104780 2d0fdc71 5e70436e
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    9b3951cf 09d914da 18e80100 654b844a
+qemu       01ee8d0a 09d914da 18e80100 654b844a
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000001001sssssPP0ttjjjjjjddddd
+    if (P0)R8=memub(R8+#41u6:0)                      01000001001010001100010100101000
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#29488u16:1)=R5.H                        01001010011110010110010100110000
+                                                     11110110011sssssPP-ttttt---ddddd
+    R7=vadduh(R3,R1):sat                             11110110011000110100000100000111
+                                                     11101010N00sssssPP0ttttt110xxxxx
+    R4:3+=vmpyeh(R2:1,R9:8):<<1:sat                  11101010100000010100100011000011
+}
+a2e101392badfa2f0429d27f8db01c826104cecc1b3dc41fe3fd17cc101ea377b7ee10040328439400a0490645b4957bbf4254222e28410080081004b19950c2f52c0c41c3679473f4e373f7d540a994cc8eabcc
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3901e1a2 2ffaad2b 7fd22904 821cb08d ccce0461 1fc43d1b cc17fde3 77a31e10 0410eeb7 94432803 0649a000 7b95b445 225442bf 0041282e 04100880 c25099b1 410c2cf5
+qemu       3901e1a2 2ffaad2b 7fd22904 821cb08d ccce0461 1fc43d1b cc17fde3 77a31e10 0410eeb7 94432803 0649a000 7b95b445 225442bf 0041282e 04100880 c25099b1 410c2cf5
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    739467c3 f773e3f4 94a940d5 ccab8ecc
+qemu       739467c3 f773e3f4 94a940d5 ccab8ecc
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3901e1a2 2ffaad2b 7fd22904 8d4c3807 d9a03a79 1fc43d1b cc17fde3 b216ffff 0410eeb7 94432803 0649a000 7b95b445 225442bf 0041282f 04100880 c25099b1 410c2cf5
+qemu       3901e1a2 2ffaad2b 7fd22904 8d4c3807 d9a03a79 1fc43d1b cc17fde3 b216ffff 0410eeb7 94432803 0649a000 7b95b445 225442bf 0041282f 04100880 c25099b1 410c2cf5
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    73941fc4 f773e3f4 94a940d5 ccab8ecc
+qemu       739467c3 f773e3f4 94a940d5 ccab8ecc
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000100sssssPP1-10uu---ddddd
+    if (!P2) R8=zxtb(R5)                             01110000100001011110101000001000
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#4592u16:1)=R6.H                         01001000011010000110011011110000
+                                                     10001100111sssssPP0jjjjj11-ddddd
+    R6=round(R0,#17u5):sat                           10001100111000000101000111000110
+                                                     1000001001-sssssPPjjjjjj101xxxxx
+    R1:0|=lsr(R3:2,#10u6)                            10000010010000100100101010100000
+}
+5c2f658cf5eced627a5821b37dcb613d5992a67286687bac4648547766645f6b88ddccc8405fb4213a00b3391f331da91e2e4e411430010000cb100433f62c0498de63784c934fe151813dc33215f0e784d2d586
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    8c652f5c 62edecf5 b321587a 3d61cb7d 72a69259 ac7b6886 77544846 6b5f6466 c8ccdd88 21b45f40 39b3003a a91d331f 414e2e1e 00013014 0410cb00 042cf633 7863de98
+qemu       8c652f5c 62edecf5 b321587a 3d61cb7d 72a69259 ac7b6886 77544846 6b5f6466 c8ccdd88 21b45f40 39b3003a a91d331f 414e2e1e 00013014 0410cb00 042cf633 7863de98
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    e14f934c c33d8151 e7f01532 86d5d284
+qemu       e14f934c c33d8151 e7f01532 86d5d284
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    df6def5e 62effcf7 b321587a 3d61cb7d 72a69259 ac7b6886 ffffc633 6b5f6466 c8ccdd88 21b45f40 39b3003a a91d331f 414e2e1e 00013014 0410cb00 042cf633 7863de98
+qemu       df6def5e 62effcf7 b321587a 3d61cb7d 72a69259 ac7b6886 ffffc633 6b5f6466 c8ccdd88 21b45f40 39b3003a a91d331f 414e2e1e 00013014 0410cb00 042cf633 7863de98
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    e14f7754 c33d8151 e7f01532 86d5d284
+qemu       e14f934c c33d8151 e7f01532 86d5d284
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000110sssssPP1-10uu---ddddd
+    if (!P1) R1=zxth(R3)                             01110000110000111110100100000001
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#52656u16:1)=R9.H                        01001110011001100110100110110000
+                                                     11110011100sssssPP-ttttt---ddddd
+    R9=combine(R5.H,R8.H)                            11110011100010000100010100001001
+                                                     1000010000-sssssPP------00-ddddd
+    R5:4=vsxtbh(R9)                                  10000100000010010100000000000100
+}
+fa520d188c572787c8082afe83d28f322b2e6599f76d6400f955e0ece3f1c19ca62a4242a9bb050a19ffff005ac11ee7c0d8f2420a28810080530f0471f6316e22a4061a6d5aaf5e03d028b3ee4e7d7a51b28cf6
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    180d52fa 8727578c fe2a08c8 328fd283 99652e2b 00646df7 ece055f9 9cc1f1e3 42422aa6 0a05bba9 00ffff19 e71ec15a 42f2d8c0 0081280a 040f5380 6e31f671 1a06a422
+qemu       180d52fa 8727578c fe2a08c8 328fd283 99652e2b 00646df7 ece055f9 9cc1f1e3 42422aa6 0a05bba9 00ffff19 e71ec15a 42f2d8c0 0081280a 040f5380 6e31f671 1a06a422
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    5eaf5a6d b328d003 7a7d4eee f68cb251
+qemu       5eaf5a6d b328d003 7a7d4eee f68cb251
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    180d52fa 8727578c fe2a08c8 328fd283 ffbbffa9 000a0005 ece055f9 9cc1f1e3 42422aa6 00644242 00ffff19 e71ec15a 42f2d8c0 0081280a 040f5380 6e31f671 1a06a422
+qemu       180d52fa 8727578c fe2a08c8 328fd283 ffbbffa9 000a0005 ece055f9 9cc1f1e3 42422aa6 00644242 00ffff19 e71ec15a 42f2d8c0 0081280a 040f5380 6e31f671 1a06a422
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    5eaf0a05 b328d003 7a7d4eee f68cb251
+qemu       5eaf5a6d b328d003 7a7d4eee f68cb251
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001001sssssPPjtttttjvvddddd
+    if (!P1)R6=memub(R2+R7<<#2u2)                    00110001001000101110011100100110
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#15000u16:2)=R8                          01001000100111010100100010011000
+                                                     10001011100sssssPP------001ddddd
+    R4=convert_sf2w(R3):chop                         10001011100000110100000000100100
+                                                     10001000010sssssPP------010ddddd
+    R0=cl0(R8:7)                                     10001000010001110100000001000000
+}
+2d90a27f6db9de59d40765293484ea5c92ec877eeea35b9522240381c3f9aaf600f953ad2d1ba35281ffc9c2aa1682a8f7a7934c18148000800410047a80c9ebbd8bdc1475d118e0f44f83a3f671711030107ae0
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7fa2902d 59deb96d 296507d4 5cea8434 7e87ec92 955ba3ee 81032422 f6aaf9c3 ad53f900 52a31b2d c2c9ff81 a88216aa 4c93a7f7 00801418 04100480 ebc9807a 14dc8bbd
+qemu       7fa2902d 59deb96d 296507d4 5cea8434 7e87ec92 955ba3ee 81032422 f6aaf9c3 ad53f900 52a31b2d c2c9ff81 a88216aa 4c93a7f7 00801418 04100480 ebc9807a 14dc8bbd
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    e018d175 a3834ff4 107171f6 e07a1030
+qemu       e018d175 a3834ff4 107171f6 e07a1030
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    00000000 59deb96d 296507d4 5cea8434 7fffffff 955ba3ee 81032422 f6aaf9c3 ad53f900 52a31b2d c2c9ff81 a88216aa 4c93a7f7 0080141a 04100480 ebc9807a 14dc8bbd
+qemu       00000000 59deb96d 296507d4 5cea8434 7fffffff 955ba3ee 81032422 f6aaf9c3 ad53f900 52a31b2d c2c9ff81 a88216aa 4c93a7f7 0080141a 04100480 ebc9807a 14dc8bbd
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    ad53f900 a3834ff4 107171f6 e07a1030
+qemu       e018d175 a3834ff4 107171f6 e07a1030
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000001011sssssPP0ttjjjjjjddddd
+    if (P0)R2=memuh(R6+#5u6:1)                       01000001011001101100000010100010
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#47088u16:1)=R1                          01001100010110110110000111110000
+                                                     11011100010sssssPP-0jjjjjjj01-dd
+    P1=vcmph.gtu(R1:0,#92u7)                         11011100010000000100101110001001
+                                                     11101010111sssssPP0ttttt100xxxxx
+    R1:0+=vrcmpys(R1:0,R3:2):<<1:sat:raw:lo          11101010111000000100001010000000
+}
+b98d853fb78874db03643b5cf8618596dc57434eb090a622d6ee10044170c537e2ca0e7c8f6066150028ff00a735d08a8c8072b516b48000007f0f0405fb31dd48484d6d420ef9b5278a563c782a387468306f47
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    3f858db9 db7488b7 5c3b6403 968561f8 4e4357dc 22a690b0 0410eed6 37c57041 7c0ecae2 1566608f 00ff2800 8ad035a7 b572808c 0080b416 040f7f00 dd31fb05 6d4d4848
+qemu       3f858db9 db7488b7 5c3b6403 968561f8 4e4357dc 22a690b0 0410eed6 37c57041 7c0ecae2 1566608f 00ff2800 8ad035a7 b572808c 0080b416 040f7f00 dd31fb05 6d4d4848
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b5f90e42 3c568a27 74382a78 476f3068
+qemu       b5f90e42 3c568a27 74382a78 476f3068
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    9047f469 f2c0754d 5c3b6403 968561f8 4e4357dc 22a690b0 0410eed6 37c57041 7c0ecae2 1566608f 00ffff00 8ad035a7 b572808c 0080b416 040f7f00 dd31fb05 6d4d4848
+qemu       9047f469 f2c0754d 5c3b6403 968561f8 4e4357dc 22a690b0 0410eed6 37c57041 7c0ecae2 1566608f 00ffff00 8ad035a7 b572808c 0080b416 040f7f00 dd31fb05 6d4d4848
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b5f988b7 3c568a27 74382a78 476f3068
+qemu       b5f90e42 3c568a27 74382a78 476f3068
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000000sssssPP1-00uu---ddddd
+    if (P2) R2=aslh(R1)                              01110000000000011110001000000010
+                                                     01001jj0100jjjjjPPjtttttjjjjjjjj
+    memw(gp+#10168u16:2)=R0                          01001000100100110110000010111000
+                                                     1100011011-sssssPP-ttttt11-ddddd
+    R3=round(R1,R1):sat                              11000110110000010100000111000011
+                                                     11100100N10sssssPP-ttttt-00ddddd
+    R1:0=mpyu(R6.L,R3.L):<<1                         11100100110001100100001100000000
+}
+672b9bd686e5387ed0208935ea3b67d3ade35346419ca78c916a8b2e3f96ae3792359a1ca1df77c310ff00ffa0b43ac92afe35da00a0c0000050100432c5dd4254bf9af1a1c1393da261eb2b85b6b68a80f0d260
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    d69b2b67 7e38e586 358920d0 d3673bea 4653e3ad 8ca79c41 2e8b6a91 37ae963f 1c9a3592 c377dfa1 ff00ff10 c93ab4a0 da35fe2a 00c0a000 04105000 42ddc532 f19abf54
+qemu       d69b2b67 7e38e586 358920d0 d3673bea 4653e3ad 8ca79c41 2e8b6a91 37ae963f 1c9a3592 c377dfa1 ff00ff10 c93ab4a0 da35fe2a 00c0a000 04105000 42ddc532 f19abf54
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    3d39c1a1 2beb61a2 8ab6b685 60d2f080
+qemu       3d39c1a1 2beb61a2 8ab6b685 60d2f080
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    31e1a714 00000000 358920d0 01f8e396 4653e3ad 8ca79c41 2e8b6a91 37ae963f 1c9a3592 c377dfa1 ff00ff10 c93ab4a0 da35fe2a 00c0a000 04105000 42ddc532 f19abf54
+qemu       31e1a714 00000000 358920d0 01f8e396 4653e3ad 8ca79c41 2e8b6a91 37ae963f 1c9a3592 c377dfa1 ff00ff10 c93ab4a0 da35fe2a 00c0a000 04105000 42ddc532 f19abf54
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    d69b2b67 2beb61a2 8ab6b685 60d2f080
+qemu       3d39c1a1 2beb61a2 8ab6b685 60d2f080
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000001sssssPPjtttttjvvddddd
+    if (P0)R1=memub(R5+R9<<#0u2)                     00110000001001011100100100000001
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#33776u16:1)=R5                          01001100010000010110010111110000
+                                                     11011100010sssssPP-0jjjjjjj00-dd
+    P1=vcmpb.gtu(R3:2,#7u7)                          11011100010000100100000011100001
+                                                     11101000N00sssssPP0ttttt100ddddd
+    R3:2=vdmpy(R3:2,R4:3):sat                        11101000000000100100001110000010
+}
+e2c4b9efc4d14e500cd0bb3605ef72035fbbcb2fae2758233048b526e74b507b68f5500f32c7b8e098e4ffffc3eb9a99515f862b283c800000e70f04a5efcb0f4edda1d7bd067087007941718d3d35c36954f731
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    efb9c4e2 504ed1c4 36bbd00c 0372ef05 2fcbbb5f 235827ae 26b54830 7b504be7 0f50f568 e0b8c732 ffffe498 999aebc3 2b865f51 00803c28 040fe700 0fcbefa5 d7a1dd4e
+qemu       efb9c4e2 504ed1c4 36bbd00c 0372ef05 2fcbbb5f 235827ae 26b54830 7b504be7 0f50f568 e0b8c732 ffffe498 999aebc3 2b865f51 00803c28 040fe700 0fcbefa5 d7a1dd4e
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    877006bd 71417900 c3353d8d 31f75469
+qemu       877006bd 71417900 c3353d8d 31f75469
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    efb9c4e2 504ed1c4 03ead482 05320341 2fcbbb5f 235827ae 26b54830 7b504be7 0f50f568 e0b8c732 ffff6f98 999aebc3 2b865f51 00803c28 040fe700 0fcbefa5 d7a1dd4e
+qemu       efb9c4e2 504ed1c4 03ead482 05320341 2fcbbb5f 235827ae 26b54830 7b504be7 0f50f568 e0b8c732 ffff6f98 999aebc3 2b865f51 00803c28 040fe700 0fcbefa5 d7a1dd4e
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    877027ae 71417900 c3353d8d 31f75469
+qemu       877006bd 71417900 c3353d8d 31f75469
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-1sssssPP0ttttt0uuddddd
+    if (P2) R6=sub(R9,R3)                            11111011001000111100100101000110
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#35168u16:0)=R6                          01001100000001000110011001100000
+                                                     10001011100sssssPP------001ddddd
+    R4=convert_sf2w(R5):chop                         10001011100001010100000000100100
+                                                     10000000000sssssPPjjjjjj010ddddd
+    R3:2=asl(R4:3,#59u6)                             10000000000000110111101101000010
+}
+06f245e610170005e8908b22d36d0207d55ae5dec458c8537dd60ed70a615720aa050caab7d0b4c4000000ff6048efbff1384d8e28144000806510049c4a8b77da7e3f4eea3c9816bdde37a9a4c8afa76b70e854
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e645f206 05001710 228b90e8 07026dd3 dee55ad5 53c858c4 d70ed67d 2057610a aa0c05aa c4b4d0b7 ff000000 bfef4860 8e4d38f1 00401428 04106580 778b4a9c 4e3f7eda
+qemu       e645f206 05001710 228b90e8 07026dd3 dee55ad5 53c858c4 d70ed67d 2057610a aa0c05aa c4b4d0b7 ff000000 bfef4860 8e4d38f1 00401428 04106580 778b4a9c 4e3f7eda
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    16983cea a937debd a7afc8a4 54e8706b
+qemu       16983cea a937debd a7afc8a4 54e8706b
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e645f206 05001710 00000000 98000000 7fffffff 53c858c4 d70ed67d 2057610a aa0c05aa c4b4d0b7 ff000000 bfef4860 8e4d38f1 0040142a 04106580 778b4a9c 4e3f7eda
+qemu       e645f206 05001710 00000000 98000000 7fffffff 53c858c4 d70ed67d 2057610a aa0c05aa c4b4d0b7 ff000000 bfef4860 8e4d38f1 0040142a 04106580 778b4a9c 4e3f7eda
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    16983c7d a937debd a7afc8a4 54e8706b
+qemu       16983cea a937debd a7afc8a4 54e8706b
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000001100sssssPP0ttjjjjjjddddd
+    if (P2)R4=memw(R8+#37u6:2)                       01000001100010001101010010100100
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#65248u16:0)=R9                          01001110000111110100100111100000
+                                                     1000111010-sssssPP0jjjjj001xxxxx
+    R9^=lsr(R7,#25u5)                                10001110100001110101100100101001
+                                                     11010101000sssssPP-ttttt00-ddddd
+    R1=add(R3.L,R2.L)                                11010101000000100100001100000001
+}
+9798b78df56ce951352cef85efc01e9ecf1d9bcc59d843d96a5be8adbfd6dbcd4cee1004c1c20a3dffff4aff906d30cac311cd631040800000f00f040838c6fd58d0c899d41d3b81e941c15009acfe5e9df010b4
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    8db79897 51e96cf5 85ef2c35 9e1ec0ef cc9b1dcf d943d859 ade85b6a cddbd6bf 0410ee4c 3d0ac2c1 ff4affff ca306d90 63cd11c3 00804010 040ff000 fdc63808 99c8d058
+qemu       8db79897 51e96cf5 85ef2c35 9e1ec0ef cc9b1dcf d943d859 ade85b6a cddbd6bf 0410ee4c 3d0ac2c1 ff4affff ca306d90 63cd11c3 00804010 040ff000 fdc63808 99c8d058
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    813b1dd4 50c141e9 5efeac09 b410f09d
+qemu       813b1dd4 50c141e9 5efeac09 b410f09d
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    8db79897 ffffed24 85ef2c35 9e1ec0ef cc9b1dcf d943d859 ade85b6a cddbd6bf 0410ee4c 3d0ac2a7 ff4affff ca306d90 63cd11c3 00804010 040ff000 fdc63808 99c8d058
+qemu       8db79897 ffffed24 85ef2c35 9e1ec0ef cc9b1dcf d943d859 ade85b6a cddbd6bf 0410ee4c 3d0ac2a7 ff4affff ca306d90 63cd11c3 00804010 040ff000 fdc63808 99c8d058
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    813b1dc1 50c141e9 5efeac09 b410f09d
+qemu       813b1dd4 50c141e9 5efeac09 b410f09d
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     011111101uu0jjjjPP0jjjjjjjjddddd
+    if (!P3) R1=#1499s12                             01111110111001011101101101100001
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#26928u16:1)=R0.H                        01001010011101000110000000110000
+                                                     11101010001sssssPP0ttttt010xxxxx
+    R9:8+=vmpyeh(R7:6,R3:2)                          11101010001001100100001001001000
+                                                     11101111001sssssPP0ttttt000xxxxx
+    R0|=and(R4,~R8)                                  11101111001001000100100000000000
+}
+81d79c78e691b2716b8a9ba2e1994fb7814083ae93daf67cf864c4788c95abe4c67ef21c12b3790cb6ffe2ffdfc3fabf881a6bbf045c8000801c10049db9119675ecd1a6e251d8b0222b10d71d113dc0311a95e7
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    789cd781 71b291e6 a29b8a6b b74f99e1 ae834081 7cf6da93 78c464f8 e4ab958c 1cf27ec6 0c79b312 ffe2ffb6 bffac3df bf6b1a88 00805c04 04101c80 9611b99d a6d1ec75
+qemu       789cd781 71b291e6 a29b8a6b b74f99e1 ae834081 7cf6da93 78c464f8 e4ab958c 1cf27ec6 0c79b312 ffe2ffb6 bffac3df bf6b1a88 00805c04 04101c80 9611b99d a6d1ec75
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b0d851e2 d7102b22 c03d111d e7951a31
+qemu       b0d851e2 d7102b22 c03d111d e7951a31
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    fa9dd781 71b291e6 a29b8a6b b74f99e1 ae834081 7cf6da93 78c464f8 e4ab958c ee92626e 36f0cf1e ffe2ffb6 bffac3df bf6b1a88 00805c04 04101c80 9611b99d a6d1ec75
+qemu       fa9dd781 71b291e6 a29b8a6b b74f99e1 ae834081 7cf6da93 78c464f8 e4ab958c ee92626e 36f0cf1e ffe2ffb6 bffac3df bf6b1a88 00805c04 04101c80 9611b99d a6d1ec75
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b0d8789c d7102b22 c03d111d e7951a31
+qemu       b0d851e2 d7102b22 c03d111d e7951a31
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000010sssssPPjtttttjvvddddd
+    if (P0)R9=memh(R5+R8<<#2u2)                      00110000010001011110100000001001
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#9968u16:1)=R1.H                         01001000011100110100000111110000
+                                                     1000111000-sssssPP0jjjjj001xxxxx
+    R0-=lsr(R0,#11u5)                                10001110000000000100101100100000
+                                                     11000111110sssssPP-ttttt100---dd
+    P0=cmph.gt(R8,R2)                                11000111110010000100001010000000
+}
+77e3d136dee88497fc86f36fa979aea10b42e48374f47befb98c1e98fcec4a4b9b3e2545ee9849b800ffffffb9fde6bc765c5bd92ebc000000a1100426c06adeeaa95b081673ffb2182f9d707bab69b738104c96
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    36d1e377 9784e8de 6ff386fc a1ae79a9 83e4420b ef7bf474 981e8cb9 4b4aecfc 45253e9b b84998ee ffffff00 bce6fdb9 d95b5c76 0000bc2e 0410a100 de6ac026 085ba9ea
+qemu       36d1e377 9784e8de 6ff386fc a1ae79a9 83e4420b ef7bf474 981e8cb9 4b4aecfc 45253e9b b84998ee ffffff00 bce6fdb9 d95b5c76 0000bc2e 0410a100 de6ac026 085ba9ea
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b2ff7316 709d2f18 b769ab7b 964c1038
+qemu       b2ff7316 709d2f18 b769ab7b 964c1038
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    36cb093b 9784e8de 6ff386fc a1ae79a9 83e4420b ef7bf474 981e8cb9 4b4aecfc 45253e9b b84998ee ffffffff bce6fdb9 d95b5c76 0000bc2e 0410a100 de6ac026 085ba9ea
+qemu       36cb093b 9784e8de 6ff386fc a1ae79a9 83e4420b ef7bf474 981e8cb9 4b4aecfc 45253e9b b84998ee ffffffff bce6fdb9 d95b5c76 0000bc2e 0410a100 de6ac026 085ba9ea
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b2ff9784 709d2f18 b769ab7b 964c1038
+qemu       b2ff7316 709d2f18 b769ab7b 964c1038
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-0sssssPP0ttttt1uuddddd
+    if (!P0) R9=add(R1,R3)                           11111011000000011100001110001001
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#34528u16:0)=R7                          01001100000000110100011111100000
+                                                     11010011010sssssPP-ttttt001ddddd
+    R1:0=vavgub(R2:1,R2:1):rnd                       11010011010000010100000100100000
+                                                     1100011011-sssssPP-ttttt10-ddddd
+    R7=round(R1,R3)                                  11000110110000010100001110000111
+}
+f26326ee4bf8aa7f02b0aa6df646bce683e6b22f2089fca6207f986c0830a85bacc34dd6a6fd9c05ffff5600518ce2a774e2c9911248c1000068100402d7fa1572051bd8b369ed8357a697841d9c63be4fed9c49
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    ee2663f2 7faaf84b 6daab002 e6bc46f6 2fb2e683 a6fc8920 6c987f20 5ba83008 d64dc3ac 059cfda6 0056ffff a7e28c51 91c9e274 00c14812 04106800 15fad702 d81b0572
+qemu       ee2663f2 7faaf84b 6daab002 e6bc46f6 2fb2e683 a6fc8920 6c987f20 5ba83008 d64dc3ac 059cfda6 0056ffff a7e28c51 91c9e274 00c14812 04106800 15fad702 d81b0572
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    83ed69b3 8497a657 be639c1d 499ced4f
+qemu       83ed69b3 8497a657 be639c1d 499ced4f
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7faaf84b 6daab002 6daab002 e6bc46f6 2fb2e683 a6fc8920 6c987f20 000001ff d64dc3ac 059cfda6 0056ffff a7e28c51 91c9e274 00c14812 04106800 15fad702 d81b0572
+qemu       7faaf84b 6daab002 6daab002 e6bc46f6 2fb2e683 a6fc8920 6c987f20 000001ff d64dc3ac 059cfda6 0056ffff a7e28c51 91c9e274 00c14812 04106800 15fad702 d81b0572
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    83ed6908 8497a657 be639c1d 499ced4f
+qemu       83ed69b3 8497a657 be639c1d 499ced4f
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001110sssssPPjtttttjvvddddd
+    if (!P2)R9:8=memd(R2+R8<<#1u2)                   00110001110000101100100011001000
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#8944u16:1)=R1                           01001000010100010100000111110000
+                                                     11100111000sssssPP0ttttt010xxxxx
+    R1:0+=cmpyr(R4,R0)                               11100111000001000100000001000000
+                                                     11101011100sssssPP0ttttt000ddddd
+    R3=sfmax(R3,R1)                                  11101011100000110100000100000011
+}
+99f92081637be2b15e0f94527fbb23fa322be609e29ad8a30871b4e39f047e5ac16fbe589295b31b00ffff4afb931aca8d4ad7381858c00000a910048bdfbaa2c369b8c3255d17d1a51c3a9d3bb3533aba1766a5
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    8120f999 b1e27b63 52940f5e fa23bb7f 09e62b32 a3d89ae2 e3b47108 5a7e049f 58be6fc1 1bb39592 4affff00 ca1a93fb 38d74a8d 00c05818 0410a900 a2badf8b c3b869c3
+qemu       8120f999 b1e27b63 52940f5e fa23bb7f 09e62b32 a3d89ae2 e3b47108 5a7e049f 58be6fc1 1bb39592 4affff00 ca1a93fb 38d74a8d 00c05818 0410a900 a2badf8b c3b869c3
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    d1175d25 9d3a1ca5 3a53b33b a56617ba
+qemu       d1175d25 9d3a1ca5 3a53b33b a56617ba
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    84f449bb b1e27b63 52940f5e b1e27b63 09e62b32 a3d89ae2 e3b47108 5a7e049f 58be6fc1 1bb39592 4affff00 ca1a93fb 38d74a8d 00c05818 0410a900 a2badf8b c3b869c3
+qemu       84f449bb b1e27b63 52940f5e b1e27b63 09e62b32 a3d89ae2 e3b47108 5a7e049f 58be6fc1 1bb39592 4affff00 ca1a93fb 38d74a8d 00c05818 0410a900 a2badf8b c3b869c3
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    d1177b63 9d3a1ca5 3a53b33b a56617ba
+qemu       d1175d25 9d3a1ca5 3a53b33b a56617ba
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000100sssssPPjtttttjvvddddd
+    if (P1)R9=memw(R2+R1<<#0u2)                      00110000100000101100000100101001
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#53728u16:0)=R9                          01001110000010000110100111100000
+                                                     1100011010-sssssPP-ttttt01-ddddd
+    R1=clrbit(R9,R9)                                 11000110100010010100100101000001
+                                                     11101100N00sssssPP-ttttt001ddddd
+    R5=mpy(R7.L,R9.H):<<1                            11101100100001110100100100100101
+}
+d70cfffefa9029c9e65de73a5c0ee8d48cc947f454ace2665dd2ae8d420c3c0f24f3dfb973c20a8aff00ff00a92ae86e5807cfa806388000001d1004f1b92e1bb1b6bfecf9c0eac772076d95cccd891a4fab8272
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    feff0cd7 c92990fa 3ae75de6 d4e80e5c f447c98c 66e2ac54 8daed25d 0f3c0c42 b9dff324 8a0ac273 00ff00ff 6ee82aa9 a8cf0758 00803806 04101d00 1b2eb9f1 ecbfb6b1
+qemu       feff0cd7 c92990fa 3ae75de6 d4e80e5c f447c98c 66e2ac54 8daed25d 0f3c0c42 b9dff324 8a0ac273 00ff00ff 6ee82aa9 a8cf0758 00803806 04101d00 1b2eb9f1 ecbfb6b1
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    c7eac0f9 956d0772 1a89cdcc 7282ab4f
+qemu       c7eac0f9 956d0772 1a89cdcc 7282ab4f
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    feff0cd7 8a0ac273 3ae75de6 d4e80e5c f447c98c f4b41d28 8daed25d 0f3c0c42 b9dff324 8a0ac273 00ff00ff 6ee82aa9 a8cf0758 00803806 04101d00 1b2eb9f1 ecbfb6b1
+qemu       feff0cd7 8a0ac273 3ae75de6 d4e80e5c f447c98c f4b41d28 8daed25d 0f3c0c42 b9dff324 8a0ac273 00ff00ff 6ee82aa9 a8cf0758 00803806 04101d00 1b2eb9f1 ecbfb6b1
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    c7eac073 956d0772 1a89cdcc 7282ab4f
+qemu       c7eac0f9 956d0772 1a89cdcc 7282ab4f
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000101011sssssPP0ttjjjjjjddddd
+    if (!P3)R0=memuh(R1+#16u6:1)                     01000101011000011101101000000000
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#18352u16:1)=R8                          01001010010000110110100010110000
+                                                     11001011001sssssPP1xxxxx001uuuuu
+    R2:1=vrmaxuh(R2:1,R8)                            11001011001000010110000100101000
+                                                     11100101100sssssPP0ttttt001ddddd
+    R8:7=vmpybu(R1,R9)                               11100101100000010100100100100111
+}
+d49122fcc0ee1004d791c2ac69eb97915a59550a62b4ec9dc7f45113ef4915833c2d1a32d9052a0c00ffffff7b739f3607f41f6520600000805f1004514207a96ff97dc02c46ed8cb88da393f0b85ec72b0c269a
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    fc2291d4 0410eec0 acc291d7 9197eb69 0a55595a 9decb462 1351f4c7 831549ef 321a2d3c 0c2a05d9 ffffff00 369f737b 651ff407 00006020 04105f80 a9074251 c07df96f
+qemu       fc2291d4 0410eec0 acc291d7 9197eb69 0a55595a 9decb462 1351f4c7 831549ef 321a2d3c 0c2a05d9 ffffff00 369f737b 651ff407 00006020 04105f80 a9074251 c07df96f
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    8ced462c 93a38db8 c75eb8f0 9a260c2b
+qemu       8ced462c 93a38db8 c75eb8f0 9a260c2b
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    fc2291d4 0000eec0 acc291d7 9197eb69 0a55595a 9decb462 1351f4c7 04a6a2c0 003002a0 0c2a05d9 ffffff00 369f737b 651ff407 00006020 04105f80 a9074251 c07df96f
+qemu       fc2291d4 0000eec0 acc291d7 9197eb69 0a55595a 9decb462 1351f4c7 04a6a2c0 003002a0 0c2a05d9 ffffff00 369f737b 651ff407 00006020 04105f80 a9074251 c07df96f
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    8ced2d3c 93a38db8 c75eb8f0 9a260c2b
+qemu       8ced462c 93a38db8 c75eb8f0 9a260c2b
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000110sssssPP1-10uu---ddddd
+    if (!P1) R9=zxth(R0)                             01110000110000001110100100001001
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#28528u16:1)=R3                          01001010010101110110001101110000
+                                                     011010111110--ssPP0---tt------dd
+    P1=or(P1,!P3)                                    01101011111000110100000100000001
+                                                     1100110011-sssssPP-ttttt11-xxxxx
+    R1+=lsl(R8,R7)                                   11001100110010000100011111000001
+}
+5318cd2113c714e7ca66f41aaba95d07d235fca4e46c0935784214387bb274696f53d664fed3b182ffffb55f649365f1a4aadf6c3c8cc00000101004a9b1783e0f7843a2b22746b288c4ec0775ba9f88df4c6c1c
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    21cd1853 e714c713 1af466ca 075da9ab a4fc35d2 35096ce4 38144278 6974b27b 64d6536f 82b1d3fe 5fb5ffff f1659364 6cdfaaa4 00c08c3c 04101000 3e78b1a9 a243780f
+qemu       21cd1853 e714c713 1af466ca 075da9ab a4fc35d2 35096ce4 38144278 6974b27b 64d6536f 82b1d3fe 5fb5ffff f1659364 6cdfaaa4 00c08c3c 04101000 3e78b1a9 a243780f
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b24627b2 07ecc488 889fba75 1c6c4cdf
+qemu       b24627b2 07ecc488 889fba75 1c6c4cdf
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    21cd1853 ea3b79ae 1af466ca 075da9ab a4fc35d2 35096ce4 38144278 6974b27b 64d6536f 82b1d3fe 5fb5ffff f1659364 6cdfaaa4 00c08c3c 04101000 3e78b1a9 a243780f
+qemu       21cd1853 ea3b79ae 1af466ca 075da9ab a4fc35d2 35096ce4 38144278 6974b27b 64d6536f 82b1d3fe 5fb5ffff f1659364 6cdfaaa4 00c08c3c 04101000 3e78b1a9 a243780f
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b246a9ab 07ecc488 889fba75 1c6c4cdf
+qemu       b24627b2 07ecc488 889fba75 1c6c4cdf
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001001sssssPPjtttttjvvddddd
+    if (!P0)R8=memub(R4+R6<<#1u2)                    00110001001001001100011010001000
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#2016u16:0)=R1                           01001000000000110110000111100000
+                                                     11010011010sssssPP-ttttt010ddddd
+    R3:2=vavgh(R4:3,R3:2)                            11010011010000110100001001000010
+                                                     11010010111sssssPP-ttttt010---dd
+    P1=dfcmp.ge(R6:5,R6:5)                           11010010111001010100010101000001
+}
+0a0b47c7babd2bffb5f08826e7fcc0ca423a7b29d667b5fb4fda4aede6c3b4e6f3b44015374c9859ffe86900cdee4dbd73c1fec806bc000000e71004b587e680d50f39efdcb4b7577749a8bfffb76388e7bef92a
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    c7470b0a ff2bbdba 2688f0b5 cac0fce7 297b3a42 fbb567d6 ed4ada4f e6b4c3e6 1540b4f3 59984c37 0069e8ff bd4deecd c8fec173 0000bc06 0410e700 80e687b5 ef390fd5
+qemu       c7470b0a ff2bbdba 2688f0b5 cac0fce7 297b3a42 fbb567d6 ed4ada4f e6b4c3e6 1540b4f3 59984c37 0069e8ff bd4deecd c8fec173 0000bc06 0410e700 80e687b5 ef390fd5
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    57b7b4dc bfa84977 8863b7ff 2af9bee7
+qemu       57b7b4dc bfa84977 8863b7ff 2af9bee7
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    c7470b0a ff2bbdba f8a4f6ce fa1d1b94 297b3a42 fbb567d6 ed4ada4f e6b4c3e6 1540b4f3 59984c37 0069ffff bd4deecd c8fec173 0000bc06 0410e700 80e687b5 ef390fd5
+qemu       c7470b0a ff2bbdba f8a4f6ce fa1d1b94 297b3a42 fbb567d6 ed4ada4f e6b4c3e6 1540b4f3 59984c37 0069ffff bd4deecd c8fec173 0000bc06 0410e700 80e687b5 ef390fd5
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    57b7b4ba bfa84977 8863b7ff 2af9bee7
+qemu       57b7b4dc bfa84977 8863b7ff 2af9bee7
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110001010sssssPPjtttttjvvddddd
+    if (!P2)R3=memh(R4+R2<<#1u2)                     00110001010001001100001011000011
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#63728u16:1)=R7                          01001110010111000100011111110000
+                                                     11101110N00sssssPP-ttttt000xxxxx
+    R9+=mpy(R2.L,R6.L):<<1                           11101110100000100100011000001001
+                                                     11101111000sssssPP0ttttt110xxxxx
+    R6+=sfmpy(R2,R1):lib                             11101111000000100100000111000110
+}
+1f2dba7e8674ffaf124cd84cb4f99b10bc56606a8459c6ee47f0d8e85db6d950f0abc8db8ca43b6e00ffffff0973862c9fb1350010c0c00000fd0e04c3895d524f0e143fa9e3feb0932429cbe942e6101891fca6
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7eba2d1f afff7486 4cd84c12 109bf9b4 6a6056bc eec65984 e8d8f047 50d9b65d dbc8abf0 6e3ba48c ffffff00 2c867309 0035b19f 00c0c010 040efd00 525d89c3 3f140e4f
+qemu       7eba2d1f afff7486 4cd84c12 109bf9b4 6a6056bc eec65984 e8d8f047 50d9b65d dbc8abf0 6e3ba48c ffffff00 2c867309 0035b19f 00c0c010 040efd00 525d89c3 3f140e4f
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b0fee3a9 cb292493 10e642e9 a6fc9118
+qemu       b0fee3a9 cb292493 10e642e9 a6fc9118
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7eba2d1f afff7486 4cd84c12 109bf9b4 6a6056bc eec65984 e8d8f047 50d9b65d dbc8abf0 64e39688 ffffff00 2c867309 0035b19f 00c0c010 040efd00 525d89c3 3f140e4f
+qemu       7eba2d1f afff7486 4cd84c12 109bf9b4 6a6056bc eec65984 e8d8f047 50d9b65d dbc8abf0 64e39688 ffffff00 2c867309 0035b19f 00c0c010 040efd00 525d89c3 3f140e4f
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    b0feb65d cb292493 10e642e9 a6fc9118
+qemu       b0fee3a9 cb292493 10e642e9 a6fc9118
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000101110sssssPP0ttjjjjjjddddd
+    if (!P3)R6:5=memd(R7+#12u6:3)                    01000101110001111101100110000101
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#7152u16:1)=R4.H                         01001000011011010110010011110000
+                                                     1100011001-sssssPP-ttttt00-ddddd
+    R9=asr(R5,R6)                                    11000110010001010100011000001001
+                                                     10001100110sssssPP------111ddddd
+    R7=satb(R0)                                      10001100110000000100000011100111
+}
+42fc2a7c474a8cca1943ab18ff02a8b0a05a632011de3cf5c570497980ee10045b9ad953fb62a64500ffff65093a203a05c2c7061808810000b71004416479fbf3756e00b5da31edc90936482fdd80afaacb5a5c
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7c2afc42 ca8c4a47 18ab4319 b0a802ff 20635aa0 f53cde11 794970c5 0410ee80 53d99a5b 45a662fb 65ffff00 3a203a09 06c7c205 00810818 0410b700 fb796441 006e75f3
+qemu       7c2afc42 ca8c4a47 18ab4319 b0a802ff 20635aa0 f53cde11 794970c5 0410ee80 53d99a5b 45a662fb 65ffff00 3a203a09 06c7c205 00810818 0410b700 fb796441 006e75f3
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    ed31dab5 483609c9 af80dd2f 5c5acbaa
+qemu       ed31dab5 483609c9 af80dd2f 5c5acbaa
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    7c2afc42 ca8c4a47 18ab4319 b0a802ff 20635aa0 f53cde11 794970c5 0000007f 53d99a5b 00000000 65ffff00 3a203a09 06c7c205 00810819 0410b700 fb796441 006e75f3
+qemu       7c2afc42 ca8c4a47 18ab4319 b0a802ff 20635aa0 f53cde11 794970c5 0000007f 53d99a5b 00000000 65ffff00 3a203a09 06c7c205 00810819 0410b700 fb796441 006e75f3
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    ed312063 483609c9 af80dd2f 5c5acbaa
+qemu       ed31dab5 483609c9 af80dd2f 5c5acbaa
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000001001sssssPP0ttjjjjjjddddd
+    if (P2)R9=memub(R7+#45u6:0)                      01000001001001111101010110101001
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#14512u16:1)=R2                          01001000010111000100001010110000
+                                                     11000111111sssssPP-ttttt011---dd
+    P0=sfcmp.eq(R1,R4)                               11000111111000010100010001100000
+                                                     11101100N00sssssPP-ttttt110ddddd
+    R2=mpy(R9.H,R0.L):sat                            11101100000010010100000011000010
+}
+b9d66af160ed81e7aa9a23ea1d2b646398b5e183e5789bb9eed3f2f7b3ee10040f2d208dbb86a888ffff00000f92d6dc0a6078171044c000807d1004c25adb3354b740ff29711eeaf381c491ef014f28ce9afa3a
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    f16ad6b9 e781ed60 ea239aaa 63642b1d 83e1b598 b99b78e5 f7f2d3ee 0410eeb3 8d202d0f 88a886bb 0000ffff dcd6920f 1778600a 00c04410 04107d80 33db5ac2 ff40b754
+qemu       f16ad6b9 e781ed60 ea239aaa 63642b1d 83e1b598 b99b78e5 f7f2d3ee 0410eeb3 8d202d0f 88a886bb 0000ffff dcd6920f 1778600a 00c04410 04107d80 33db5ac2 ff40b754
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    ea1e7129 91c481f3 284f01ef 3afa9ace
+qemu       ea1e7129 91c481f3 284f01ef 3afa9ace
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    f16ad6b9 e781ed60 133e3168 63642b1d 83e1b598 b99b78e5 f7f2d3ee 0410eeb3 8d202d0f 88a886bb 0000ff00 dcd6920f 1778600a 00c04410 04107d80 33db5ac2 ff40b754
+qemu       f16ad6b9 e781ed60 133e3168 63642b1d 83e1b598 b99b78e5 f7f2d3ee 0410eeb3 8d202d0f 88a886bb 0000ff00 dcd6920f 1778600a 00c04410 04107d80 33db5ac2 ff40b754
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    ea1e9aaa 91c481f3 284f01ef 3afa9ace
+qemu       ea1e7129 91c481f3 284f01ef 3afa9ace
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000001sssssPP1-00uu---ddddd
+    if (P2) R0=asrh(R3)                              01110000001000111110001000000000
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#17504u16:0)=R9                          01001010000000100100100101100000
+                                                     110100100--sssssPP1ttttt011---dd
+    P1=tlbmatch(R1:0,R2)                             11010010000000000110001001100001
+                                                     100001001--sssssPP------000ddddd
+    R7:6=convert_sf2df(R9)                           10000100100010010100000000000110
+}
+2afde4ea179d71c747bbe6f4e06533b7970329db09c37fcc0e601bd4e42de7842fd0b0cbd7f348e4ffea00ffcb21239cae8a27650008c00080aa100484280fb63c03854d8892c7523ebfd98b7cecfd0d5ee0e1bc
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    eae4fd2a c7719d17 f4e6bb47 b73365e0 db290397 cc7fc309 d41b600e 84e72de4 cbb0d02f e448f3d7 ff00eaff 9c2321cb 65278aae 00c00800 0410aa80 b60f2884 4d85033c
+qemu       eae4fd2a c7719d17 f4e6bb47 b73365e0 db290397 cc7fc309 d41b600e 84e72de4 cbb0d02f e448f3d7 ff00eaff 9c2321cb 65278aae 00c00800 0410aa80 b60f2884 4d85033c
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    52c79288 8bd9bf3e 0dfdec7c bce1e05e
+qemu       52c79288 8bd9bf3e 0dfdec7c bce1e05e
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    eae4fd2a c7719d17 f4e6bb47 b73365e0 db290397 cc7fc309 e0000000 c4891e7a cbb0d02f e448f3d7 ff0000ff 9c2321cb 65278aae 00c00800 0410aa80 b60f2884 4d85033c
+qemu       eae4fd2a c7719d17 f4e6bb47 b73365e0 db290397 cc7fc309 e0000000 c4891e7a cbb0d02f e448f3d7 ff0000ff 9c2321cb 65278aae 00c00800 0410aa80 b60f2884 4d85033c
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    52c792d7 8bd9bf3e 0dfdec7c bce1e05e
+qemu       52c79288 8bd9bf3e 0dfdec7c bce1e05e
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-0sssssPP0ttttt1uuddddd
+    if (!P1) R1=add(R8,R8)                           11111011000010001100100010100001
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#50992u16:1)=R0.H                        01001110011000110110000000110000
+                                                     11101110N01sssssPP-ttttt101xxxxx
+    R4-=mpy(R6.L,R9.H):<<1:sat                       11101110101001100100100110100100
+                                                     11101000111sssssPP0ttttt000ddddd
+    R3:2=vabsdiffb(R9:8,R7:6)                        11101000111001100100100000000010
+}
+84afea360c427aa8fea0039bb71af9568a7711b949fcc085b8c103cfdfbf6d651a077a3a0334707b00ff00ff3aa11daff237ad762c34810080600f04c9f4c04c504cc5915110562cb71fd6492f2435ba72edb702
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    36eaaf84 a87a420c 9b03a0fe 56f91ab7 b911778a 85c0fc49 cf03c1b8 656dbfdf 3a7a071a 7b703403 ff00ff00 af1da13a 76ad37f2 0081342c 040f6080 4cc0f4c9 91c54c50
+qemu       36eaaf84 a87a420c 9b03a0fe 56f91ab7 b911778a 85c0fc49 cf03c1b8 656dbfdf 3a7a071a 7b703403 ff00ff00 af1da13a 76ad37f2 0081342c 040f6080 4cc0f4c9 91c54c50
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    2c561051 49d61fb7 ba35242f 02b7ed72
+qemu       2c561051 49d61fb7 ba35242f 02b7ed72
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    36eaaf84 a87a420c 6b774662 16037524 f521268a 85c0fc49 cf03c1b8 656dbfdf 3a7a071a 7b703403 ff00ff00 af1da13a 76ad37f2 0081342c 040f6080 4cc0f4c9 91c54c50
+qemu       36eaaf84 a87a420c 6b774662 16037524 f521268a 85c0fc49 cf03c1b8 656dbfdf 3a7a071a 7b703403 ff00ff00 af1da13a 76ad37f2 0081342c 040f6080 4cc0f4c9 91c54c50
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    2c5636ea 49d61fb7 ba35242f 02b7ed72
+qemu       2c561051 49d61fb7 ba35242f 02b7ed72
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000001000sssssPP0ttjjjjjjddddd
+    if (P3) R3=memb(R5+#7u6:0)                       01000001000001011101100011100011
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#47584u16:0)=R1                          01001100000111000110000111100000
+                                                     11011100001sssssPP-jjjjjjjj00-dd
+    P0=vcmpb.gt(R9:8,#-4s8)                          11011100001010000101111110000000
+                                                     1000010000-sssssPP------11-ddddd
+    R5:4=vzxthw(R3)                                  10000100000000110100000011000100
+}
+f704aa4fd5d37b843b2d1155c6bfba3a7a43cab0d9ee100491ce6bf0bc0d80111be5e87308dcbab9ffb000009cd0e5b56ac394101c240000003510043672094f1071dca78eee427dfedca959254bef3dbd13e24d
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    4faa04f7 847bd3d5 55112d3b 3ababfc6 b0ca437a 0410eed9 f06bce91 11800dbc 73e8e51b b9badc08 0000b0ff b5e5d09c 1094c36a 0000241c 04103500 4f097236 a7dc7110
+qemu       4faa04f7 847bd3d5 55112d3b 3ababfc6 b0ca437a 0410eed9 f06bce91 11800dbc 73e8e51b b9badc08 0000b0ff b5e5d09c 1094c36a 0000241c 04103500 4f097236 a7dc7110
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    7d42ee8e 59a9dcfe 3def4b25 4de213bd
+qemu       7d42ee8e 59a9dcfe 3def4b25 4de213bd
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    4faa04f7 847bd3d5 55112d3b 3ababfc6 0000bfc6 00003aba f06bce91 11800dbc 73e8e51b b9badc08 0000b019 b5e5d09c 1094c36a 0000241c 04103500 4f097236 a7dc7110
+qemu       4faa04f7 847bd3d5 55112d3b 3ababfc6 0000bfc6 00003aba f06bce91 11800dbc 73e8e51b b9badc08 0000b019 b5e5d09c 1094c36a 0000241c 04103500 4f097236 a7dc7110
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    7d42eed5 59a9dcfe 3def4b25 4de213bd
+qemu       7d42ee8e 59a9dcfe 3def4b25 4de213bd
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     01000101000sssssPP0ttjjjjjjddddd
+    if (!P2)R1=memb(R3+#18u6:0)                      01000101000000111101001001000001
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#5168u16:1)=R2.H                         01001000011010100100001000110000
+                                                     10000000111sssssPP0-----011ddddd
+    R8:7=convert_d2df(R7:6)                          10000000111001100100000001100111
+                                                     11000111010sssssPP-ttttt------dd
+    P2=bitsset(R1,R4)                                11000111010000010100010000000010
+}
+bb005a003609b4adcbd08262ceee10047c86dfb7e06e99be7d5c5a830501e4893a42f522879ada18ff4fff9a2a81bf4d5e4b97983250810080c610045460aa65e24461c6bc81351f8c1f993995fb7abfa58358c4
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    005a00bb adb40936 6282d0cb 0410eece b7df867c be996ee0 835a5c7d 89e40105 22f5423a 18da9a87 9aff4fff 4dbf812a 98974b5e 00815032 0410c680 65aa6054 c66144e2
+qemu       005a00bb adb40936 6282d0cb 0410eece b7df867c be996ee0 835a5c7d 89e40105 22f5423a 18da9a87 9aff4fff 4dbf812a 98974b5e 00815032 0410c680 65aa6054 c66144e2
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    1f3581bc 39991f8c bf7afb95 c45883a5
+qemu       1f3581bc 39991f8c bf7afb95 c45883a5
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    005a00bb adb40936 6282d0cb 0410eece b7df867c be996ee0 835a5c7d be9f2969 c3dd86ff 18da9a87 9a004fff 4dbf812a 98974b5e 00815032 0410c680 65aa6054 c66144e2
+qemu       005a00bb adb40936 6282d0cb 0410eece b7df867c be996ee0 835a5c7d be9f2969 c3dd86ff 18da9a87 9a004fff 4dbf812a 98974b5e 00815032 0410c680 65aa6054 c66144e2
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    1f356282 39991f8c bf7afb95 c45883a5
+qemu       1f3581bc 39991f8c bf7afb95 c45883a5
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     00110000010sssssPPjtttttjvvddddd
+    if (P1)R1=memh(R3+R2<<#1u2)                      00110000010000111100001010100001
+                                                     01001jj0010jjjjjPPjtttttjjjjjjjj
+    memh(gp+#15856u16:1)=R3                          01001000010111100110001111110000
+                                                     11100101010sssssPP0ttttt111ddddd
+    R8:7=pmpyw(R8,R0)                                11100101010010000100000011100111
+                                                     11101100N00sssssPP-ttttt001ddddd
+    R5=mpy(R1.L,R8.H)                                11101100000000010100100000100101
+}
+be3d660dcb82802b3c37b94e68809e6617bc1e066d78732aec5a790ab05ebffb2f07daaf7c584ed32700ffff332accd421cbb45f1a80800000731004a866430360e96a71473b7a9be7c731f55ed0e02de37879e6
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    0d663dbe 2b8082cb 4eb9373c 669e8068 061ebc17 2a73786d 0a795aec fbbf5eb0 afda072f d34e587c ffff0027 d4cc2a33 5fb4cb21 0080801a 04107300 034366a8 716ae960
+qemu       0d663dbe 2b8082cb 4eb9373c 669e8068 061ebc17 2a73786d 0a795aec fbbf5eb0 afda072f d34e587c ffff0027 d4cc2a33 5fb4cb21 0080801a 04107300 034366a8 716ae960
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    9b7a3b47 f531c7e7 2de0d05e e67978e3
+qemu       9b7a3b47 f531c7e7 2de0d05e e67978e3
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    0d663dbe 2b8082cb 4eb9373c 669e8068 061ebc17 273325de 0a795aec 2098d00a 07539719 d34e587c ffff0027 d4cc2a33 5fb4cb21 0080801a 04107300 034366a8 716ae960
+qemu       0d663dbe 2b8082cb 4eb9373c 669e8068 061ebc17 273325de 0a795aec 2098d00a 07539719 d34e587c ffff0027 d4cc2a33 5fb4cb21 0080801a 04107300 034366a8 716ae960
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    9b7a8068 f531c7e7 2de0d05e e67978e3
+qemu       9b7a3b47 f531c7e7 2de0d05e e67978e3
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111101---sssssPP0ttttt1uuddddd
+    if (!P2)R6:5=combine(R0,R1)                      11111101000000001100000111000101
+                                                     01001jj0011jjjjjPPjtttttjjjjjjjj
+    memh(gp+#16880u16:1)=R1.H                        01001010011000000110000111110000
+                                                     10001000001sssssPP------001ddddd
+    R4=convert_ud2sf(R1:0)                           10001000001000000100000000100100
+                                                     1000001000-sssssPPjjjjjj110xxxxx
+    R9:8+=asl(R9:8,#48u6)                            10000010000010000111000011001000
+}
+96325b97238d33e5d65617ea75debd02d3b81281c7f8a9e6d1c68761ae118e076ffbf4ecba9293c40007ffff4822d87d877832fd20608000006b10040822b6c17a2e706fe64c165db3efcc4682269aac988b9289
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    975b3296 e5338d23 ea1756d6 02bdde75 8112b8d3 e6a9f8c7 6187c6d1 078e11ae ecf4fb6f c49392ba ffff0700 7dd82248 fd327887 00806020 04106b00 c1b62208 6f702e7a
+qemu       975b3296 e5338d23 ea1756d6 02bdde75 8112b8d3 e6a9f8c7 6187c6d1 078e11ae ecf4fb6f c49392ba ffff0700 7dd82248 fd327887 00806020 04106b00 c1b62208 6f702e7a
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    5d164ce6 46ccefb3 ac9a2682 89928b98
+qemu       5d164ce6 46ccefb3 ac9a2682 89928b98
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    975b3296 e5338d23 ea1756d6 02bdde75 5f65338d e6a9f8c7 6187c6d1 078e11ae ecf4fb6f c00292ba ffff0700 7dd82248 fd327887 00806020 04106b00 c1b62208 6f702e7a
+qemu       975b3296 e5338d23 ea1756d6 02bdde75 5f65338d e6a9f8c7 6187c6d1 078e11ae ecf4fb6f c00292ba ffff0700 7dd82248 fd327887 00806020 04106b00 c1b62208 6f702e7a
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    5d16e533 46ccefb3 ac9a2682 89928b98
+qemu       5d164ce6 46ccefb3 ac9a2682 89928b98
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-1sssssPP0ttttt1uuddddd
+    if (!P3) R4=sub(R1,R8)                           11111011001010001100000111100100
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#28000u16:0)=R2                          01001010000101100110001001100000
+                                                     011010110010--ssPP0---tt------dd
+    P3=or(P1,P3)                                     01101011001000110100000100000011
+                                                     11010101110sssssPP-ttttt1--ddddd
+    R0=maxu(R5,R1)                                   11010101110001010100000110000000
+}
+6ca2fa64d4688fa546eaca9f2b7d13e5792375011a755ae6acb3e9a16f03bd19a740b2e8b71084b3008a164d28959b3ec1d55ea23698800080811004db2a10e4c79d2215ea23149e5f8c0babdc055d17c02c138a
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    64faa26c a58f68d4 9fcaea46 e5137d2b 01752379 e65a751a a1e9b3ac 19bd036f e8b240a7 b38410b7 4d168a00 3e9b9528 a25ed5c1 00809836 04108180 e4102adb 15229dc7
+qemu       64faa26c a58f68d4 9fcaea46 e5137d2b 01752379 e65a751a a1e9b3ac 19bd036f e8b240a7 b38410b7 4d168a00 3e9b9528 a25ed5c1 00809836 04108180 e4102adb 15229dc7
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    9e1423ea ab0b8c5f 175d05dc 8a132cc0
+qemu       9e1423ea ab0b8c5f 175d05dc 8a132cc0
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    e65a751a a58f68d4 9fcaea46 e5137d2b 01752379 e65a751a a1e9b3ac 19bd036f e8b240a7 b38410b7 cf168a00 3e9b9528 a25ed5c1 00809836 04108180 e4102adb 15229dc7
+qemu       e65a751a a58f68d4 9fcaea46 e5137d2b 01752379 e65a751a a1e9b3ac 19bd036f e8b240a7 b38410b7 cf168a00 3e9b9528 a25ed5c1 00809836 04108180 e4102adb 15229dc7
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    9e142346 ab0b8c5f 175d05dc 8a132cc0
+qemu       9e1423ea ab0b8c5f 175d05dc 8a132cc0
+Identified,  (0, 1)
+======================================================================================================================
+[Testcase]
+{
+                                                     011101001uusssssPP0jjjjjjjjddddd
+    if (!P2) R0=add(R3,#123s8)                       01110100110000111100111101100000
+                                                     01001jj0000jjjjjPPjtttttjjjjjjjj
+    memb(gp+#57952u16:0)=R4                          01001110000100010100010001100000
+                                                     01110000001sssssPP0--------ddddd
+    R2=asrh(R5)                                      01110000001001010100000000000010
+                                                     10000000100sssssPP------100ddddd
+    R9:8=not(R1:0)                                   10000000100000000100000010001000
+}
+6c5de7be0fefe77cad1dafc5a06f12bc3b114a68cb494c89f4ed476cd20aa80a196c9da3d797d1345600ffff30439fb77b6b9402200c4000800c10040b198936770c5173963eafe70763cde967ed8cd647221fec
+[Input Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    bee75d6c 7ce7ef0f c5af1dad bc126fa0 684a113b 894c49cb 6c47edf4 0aa80ad2 a39d6c19 34d197d7 ffff0056 b79f4330 02946b7b 00400c20 04100c80 3689190b 73510c77
+qemu       bee75d6c 7ce7ef0f c5af1dad bc126fa0 684a113b 894c49cb 6c47edf4 0aa80ad2 a39d6c19 34d197d7 ffff0056 b79f4330 02946b7b 00400c20 04100c80 3689190b 73510c77
+[Input Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    e7af3e96 e9cd6307 d68ced67 ec1f2247
+qemu       e7af3e96 e9cd6307 d68ced67 ec1f2247
+[Output Registers]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C6       C7       C8       C11      C12      C13     
+sdk-sim    bee75d6c 7ce7ef0f ffff894c bc126fa0 684a113b 894c49cb 6c47edf4 0aa80ad2 4118a293 831810f0 ffff0056 b79f4330 02946b7b 00400c20 04100c80 3689190b 73510c77
+qemu       bee75d6c 7ce7ef0f ffff894c bc126fa0 684a113b 894c49cb 6c47edf4 0aa80ad2 4118a293 831810f0 ffff0056 b79f4330 02946b7b 00400c20 04100c80 3689190b 73510c77
+[Output Memories]
+           Mem0     Mem1     Mem2     Mem3    
+sdk-sim    e7af3e3b e9cd6307 d68ced67 ec1f2247
+qemu       e7af3e96 e9cd6307 d68ced67 ec1f2247
+Identified,  (0, 1)
+======================================================================================================================

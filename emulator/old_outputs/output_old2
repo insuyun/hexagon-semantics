@@ -1,0 +1,813 @@
+[Testcase]
+{
+                                                     11111001-01sssssPP1ttttt1uuddddd
+    if (!P2.new) R2=or(R8,R8)                        11111001001010001110100011000010
+                                                     01110000001sssssPP1-10uu---ddddd
+    if (!P0) R5=asrh(R9)                             01110000001010010110100000000101
+                                                     11101010110sssssPP0ttttt001xxxxx
+    R8:7+=vrmpybsu(R7:6,R3:2)                        11101010110001100100001000100111
+                                                     10001011111sssssPP------0eeddddd
+    R1,P2=sfinvsqrta(R9)                             10001011111010010100000001000001
+}
+c3ee2c9886a21b16ab62cafe526efb19e1812366b30cfcbc8c20c80206a10c7f300d785adaa38df4ffffb20030644000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       982ceec3 161ba286 feca62ab 19fb6e52 662381e1 bcfc0cb3 02c8208c 7f0ca106 5a780d30 f48da3da 00b2ffff 00406430
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       982ceec3 ffffffff 5a780d30 19fb6e52 662381e1 bcfc0cb3 02c8208c 7f0c3596 5a77fe75 f48da3da 0000ffff 00406432
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111101---sssssPP1ttttt0uuddddd
+    if (P2.new)R3:2=combine(R6,R7)                   11111101000001101110011101000010
+                                                     01110000110sssssPP1-10uu---ddddd
+    if (!P1) R6=zxth(R2)                             01110000110000100110100100000110
+                                                     011010110000--ssPP0---tt------dd
+    P2=and(P1,P2)                                    01101011000000100100000100000010
+                                                     1000001000-sssssPPjjjjjj100xxxxx
+    R9:8+=asr(R6:5,#16u6)                            10000010000001010101000010001000
+}
+50a7423e54469d270f37c86b687de4b9b17da0b3e40b977c865ed650aca1088ff55db2c07fcef2f300ffe0ff0660c100
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    3e42a750 279d4654 6bc8370f b9e47d68 b3a07db1 7c970be4 50d65e86 8f08a1ac c0b25df5 f3f2ce7f ffe0ff00 00c16006
+qemu       3e42a750 279d4654 6bc8370f b9e47d68 b3a07db1 7c970be4 50d65e86 8f08a1ac c0b25df5 f3f2ce7f ffe0ff00 00c16006
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    3e42a750 279d4654 6bc8370f b9e47d68 b3a07db1 7c970be4 50d65e86 8f08a1ac 1f38da8c f3f31f56 ffe0ff00 00c16006
+qemu       3e42a750 279d4654 8f08a1ac 50d65e86 b3a07db1 7c970be4 50d65e86 8f08a1ac 1f38da8c f3f31f56 ffe0ff00 00c16006
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     011101000uusssssPP1jjjjjjjjddddd
+    if (P1.new) R6=add(R3,#161s8)                    01110100001000111111010000100110
+                                                     11110001000sssssPP-ttttt---ddddd
+    R4=and(R1,R6)                                    11110001000000010100011000000100
+                                                     100001001--sssssPP------110ddddd
+    R2:1=convert_sf2d(R3):chop                       10000100100000110100000011000001
+                                                     110100100--sssssPP0ttttt001---dd
+    P1=vcmpw.gt(R9:8,R6:5)                           11010010000010000100010100100001
+}
+8bcd4a3e2523380f57e3f808a2ba9ecf6cf2744b45b588cccfedb2cd8e5cf1eb6fc480b3ed23de6100fc00290a1c4000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    3e4acd8b 0f382325 08f8e357 cf9ebaa2 4b74f26c cc88b545 cdb2edcf ebf15c8e b380c46f 61de23ed 2900fc00 00401c0a
+qemu       3e4acd8b 0f382325 08f8e357 cf9ebaa2 4b74f26c cc88b545 cdb2edcf ebf15c8e b380c46f 61de23ed 2900fc00 00401c0a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    3e4acd8b c28abc00 fffffffe cf9ebaa2 0d302105 cc88b545 cdb2edcf ebf15c8e b380c46f 61de23ed 2900f000 00401c0a
+qemu       3e4acd8b c28abc00 fffffffe cf9ebaa2 0d302105 cc88b545 cf9eba43 ebf15c8e b380c46f 61de23ed 2900f000 00401c0a
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-1sssssPP0ttttt1uuddddd
+    if (!P1) R6=sub(R6,R1)                           11111011001000011100011010100110
+                                                     01110000110sssssPP1-10uu---ddddd
+    if (!P0) R4=zxth(R2)                             01110000110000100110100000000100
+                                                     100011010IIsssssPP0jjjjjIIIddddd
+    R1=extractu(R6,#31u5,#29U5)                      10001101011001100101111110100001
+                                                     11010011111sssssPP-ttttt100ddddd
+    R8:7=xor(R5:4,R1:0)                              11010011111001000100000010000111
+}
+e00b6648c86b0c10c3050680ec8ae4717a69b56ce93b6f3627076fbcbb7cb2025d2a3a3ff8867363003800000a0c4000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    48660be0 100c6bc8 800605c3 71e48aec 6cb5697a 366f3be9 bc6f0727 02b27cbb 3f3a2a5d 637386f8 00003800 00400c0a
+qemu       48660be0 100c6bc8 800605c3 71e48aec 6cb5697a 366f3be9 bc6f0727 02b27cbb 3f3a2a5d 637386f8 00003800 00400c0a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    48660be0 00000005 800605c3 71e48aec 000005c3 366f3be9 ac629b5f 24d3629a 26635021 637386f8 00003800 00400c0a
+qemu       48660be0 00000000 800605c3 71e48aec 000005c3 366f3be9 ac629b5f 24d3629a 26635021 637386f8 00003800 00400c0a
+Identified,  (2,)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000001sssssPP1-11uu---ddddd
+    if (!P2.new) R5=asrh(R9)                         01110000001010011110111000000101
+                                                     111110110-1sssssPP0ttttt0uuddddd
+    if (P0) R8=sub(R1,R9)                            11111011001010010100000100001000
+                                                     11101100N10sssssPP-ttttt011ddddd
+    R3=mpyu(R9.H,R6.H):<<1                           11101100110010010100011001100011
+                                                     110100100--sssssPP0ttttt001---dd
+    P2=vcmpw.gt(R5:4,R6:5)                           11010010000001000100010100100010
+}
+e67b6942704480f9fb46687369ff0e626f87482252240f34f8bb069abba527e4e6f1b4bfe84dcc52ff97ffc832a84000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    42697be6 f9804470 736846fb 620eff69 2248876f 340f2452 9a06bbf8 e427a5bb bfb4f1e6 52cc4de8 c8ff97ff 0040a832
+qemu       42697be6 f9804470 736846fb 620eff69 2248876f 340f2452 9a06bbf8 e427a5bb bfb4f1e6 52cc4de8 c8ff97ff 0040a832
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    42697be6 f9804470 736846fb 63a15190 2248876f 000052cc 9a06bbf8 e427a5bb a6b3f688 52cc4de8 c8f097ff 0040a832
+qemu       42697be6 f9804470 736846fb 63a15190 2248876f 340f2452 9a06bbf8 e427a5bb a6b3f688 52cc4de8 c8f097ff 0040a832
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111001-11sssssPP1ttttt1uuddddd
+    if (!P2.new) R8=xor(R8,R0)                       11111001011010001110000011001000
+                                                     11111001-00sssssPP0ttttt0uuddddd
+    if (P3) R2=and(R0,R0)                            11111001000000000100000001100010
+                                                     011010110110--ssPP0---tt------dd
+    P2=and(P3,!P1)                                   01101011011000010100001100000010
+                                                     1100000110-sssssPP-ttttt000ddddd
+    R7:6=shuffoh(R2:1,R9:8)                          11000001100010000100000100000110
+}
+5df83cb2e353c47867fc212e5362b56369c9bf78a02740ea3663f051f565877fe7f0bad1e71a07390cf100ff3ec00000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    b23cf85d 78c453e3 2e21fc67 63b56253 78bfc969 ea4027a0 51f06336 7f8765f5 d1baf0e7 39071ae7 ff00f10c 0000c03e
+qemu       b23cf85d 78c453e3 2e21fc67 63b56253 78bfc969 ea4027a0 51f06336 7f8765f5 d1baf0e7 39071ae7 ff00f10c 0000c03e
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    b23cf85d 78c453e3 b23cf85d 63b56253 78bfc969 ea4027a0 78c4d1ba 2e213907 638608ba 39071ae7 ff0ef10c 0000c03e
+qemu       b23cf85d 78c453e3 b23cf85d 63b56253 78bfc969 ea4027a0 78c4d1ba 2e213907 d1baf0e7 39071ae7 ff0ef10c 0000c03e
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000100sssssPP1-11uu---ddddd
+    if (!P1.new) R8=zxtb(R7)                         01110000100001111110110100001000
+                                                     01110011-01sssssPP1jjjjjjjjddddd
+    R4:3=combine(#127s8,R3)                          01110011001000110110111111100011
+                                                     011010111100--ssPP0-----------dd
+    P1=not(P0)                                       01101011110000000100000000000001
+                                                     11100111N00sssssPP0ttttt101xxxxx
+    R2:1+=vmpyh(R6,R6):<<1:sat                       11100111100001100100011010100001
+}
+406cdb5f83c8e52cfd8a3096dca9a015fc5dd529b784c8863f546ebf1dc51ab321c22c47860c7aeb890000003cf84000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    5fdb6c40 2ce5c883 96308afd 15a0a9dc 29d55dfc 86c884b7 bf6e543f b31ac51d 472cc221 eb7a0c86 00000089 0040f83c
+qemu       5fdb6c40 2ce5c883 96308afd 15a0a9dc 29d55dfc 86c884b7 bf6e543f b31ac51d 472cc221 eb7a0c86 00000089 0040f83c
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    5fdb6c40 64589785 b6c33185 15a0a9dc 0000007f 86c884b7 bf6e543f b31ac51d 0000001d eb7a0c86 00007689 0040f83c
+qemu       5fdb6c40 64589785 b6c33185 15a0a9dc 0000007f 86c884b7 bf6e543f b31ac51d 472cc221 eb7a0c86 00007689 0040f83c
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111001-11sssssPP1ttttt0uuddddd
+    if (P1.new) R3=xor(R2,R2)                        11111001011000101110001000100011
+                                                     0111010101jsssssPPjjjjjjjjj000dd
+    P0=cmp.gt(R9,#693s10)                            01110101011010010101011010100000
+                                                     11110110000sssssPP-ttttt---ddddd
+    R7=vaddh(R0,R8)                                  11110110000000000100100000000111
+                                                     011010111100--ssPP0-----------dd
+    P1=not(P2)                                       01101011110000100100000000000001
+}
+50036fe523a0e4573d41da3ed2a462bc7aa85eef886ca66192ad4094edfe05c2205e8f387c715a0da13d7d3502608000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    e56f0350 57e4a023 3eda413d bc62a4d2 ef5ea87a 61a66c88 9440ad92 c205feed 388f5e20 0d5a717c 357d3da1 00806002
+qemu       e56f0350 57e4a023 3eda413d bc62a4d2 ef5ea87a 61a66c88 9440ad92 c205feed 388f5e20 0d5a717c 357d3da1 00806002
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    e56f0350 57e4a023 3eda413d bc62a4d2 ef5ea87a 61a66c88 9440ad92 1dfe6170 388f5e20 0d5a717c 357d82ff 00806002
+qemu       e56f0350 57e4a023 3eda413d 00000000 ef5ea87a 61a66c88 9440ad92 1dfe6170 388f5e20 0d5a717c 357d82ff 00806002
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000110sssssPP1-01uu---ddddd
+    if (P0.new) R3=zxth(R4)                          01110000110001001110010000000011
+                                                     01110000100sssssPP1-10uu---ddddd
+    if (!P2) R8=zxtb(R8)                             01110000100010000110101000001000
+                                                     111110110-0sssssPP0ttttt0uuddddd
+    if (P3) R1=add(R8,R9)                            11111011000010000100100101100001
+                                                     11011100001sssssPP-jjjjjjjj00-dd
+    P0=vcmpb.gt(R9:8,#35s8)                          11011100001010000100010001100000
+}
+546f31966def4f09ea4d138caecb2eef7da9da657f5bd2e2641c3694558d7e77c95d1150ef6162fb000000ff020c4000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    96316f54 094fef6d 8c134dea ef2ecbae 65daa97d e2d25b7f 94361c64 777e8d55 50115dc9 fb6261ef ff000000 00400c02
+qemu       96316f54 094fef6d 8c134dea ef2ecbae 65daa97d e2d25b7f 94361c64 777e8d55 50115dc9 fb6261ef ff000000 00400c02
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    96316f54 4b73bfb8 8c134dea ef2ecbae 65daa97d e2d25b7f 94361c64 777e8d55 000000c9 fb6261ef ff00006a 00400c02
+qemu       96316f54 4b73bfb8 8c134dea 0000a97d 65daa97d e2d25b7f 94361c64 777e8d55 000000c9 fb6261ef ff00006a 00400c02
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000100sssssPP1-01uu---ddddd
+    if (P1.new) R8=zxtb(R2)                          01110000100000101110010100001000
+                                                     11110010-10sssssPP-ttttt---100dd
+    P3=!cmp.gt(R7,R3)                                11110010010001110100001100010011
+                                                     011010110001--ssPP0---ttuu----dd
+    P2=and(P3,and(P2,P0))                            01101011000100110100001000000010
+                                                     110100100--sssssPP0ttttt100---dd
+    P1=vcmph.gt(R4:3,R9:8)                           11010010000000110100100010000001
+}
+a462692c5c835f27176c2179b42e5610b563ef4c406bab1e2116f80c17c03a82e931f383003ababfe47900001a544000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    2c6962a4 275f835c 79216c17 10562eb4 4cef63b5 1eab6b40 0cf81621 823ac017 83f331e9 bfba3a00 000079e4 0040541a
+qemu       2c6962a4 275f835c 79216c17 10562eb4 4cef63b5 1eab6b40 0cf81621 823ac017 83f331e9 bfba3a00 000079e4 0040541a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    2c6962a4 275f835c 79216c17 10562eb4 4cef63b5 1eab6b40 0cf81621 823ac017 83f331e9 bfba3a00 ff00fce4 0040541a
+qemu       2c6962a4 275f835c 79216c17 10562eb4 4cef63b5 1eab6b40 0cf81621 823ac017 00000017 bfba3a00 ff00fce4 0040541a
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110010-00sssssPP-ttttt---000dd
+    P2=cmp.eq(R9,R5)                                 11110010000010011100010100000010
+                                                     01110000000sssssPP1-11uu---ddddd
+    if (!P3.new) R3=aslh(R3)                         01110000000000110110111100000011
+                                                     110100100--sssssPP0ttttt111---dd
+    P3=vcmpb.gtu(R4:3,R7:6)                          11010010000000110100011011100011
+                                                     11001011010sssssPP-ttttt00-xxxxx
+    R7:6&=asr(R7:6,R6)                               11001011010001100100011000000110
+}
+f7e375dd8977a0f631eec3ab75c22580b67782abef61672590d4a2cb946001553b040d2c77e9aea0fff4ff0d28a00000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    dd75e3f7 f6a07789 abc3ee31 8025c275 ab8277b6 256761ef cba2d490 55016094 2c0d043b a0aee977 0dfff4ff 0000a028
+qemu       dd75e3f7 f6a07789 abc3ee31 8025c275 ab8277b6 256761ef cba2d490 55016094 2c0d043b a0aee977 0dfff4ff 0000a028
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    dd75e3f7 f6a07789 abc3ee31 c2750000 ab8277b6 256761ef 4080c080 00004000 2c0d043b a0aee977 f000f4ff 0000a028
+qemu       dd75e3f7 f6a07789 abc3ee31 8025c275 ab8277b6 256761ef 4080c080 00004000 2c0d043b a0aee977 f000f4ff 0000a028
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110011110sssssPP-ttttt---ddddd
+    R5=combine(R5.L,R8.H)                            11110011110010001100010100000101
+                                                     111110110-1sssssPP1ttttt0uuddddd
+    if (P0.new) R3=sub(R5,R0)                        11111011001000000110010100000011
+                                                     10001011111sssssPP------0eeddddd
+    R4,P0=sfinvsqrta(R0)                             10001011111000000100000000000100
+                                                     1000001000-sssssPPjjjjjj001xxxxx
+    R9:8-=lsr(R6:5,#62u6)                            10000010000001010111111000101000
+}
+61f2a9c1c323df6c8eb9c7135388e5ee2bbfb9e9f2759b1913e9f334303081cda7b961a3e9ecbe1e3bff00002c144000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       c1a9f261 6cdf23c3 13c7b98e eee58853 e9b9bf2b 199b75f2 34f3e913 cd813030 a361b9a7 1ebeece9 0000ff3b 0040142c
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       c1a9f261 6cdf23c3 13c7b98e eee58853 ffffffff 75f2a361 34f3e913 cd813030 a361b9a7 1ebeece9 0000ff00 0040142e
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110011011sssssPP-ttttt---ddddd
+    R3=!cmp.eq(R7,R0)                                11110011011001111100000000000011
+                                                     01110000110sssssPP1-11uu---ddddd
+    if (!P0.new) R4=zxth(R8)                         01110000110010000110110000000100
+                                                     11000111110sssssPP-ttttt101---dd
+    P3=cmph.gtu(R3,R8)                               11000111110000110100100010100011
+                                                     10001011111sssssPP------0eeddddd
+    R0,P0=sfinvsqrta(R7)                             10001011111001110100000000000000
+}
+6445d53270b05afb155fb14ff8456c54bc95f1d1c68ec33e50ec2cb0576d9557a203b9e04a1da0b0f5ff000016d88000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       32d54564 fb5ab070 4fb15f15 546c45f8 d1f195bc 3ec38ec6 b02cec50 57956d57 e0b903a2 b0a01d4a 0000fff5 0080d816
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       336d8000 fb5ab070 4fb15f15 00000001 000003a2 3ec38ec6 b02cec50 57956d57 e0b903a2 b0a01d4a ff00ff00 0080d816
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110011-10sssssPP1jjjjjjjjddddd
+    R0=cmp.eq(R0,#187s8)                             01110011010000001111011101100000
+                                                     11111101---sssssPP1ttttt1uuddddd
+    if (!P2.new)R9:8=combine(R1,R9)                  11111101000000010110100111001000
+                                                     011010110001--ssPP0---ttuu----dd
+    P2=and(P0,and(P2,P2))                            01101011000100000100001010000010
+                                                     11100110N10sssssPP-ttttt011xxxxx
+    R5:4+=mpyu(R4.H,R8.H):<<1                        11100110110001000100100001100100
+}
+5d0ce61e284025a979820c58764295d5b0a285a1288c28c95c6a695c15bf1a132a64f45a3dd90bb7a65fff411a544000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    1ee60c5d a9254028 580c8279 d5954276 a185a2b0 c9288c28 5c696a5c 131abf15 5af4642a b70bd93d 41ff5fa6 0040541a
+qemu       1ee60c5d a9254028 580c8279 d5954276 a185a2b0 c9288c28 5c696a5c 131abf15 5af4642a b70bd93d 41ff5fa6 0040541a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    00000000 a9254028 580c8279 d5954276 144b0c38 c9288c29 5c696a5c 131abf15 b70bd93d a9254028 41a65fa6 0040541a
+qemu       00000000 a9254028 580c8279 d5954276 144b0c38 c9288c29 5c696a5c 131abf15 5af4642a b70bd93d 41a65fa6 0040541a
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110110100sssssPP-ttttt---ddddd
+    R4=vsubh(R4,R7)                                  11110110100001111100010000000100
+                                                     11111001-00sssssPP1ttttt0uuddddd
+    if (P2.new) R5=and(R4,R3)                        11111001000001000110001101000101
+                                                     011010110010--ssPP0---tt------dd
+    P2=or(P1,P2)                                     01101011001000100100000100000010
+                                                     10001000011sssssPP00jjjj100ddddd
+    R2=vasrhub(R7:6,#10u4):raw                       10001000011001100100101010000010
+}
+607fe3e003c6df978cad2b24312a4fb8e38fb01f015257a60e94242b7bed1de98e0a057e68befe2d820080ff0eecc000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    e0e37f60 97dfc603 242bad8c b84f2a31 1fb08fe3 a6575201 2b24940e e91ded7b 7e050a8e 2dfebe68 ff800082 00c0ec0e
+qemu       e0e37f60 97dfc603 242bad8c b84f2a31 1fb08fe3 a6575201 2b24940e e91ded7b 7e050a8e 2dfebe68 ff800082 00c0ec0e
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    e0e37f60 97dfc603 00000500 b84f2a31 3693a268 a6575201 2b24940e e91ded7b 7e050a8e 2dfebe68 ff800082 00c0ec0f
+qemu       e0e37f60 97dfc603 00000500 b84f2a31 3693a268 18000a21 2b24940e e91ded7b 7e050a8e 2dfebe68 ff800082 00c0ec0f
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     111101011--sssssPP-ttttt---ddddd
+    R1:0=packhl(R3,R1)                               11110101100000111100000100000000
+                                                     01110000000sssssPP1-01uu---ddddd
+    if (P1.new) R7=aslh(R9)                          01110000000010010110010100000111
+                                                     110100100--sssssPP0ttttt010---dd
+    P1=vcmpw.gtu(R9:8,R4:3)                          11010010000010000100001101000001
+                                                     11010011101sssssPP-ttttt000ddddd
+    R3:2=vminub(R4:3,R8:7)                           11010011101001110100001100000010
+}
+b5a39a971db9840be3d4e458dcbb79852f8044232597338489411f88af3860a40c1aac2cc362beefff00ffa91ea04000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    979aa3b5 0b84b91d 58e4d4e3 8579bbdc 2344802f 84339725 881f4189 a46038af 2cac1a0c efbe62c3 a9ff00ff 0040a01e
+qemu       979aa3b5 0b84b91d 58e4d4e3 8579bbdc 2344802f 84339725 881f4189 a46038af 2cac1a0c efbe62c3 a9ff00ff 0040a01e
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    bbdcb91d 85790b84 856038af 23441a0c 2344802f 84339725 881f4189 a46038af 2cac1a0c efbe62c3 a9fff0ff 0040a01e
+qemu       bbdcb91d 85790b84 856038af 23441a0c 2344802f 84339725 881f4189 62c30000 2cac1a0c efbe62c3 a9fff0ff 0040a01e
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000111sssssPP1-11uu---ddddd
+    if (!P2.new) R7=sxth(R7)                         01110000111001111110111000000111
+                                                     01110000110sssssPP0--------ddddd
+    R2=zxth(R3)                                      01110000110000110100000000000010
+                                                     11101110N01sssssPP-ttttt110xxxxx
+    R1-=mpy(R3.H,R4.L):<<1:sat                       11101110101000110100010011000001
+                                                     11101011111sssssPP0ttttt1eeddddd
+    R9,P2=sfrecipa(R7,R6)                            11101011111001110100011011001001
+}
+5e6576993592ddd8d8dd89045ab7415d46a4a71a3fdf5dc6e828ca29bbae0f6ba020fef6ae2f7316ff00ff002e204000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       9976655e d8dd9235 0489ddd8 5d41b75a 1aa7a446 c65ddf3f 29ca28e8 6b0faebb f6fe20a0 16732fae 00ff00ff 0040202e
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       9976655e 1bb14aa9 0000b75a 5d41b75a 1aa7a446 c65ddf3f 29ca28e8 6b0faebb f6fe20a0 45220001 004000ff 0040202e
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     011111100uu0jjjjPP1jjjjjjjjddddd
+    if (P2.new) R6=#3331s12                          01111110010011011110000001100110
+                                                     11110011101sssssPP-ttttt---ddddd
+    R7=combine(R1.H,R7.L)                            11110011101001110100000100000111
+                                                     11010011001sssssPP-ttttt100ddddd
+    R3:2=vsubuh(R9:8,R1:0):sat                       11010011001000000100100010000010
+                                                     110100100--sssssPP1ttttt011---dd
+    P2=tlbmatch(R6:5,R1)                             11010010000001010110000101100010
+}
+a91075b6191ce180a367bd9c3deb3123c9be16772e83c9a01262c0448c37e9eca267c4db89a6322affff6cff32280000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       b67510a9 80e11c19 9cbd67a3 2331eb3d 7716bec9 a0c9832e 44c06212 ece9378c dbc467a2 2a32a689 ff6cffff 00002832
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       b67510a9 80e11c19 254f56f9 00008a70 7716bec9 a0c9832e 44c06212 80e1378c dbc467a2 2a32a689 ff00ffff 00002833
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110000101sssssPP1-01uu---ddddd
+    if (P3.new) R2=sxtb(R8)                          01110000101010001110011100000010
+                                                     01110000111sssssPP1-00uu---ddddd
+    if (P2) R0=sxth(R9)                              01110000111010010110001000000000
+                                                     11110110000sssssPP-ttttt---ddddd
+    R9=vaddh(R9,R5)                                  11110110000010010100010100001001
+                                                     110100100--sssssPP1ttttt010---dd
+    P3=vcmpb.gt(R9:8,R6:5)                           11010010000010000110010101000011
+}
+5cba9bb6f0e4e8f699d4b1cb9adf0a1688f7c55f1b4cd9ebc4e577046ea1918c13ab7d5fb18841f8b1ff000034e48000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    b69bba5c f6e8e4f0 cbb1d499 160adf9a 5fc5f788 ebd94c1b 0477e5c4 8c91a16e 5f7dab13 f84188b1 0000ffb1 0080e434
+qemu       b69bba5c f6e8e4f0 cbb1d499 160adf9a 5fc5f788 ebd94c1b 0477e5c4 8c91a16e 5f7dab13 f84188b1 0000ffb1 0080e434
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    b69bba5c f6e8e4f0 cbb1d499 160adf9a 5fc5f788 ebd94c1b 0477e5c4 8c91a16e 5f7dab13 e41ad4cc 0c00ffb1 0080e434
+qemu       b69bba5c f6e8e4f0 00000013 160adf9a 5fc5f788 ebd94c1b 0477e5c4 8c91a16e 5f7dab13 e41ad4cc 0c00ffb1 0080e434
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111001-00sssssPP1ttttt1uuddddd
+    if (!P1.new) R4=and(R0,R1)                       11111001000000001110000110100100
+                                                     01110000100sssssPP1-10uu---ddddd
+    if (!P1) R6=zxtb(R3)                             01110000100000110110100100000110
+                                                     110100100--sssssPP0ttttt001---dd
+    P1=vcmpw.gt(R1:0,R7:6)                           11010010000000000100011000100001
+                                                     10000101100sssssPPjjjjjj------dd
+    P3=bitsclr(R6,#16u6)                             10000101100001100101000000000011
+}
+e4396001d64f74ae5019eb8992334bae34e531a4003befda2648b36c1aa337874e3e0594e47ce7a95584ff0012ecc000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    016039e4 ae744fd6 89eb1950 ae4b3392 a431e534 daef3b00 6cb34826 8737a31a 94053e4e a9e77ce4 00ff8455 00c0ec12
+qemu       016039e4 ae744fd6 89eb1950 ae4b3392 a431e534 daef3b00 6cb34826 8737a31a 94053e4e a9e77ce4 00ff8455 00c0ec12
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    016039e4 ae744fd6 89eb1950 ae4b3392 006009c4 daef3b00 00000092 8737a31a 94053e4e a9e77ce4 fffff055 00c0ec12
+qemu       016039e4 ae744fd6 89eb1950 ae4b3392 a431e534 daef3b00 00000092 8737a31a 94053e4e a9e77ce4 fffff055 00c0ec12
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110011111sssssPP-ttttt---ddddd
+    R1=combine(R2.L,R7.L)                            11110011111001111100001000000001
+                                                     01110000111sssssPP0--------ddddd
+    R6=sxth(R9)                                      01110000111010010100000000000110
+                                                     011010111101--ssPP0---ttuu----dd
+    P0=or(P1,and(P0,!P1))                            01101011110100010100000001000000
+                                                     11111001-01sssssPP1ttttt0uuddddd
+    if (P0.new) R5=or(R9,R0)                         11111001001010010110000000000101
+}
+78205182687ce4b33ee4326de610597ccdd6069db8fc4efe694b06d75ee1e183d70dac032eb9c6f27eb600ff1ad8c000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    82512078 b3e47c68 6d32e43e 7c5910e6 9d06d6cd fe4efcb8 d7064b69 83e1e15e 03ac0dd7 f2c6b92e ff00b67e 00c0d81a
+qemu       82512078 b3e47c68 6d32e43e 7c5910e6 9d06d6cd fe4efcb8 d7064b69 83e1e15e 03ac0dd7 f2c6b92e ff00b67e 00c0d81a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    82512078 e43ee15e 6d32e43e 7c5910e6 9d06d6cd fe4efcb8 ffffb92e 83e1e15e 03ac0dd7 f2c6b92e ff00b6fe 00c0d81a
+qemu       82512078 e43ee15e 6d32e43e 7c5910e6 9d06d6cd f2d7b97e ffffb92e 83e1e15e 03ac0dd7 f2c6b92e ff00b6fe 00c0d81a
+Identified,  (3,)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-0sssssPP1ttttt0uuddddd
+    if (P2.new) R7=add(R4,R2)                        11111011000001001110001001000111
+                                                     01110000011sssssPP0--------ddddd
+    R0=R8                                            01110000011010000100000000000000
+                                                     11101010101sssssPP0ttttt0eexxxxx
+    R9:8,P2=vacsh(R6:5,R8:7)                         11101010101001010100011101001000
+                                                     1100110000-sssssPP-ttttt00-xxxxx
+    R5|=asr(R9,R9)                                   11001100000010010100100100000101
+}
+68a5181f1655aff59497d24c98d8cd7159ad738d19d7eca977cb457bda2c9bc830ee0190e66cc0b60048ff0d3ec08000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       1f18a568 f5af5516 4cd29794 71cdd898 8d73ad59 a9ecd719 7b45cb77 c89b2cda 9001ee30 b6c06ce6 0dff4800 0080c03e
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       9001ee30 f5af5516 4cd29794 71cdd898 8d73ad59 b9ecd719 7b45cb77 da4644ed e1511b0a 7fff5b16 0d334800 0080c03f
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     111101011--sssssPP-ttttt---ddddd
+    R7:6=packhl(R1,R0)                               11110101100000011100000000000110
+                                                     11110011110sssssPP-ttttt---ddddd
+    R3=combine(R9.L,R0.H)                            11110011110000000100100100000011
+                                                     11101010101sssssPP0ttttt0eexxxxx
+    R2:1,P2=vacsh(R9:8,R9:8)                         11101010101010000100100001000001
+                                                     011111000IIIIIIIPPIjjjjjjjjddddd
+    R5:4=combine(#176s8,#0S8)                        01111100000000000101011000000100
+}
+293534b81996f11d00f59d87d1bf97ee8effe8c164e081e226b2a2f7c44cd612ac216b90a65dabf3defffff61a70c100
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    b8343529 1df19619 879df500 ee97bfd1 c1e8ff8e e281e064 f7a2b226 12d64cc4 906b21ac f3ab5da6 f6ffffde 00c1701a
+qemu       b8343529 1df19619 879df500 ee97bfd1 c1e8ff8e e281e064 f7a2b226 12d64cc4 906b21ac f3ab5da6 f6ffffde 00c1701a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    b8343529 00000000 000052a6 5da6b834 00000000 ffffffb0 96193529 1df1b834 906b21ac f3ab5da6 f630ffde 00c1701a
+qemu       b8343529 00000000 000052a6 5da6b834 00000000 ffffffb0 96193529 1df1b834 906b21ac f3ab5da6 f633ffde 00c1701b
+Identified,  (2,)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-1sssssPP0ttttt0uuddddd
+    if (P3) R8=sub(R7,R4)                            11111011001001001100011101101000
+                                                     01110000111sssssPP1-01uu---ddddd
+    if (P3.new) R7=sxth(R4)                          01110000111001000110011100000111
+                                                     011010111011--ssPP0---ttuu----dd
+    P3=and(P1,or(P0,!P1))                            01101011101100010100000001000011
+                                                     11001011001sssssPP1xxxxx110uuuuu
+    R1:0=vrminuw(R3:2,R6)                            11001011001000100110000011000110
+}
+b9e7b72f792b39d6da641da5dfa6192776804984135297ac98cb6920b04f92ddcb9bf540975ff45f5e4600ff0a748100
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    2fb7e7b9 d6392b79 a51d64da 2719a6df 84498076 ac975213 2069cb98 dd924fb0 40f59bcb 5ff45f97 ff00465e 0081740a
+qemu       2fb7e7b9 d6392b79 a51d64da 2719a6df 84498076 ac975213 2069cb98 dd924fb0 40f59bcb 5ff45f97 ff00465e 0081740a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    2719a6df 2069cb9c a51d64da 2719a6df 84498076 ac975213 2069cb98 dd924fb0 5948cf3a 5ff45f97 4600465e 0081740a
+qemu       2719a6df 2069cb9c a51d64da 2719a6df 84498076 ac975213 2069cb98 ffff8076 5948cf3a 5ff45f97 4600465e 0081740a
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110001000sssssPP-ttttt---ddddd
+    R7=and(R4,R7)                                    11110001000001001100011100000111
+                                                     011101001uusssssPP1jjjjjjjjddddd
+    if (!P0.new)R6=add(R1,#14s8)                     01110100100000010110000111000110
+                                                     011010110011--ssPP0---ttuu----dd
+    P0=and(P2,or(P2,P3))                             01101011001100100100001011000000
+                                                     11100100N10sssssPP-ttttt-11ddddd
+    R9:8=mpyu(R2.H,R6.H):<<1                         11100100110000100100011001101000
+}
+4951398d5831dcff5018eca1ab3a2b5db717f19ae0083d2075e691898584b648f323d35b0dbba964f39e0e000a640000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    8d395149 ffdc3158 a1ec1850 5d2b3aab 9af117b7 203d08e0 8991e675 48b68485 5bd323f3 64a9bb0d 000e9ef3 0000640a
+qemu       8d395149 ffdc3158 a1ec1850 5d2b3aab 9af117b7 203d08e0 8991e675 48b68485 5bd323f3 64a9bb0d 000e9ef3 0000640a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    8d395149 ffdc3158 a1ec1850 5d2b3aab 9af117b7 203d08e0 ffdc3166 08b00485 ae060558 00000000 000e9e0e 0000640a
+qemu       8d395149 ffdc3158 a1ec1850 5d2b3aab 9af117b7 203d08e0 8991e675 08b00485 ae060558 00000000 000e9e0e 0000640a
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111001-11sssssPP0ttttt1uuddddd
+    if (!P1) R8=xor(R9,R7)                           11111001011010011100011110101000
+                                                     01110000001sssssPP1-01uu---ddddd
+    if (P3.new) R7=asrh(R1)                          01110000001000010110011100000111
+                                                     10000101010sssssPP------------dd
+    P3=R2                                            10000101010000100100000000000011
+                                                     11101110N00sssssPP-ttttt010xxxxx
+    R1+=mpy(R6.H,R8.L)                               11101110000001100100100001000001
+}
+f261d0d92ec3bf91eac42028e17cd8eaba72ea3c73e3151df052051ac7be323370668d636e4b0b7704ffffee04108000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    d9d061f2 91bfc32e 2820c4ea ead87ce1 3cea72ba 1d15e373 1a0552f0 3332bec7 638d6670 770b4b6e eeffff04 00801004
+qemu       d9d061f2 91bfc32e 2820c4ea ead87ce1 3cea72ba 1d15e373 1a0552f0 3332bec7 638d6670 770b4b6e eeffff04 00801004
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    d9d061f2 9c29235e 2820c4ea ead87ce1 3cea72ba 1d15e373 1a0552f0 3332bec7 638d6670 770b4b6e eaffff04 00801004
+qemu       d9d061f2 9c29235e 2820c4ea ead87ce1 3cea72ba 1d15e373 1a0552f0 ffff91bf 638d6670 770b4b6e eaffff04 00801004
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-0sssssPP1ttttt1uuddddd
+    if (!P0.new) R3=add(R7,R8)                       11111011000001111110100010000011
+                                                     01110000111sssssPP0--------ddddd
+    R6=sxth(R8)                                      01110000111010000100000000000110
+                                                     110100100--sssssPP1ttttt011---dd
+    P0=tlbmatch(R4:3,R8)                             11010010000000110110100001100000
+                                                     11010011001sssssPP-ttttt010ddddd
+    R2:1=vsubh(R1:0,R7:6)                            11010011001001100100000001000001
+}
+9c672fa2893111724fe982011a0ee675c78efeca7d580a714730fc2ab3047cf56250dcb218b7f3a0ff8100001a700100
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       a22f679c 72113189 0182e94f 75e60e1a cafe8ec7 710a587d 2afc3047 f57c04b3 b2dc5062 a0f3b718 000081ff 0001701a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       a22f679c 77333755 7c952cd6 a8585515 cafe8ec7 710a587d 00005062 f57c04b3 b2dc5062 a0f3b718 00008100 0001701a
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     111110110-1sssssPP1ttttt1uuddddd
+    if (!P0.new) R0=sub(R8,R8)                       11111011001010001110100010000000
+                                                     11110110001sssssPP-ttttt---ddddd
+    R3=vaddh(R7,R7):sat                              11110110001001110100011100000011
+                                                     11101000010sssssPP0ttttt001ddddd
+    R5:4=vraddub(R1:0,R8:7)                          11101000010000000100011100100100
+                                                     110100100--sssssPP1ttttt010---dd
+    P0=vcmpb.gt(R9:8,R1:0)                           11010010000010000110000001000000
+}
+b3f4779b4b2dd3e68467451857351b510951340611f5dc13c6a79897ade800a886ae8c2721b1891c7600a500284c0100
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    9b77f4b3 e6d32d4b 18456784 511b3557 06345109 13dcf511 9798a7c6 a800e8ad 278cae86 1c89b121 00a50076 00014c28
+qemu       9b77f4b3 e6d32d4b 18456784 511b3557 06345109 13dcf511 9798a7c6 a800e8ad 278cae86 1c89b121 00a50076 00014c28
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    00000000 e6d32d4b 18456784 8000d15a 000004f6 00000418 9798a7c6 a800e8ad 278cae86 1c89b121 00a50088 00014c29
+qemu       9b77f4b3 e6d32d4b 18456784 8000d15a 000004f6 00000418 9798a7c6 a800e8ad 278cae86 1c89b121 00a50088 00014c29
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     011111101uu0jjjjPP1jjjjjjjjddddd
+    if (!P0.new) R4=#492s12                          01111110100000011111110110000100
+                                                     1011jjjjjjjsssssPPjjjjjjjjjddddd
+    R5=add(R8,#55750s16)                             10111101100010000111100011000101
+                                                     1000111010-sssssPP0jjjjj001xxxxx
+    R2^=lsr(R9,#8u5)                                 10001110100010010100100000100010
+                                                     110100100--sssssPP1ttttt010---dd
+    P0=vcmpb.gt(R1:0,R4:3)                           11010010000000000110001101000000
+}
+81689b18fd689f02d10c4f09a7c33d70ac5b31cfb87541b27d91ef06916ae3f6fdd882ec7473201cffff00ff24a0c000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    189b6881 029f68fd 094f0cd1 703dc3a7 cf315bac b24175b8 06ef917d f6e36a91 ec82d8fd 1c207374 ff00ffff 00c0a024
+qemu       189b6881 029f68fd 094f0cd1 703dc3a7 cf315bac b24175b8 06ef917d f6e36a91 ec82d8fd 1c207374 ff00ffff 00c0a024
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    189b6881 029f68fd 09532ca2 703dc3a7 000001ec ec82b2c3 06ef917d f6e36a91 ec82d8fd 1c207374 ff00ffb2 00c0a024
+qemu       189b6881 029f68fd 09532ca2 703dc3a7 cf315bac ec82b2c3 06ef917d f6e36a91 ec82d8fd 1c207374 ff00ffb2 00c0a024
+Identified,  (0,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110110111sssssPP-ttttt---ddddd
+    R0=vsubuh(R5,R7):sat                             11110110111001111100010100000000
+                                                     01110000101sssssPP1-11uu---ddddd
+    if (!P1.new) R2=sxtb(R1)                         01110000101000010110110100000010
+                                                     11101100N00sssssPP-ttttt110ddddd
+    R5=mpy(R1.H,R2.L):<<1:sat                        11101100100000010100001011000101
+                                                     11101011111sssssPP0ttttt1eeddddd
+    R1,P1=sfrecipa(R5,R7)                            11101011111001010100011110100001
+}
+201a36cca28eda6064146f5fea8fe2c521c719306a7ab0e982e4ec33e4c965fc068833caf50d35e9ffdc805c20c80000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       cc361a20 60da8ea2 5f6f1464 c5e28fea 3019c721 e9b07a6a 33ece482 fc65c9e4 ca338806 e9350df5 5c80dcff 0000c820
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim        None     None     None     None     None     None     None     None     None     None     None     None
+qemu       00000000 828f0001 ffffffa2 c5e28fea 3019c721 0f6dba50 33ece482 fc65c9e4 ca338806 e9350df5 5c8000ff 0000c821
+Identified,  (1,)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110111-11sssssPP-ttttt---ddddd
+    R1=vnavgh(R3,R7)                                 11110111011001111100001100000001
+                                                     111101010--sssssPP-ttttt---ddddd
+    R8:7=combine(R2,R5)                              11110101000000100100010100000111
+                                                     11101000N01sssssPP0ttttt111ddddd
+    R6:5=vmpywoh(R1:0,R7:6):<<1:rnd:sat              11101000101000000100011011100101
+                                                     11000111111sssssPP-ttttt001---dd
+    P1=sfcmp.uo(R3,R0)                               11000111111000110100000000100001
+}
+8dc087ff1578c465c7b3dbde410ef118b52fd9f4ac03f45ccc13ca90ae4cb9a695b627e3583d51fa000000ff2cb40000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    ff87c08d 65c47815 dedbb3c7 18f10e41 f4d92fb5 5cf403ac 90ca13cc a6b94cae e327b695 fa513d58 ff000000 0000b42c
+qemu       ff87c08d 65c47815 dedbb3c7 18f10e41 f4d92fb5 5cf403ac 90ca13cc a6b94cae e327b695 fa513d58 ff000000 0000b42c
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    ff87c08d 391ce0c9 dedbb3c7 18f10e41 f4d92fb5 006879c0 b904f187 5cf403ac dedbb3c7 fa513d58 ff00ff00 0000b42e
+qemu       ff87c08d 391ce0c9 dedbb3c7 18f10e41 f4d92fb5 006879c0 b904f187 5cf403ac dedbb3c7 fa513d58 ff00ff00 0000b42c
+Identified,  (3,)
+======================================================================================================================
+[Testcase]
+{
+                                                     01110001jj1xxxxxPPjjjjjjjjjjjjjj
+    R4.L=#36936u16                                   01110001101001001101000001001000
+                                                     11110011011sssssPP-ttttt---ddddd
+    R0=!cmp.eq(R8,R6)                                11110011011010000100011000000000
+                                                     11100111N00sssssPP0ttttt110xxxxx
+    R3:2+=cmpy(R8,R1):<<1:sat                        11100111100010000100000111000010
+                                                     10001000101sssssPP------001ddddd
+    R5=convert_df2uw(R9:8):chop                      10001000101010000100000000100101
+}
+6951ddc59b6e1aab0f3a6555f72802b59a26b3b2187bd12ecb41f5d8731d5b1eca82e5ff1b6e4fa6290000ff18c00000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    c5dd5169 ab1a6e9b 55653a0f b50228f7 b2b3269a 2ed17b18 d8f541cb 1e5b1d73 ffe582ca a64f6e1b ff000029 0000c018
+qemu       c5dd5169 ab1a6e9b 55653a0f b50228f7 b2b3269a 2ed17b18 d8f541cb 1e5b1d73 ffe582ca a64f6e1b ff000029 0000c018
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    00000001 ab1a6e9b e9214a27 07f7414d b2b39048 00000000 d8f541cb 1e5b1d73 ffe582ca a64f6e1b ff000029 0000c01a
+qemu       00000001 ab1a6e9b e9214a27 07f7414d b2b39048 00000000 d8f541cb 1e5b1d73 ffe582ca a64f6e1b ff000029 0000c038
+Identified,  (0, 3)
+======================================================================================================================
+[Testcase]
+{
+                                                     11110011000sssssPP-ttttt---ddddd
+    R9=add(R1,R8)                                    11110011000000011100100000001001
+                                                     0111010100jsssssPPjjjjjjjjj100dd
+    P2=!cmp.eq(R8,#449s10)                           01110101000010000111100000110010
+                                                     10001000101sssssPP------001ddddd
+    R3=convert_df2uw(R6:5):chop                      10001000101001010100000000100011
+                                                     11101111100sssssPP0ttttt011xxxxx
+    R5^=xor(R6,R0)                                   11101111100001100100000001100101
+}
+20f9d97351b87bc4c898f6f73652804e5e6420d8bb31d67fd72d5bbe7d609120c6ee74cd2406c7d70064ffff08140000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    73d9f920 c47bb851 f7f698c8 4e805236 d820645e 7fd631bb be5b2dd7 2091607d cd74eec6 d7c70624 ffff6400 00001408
+qemu       73d9f920 c47bb851 f7f698c8 4e805236 d820645e 7fd631bb be5b2dd7 2091607d cd74eec6 d7c70624 ffff6400 00001408
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    73d9f920 c47bb851 f7f698c8 00000000 d820645e b254e54c be5b2dd7 2091607d cd74eec6 91f0a717 ffff6400 0000140a
+qemu       73d9f920 c47bb851 f7f698c8 00000000 d820645e b254e54c be5b2dd7 2091607d cd74eec6 91f0a717 ffff6400 00001428
+Failed to identify
+======================================================================================================================
+[Testcase]
+{
+                                                     11110011100sssssPP-ttttt---ddddd
+    R6=combine(R3.H,R5.H)                            11110011100001011100001100000110
+                                                     11110110011sssssPP-ttttt---ddddd
+    R2=vadduh(R8,R1):sat                             11110110011010000100000100000010
+                                                     10001000101sssssPP------001ddddd
+    R4=convert_df2uw(R1:0):chop                      10001000101000000100000000100100
+                                                     11101111100sssssPP0ttttt001xxxxx
+    R8-=add(R8,R4)                                   11101111100010000100010000101000
+}
+54d0c67f66c3eab909e59510d0e007634ebe7ce4c2753d48e9d60ab93e6fb856ac8cfde004506173ffab00ff0a5cc100
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    7fc6d054 b9eac366 1095e509 6307e0d0 e47cbe4e 483d75c2 b90ad6e9 56b86f3e e0fd8cac 73615004 ff00abff 00c15c0a
+qemu       7fc6d054 b9eac366 1095e509 6307e0d0 e47cbe4e 483d75c2 b90ad6e9 56b86f3e e0fd8cac 73615004 ff00abff 00c15c0a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    7fc6d054 b9eac366 ffffffff 6307e0d0 00000000 483d75c2 6307483d 56b86f3e 1b8341b2 73615004 ff00abff 00c15c0b
+qemu       7fc6d054 b9eac366 ffffffff 6307e0d0 00000000 483d75c2 6307483d 56b86f3e 1b8341b2 73615004 ff00abff 00c15c2b
+Identified,  (1, 2)
+======================================================================================================================
+[Testcase]
+{
+                                                     11111001-01sssssPP0ttttt0uuddddd
+    if (P0) R0=or(R2,R2)                             11111001001000101100001000000000
+                                                     11111001-00sssssPP0ttttt0uuddddd
+    if (P1) R1=and(R7,R9)                            11111001000001110100100100100001
+                                                     10001000101sssssPP------001ddddd
+    R9=convert_df2uw(R4:3):chop                      10001000101000110100000000101001
+                                                     11000111011sssssPP-ttttt------dd
+    P0=!bitsset(R8,R6)                               11000111011010000100011000000000
+}
+eb03ee8ccb72a4ff4fcc85fe3e7f967fadf6dfb821eb98ab24039d401743eb8a722368c9165c9127ff28ec0020784000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    8cee03eb ffa472cb fe85cc4f 7f967f3e b8dff6ad ab98eb21 409d0324 8aeb4317 c9682372 27915c16 00ec28ff 00407820
+qemu       8cee03eb ffa472cb fe85cc4f 7f967f3e b8dff6ad ab98eb21 409d0324 8aeb4317 c9682372 27915c16 00ec28ff 00407820
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    fe85cc4f ffa472cb fe85cc4f 7f967f3e b8dff6ad ab98eb21 409d0324 8aeb4317 c9682372 00000000 00ec28ff 00407822
+qemu       fe85cc4f ffa472cb fe85cc4f 7f967f3e b8dff6ad ab98eb21 409d0324 8aeb4317 c9682372 00000000 00ec28ff 00407820
+Failed to identify
+======================================================================================================================
+[Testcase]
+{
+                                                     11110011110sssssPP-ttttt---ddddd
+    R3=combine(R9.L,R6.H)                            11110011110001101100100100000011
+                                                     01110000001sssssPP1-00uu---ddddd
+    if (P2) R0=asrh(R8)                              01110000001010000110001000000000
+                                                     10001000101sssssPP------001ddddd
+    R9=convert_df2uw(R5:4):chop                      10001000101001000100000000101001
+                                                     11101110N00sssssPP-ttttt000xxxxx
+    R4+=mpy(R7.L,R9.L)                               11101110000001110100100100000100
+}
+fb243da12a98e3ed320be24ae6f6765b13c185ff85d19c97a884486e6f93d71a85eb7738640af478000e4c5720200000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    a13d24fb ede3982a 4ae20b32 5b76f6e6 ff85c113 979cd185 6e4884a8 1ad7936f 3877eb85 78f40a64 574c0e00 00002020
+qemu       a13d24fb ede3982a 4ae20b32 5b76f6e6 ff85c113 979cd185 6e4884a8 1ad7936f 3877eb85 78f40a64 574c0e00 00002020
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    a13d24fb ede3982a 4ae20b32 0a646e48 fb1dae6f 979cd185 6e4884a8 1ad7936f 3877eb85 00000000 574c0e00 00002022
+qemu       a13d24fb ede3982a 4ae20b32 0a646e48 fb1dae6f 979cd185 6e4884a8 1ad7936f 3877eb85 00000000 574c0e00 00002020
+Failed to identify
+======================================================================================================================
+[Testcase]
+{
+                                                     11110010-10sssssPP-ttttt---000dd
+    P3=cmp.gt(R2,R4)                                 11110010010000101100010000000011
+                                                     011111000IIIIIIIPPIjjjjjjjjddddd
+    R3:2=combine(#247s8,#223S8)                      01111100011011110111111011100010
+                                                     10001000010sssssPP------100ddddd
+    R7=cl1(R4:3)                                     10001000010000110100000010000111
+                                                     10001000101sssssPP------001ddddd
+    R0=convert_df2uw(R9:8):chop                      10001000101010000100000000100000
+}
+a114fa3f476285989c06cd16e222a735f57131605dd43c893e2f257c04ac29260e1f019f00a8f9fff50000140a540000
+[Inputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    3ffa14a1 98856247 16cd069c 35a722e2 603171f5 893cd45d 7c252f3e 2629ac04 9f011f0e fff9a800 140000f5 0000540a
+qemu       3ffa14a1 98856247 16cd069c 35a722e2 603171f5 893cd45d 7c252f3e 2629ac04 9f011f0e fff9a800 140000f5 0000540a
+[Outputs]
+           R0       R1       R2       R3       R4       R5       R6       R7       R8       R9       C4       C8      
+sdk-sim    ffffffff 98856247 ffffffdf fffffff7 603171f5 893cd45d 7c252f3e 00000000 9f011f0e fff9a800 000000f5 0000540a
+qemu       00000000 98856247 ffffffdf fffffff7 603171f5 893cd45d 7c252f3e 00000000 9f011f0e fff9a800 000000f5 0000540a
+Identified,  (1, 3)

@@ -8,8 +8,10 @@ RUN ../configure --enable-werror --target-list=hexagon-linux-user
 RUN make -j4
 RUN make install
 
+COPY src/template_asm.s /tmp
 COPY src/template.c /tmp
 COPY src/docker_server.py /tmp
 RUN hexagon-unknown-linux-musl-clang /tmp/template.c -o /tmp/template.elf
+RUN hexagon-unknown-linux-musl-clang /tmp/template_asm.s -o /tmp/template_asm.elf
 
 CMD ["/tmp/docker_server.py"]
