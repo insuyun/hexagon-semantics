@@ -648,8 +648,6 @@ class Tester:
                 self.output[emulator.name] = output
 
     def is_failed(self):
-        # if any(v is None for v in self.output.values()):
-        #     return True
         # for x, y in itertools.combinations(self.output.values(), 2):
         #     if x["input"] != y["input"]:
         #         return True
@@ -658,8 +656,11 @@ class Tester:
 
         if len(self.output) != 3:
             return False
+
+        if any(v is None for v in self.output.values()):
+            return True
         
-        print(self.output)
+        # print(self.output)
         
         if self.output["sdk-sim"]["input"] != self.output["binja"]["input"]:
             return True

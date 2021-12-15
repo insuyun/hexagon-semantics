@@ -1,6 +1,6 @@
 [
-    "if (!Pu) Rd=add(Rs,Rt)",
-    "memb(gp+#u16:0)=Rt",
+    "Rd=convert_sf2uw(Rs)",
+    "nop",
     "nop",
     "nop"
 ]
